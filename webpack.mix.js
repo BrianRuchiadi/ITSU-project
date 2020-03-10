@@ -15,3 +15,6 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.sass('resources/sass/page/dashboard.scss', 'public/css/page');
+mix.sass('resources/sass/page/login.scss', 'public/css/page');
+
+mix.copyDirectory('resources/assets/pictures', 'public/assets/pictures');

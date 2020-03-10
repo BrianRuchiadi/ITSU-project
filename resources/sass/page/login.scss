@@ -1,0 +1,37 @@
+body {
+    background-color: #DAD6D6;
+    // background-image: url('./assets/pictures/login-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-panel {
+    width: 80%;
+    max-width: 250px;
+    margin: 80px auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    // background-color: red;
+    // padding: 8px;
+
+    h2 {
+        width: 90%;
+        margin: 5px auto;
+    }
+}
+
+form {
+    .form-group  {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    input.form-control {
+        padding: 0px;
+        width: calc(100% - 8px);
+        padding-left: 4px;
+    }
+}
+

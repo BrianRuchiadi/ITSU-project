@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -18,8 +19,10 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
-
+    use AuthenticatesUsers{
+        logout as performLogout;
+        login as performLogin;
+      }
     /**
      * Where to redirect users after login.
      *
@@ -36,4 +39,21 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm() 
+    {
+        return view('page.auth.login');
+    }
+
+    public function Login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'bail|required|min:2',
+            'password' => 'bail|required|min:6',
+        ]);
+
+        return 'success';
+        // return $validatedData;
+        return $this->performLogin($request);
+      }
 }

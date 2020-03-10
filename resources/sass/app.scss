@@ -6,3 +6,13 @@
 
 // Bootstrap
 @import 'bootstrap';
+
+$fa-font-path: "../webfonts";
+
+// Font Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
