@@ -27,7 +27,7 @@ body {
 }
 
 form {
-    .form-group  {
+    .form-group, .error  {
         width: 90%;
         margin: 10px auto;
     }
@@ -60,6 +60,17 @@ form {
             border-right: none;
             border-left: none;
         }
+    }
+
+    .error {
+        font-style: italic;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #FEDBE2;
+        border: 1px solid white;
+        border-radius: 4px;
+        color: #FF0035;
+        padding: 8px 4px;
     }
 }
 

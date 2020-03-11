@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `acc_customer_module` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `password_changed_at`, ADD `acc_contract_module` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `acc_customer_module`, ADD `acc_pos_module` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `acc_contract_module`;

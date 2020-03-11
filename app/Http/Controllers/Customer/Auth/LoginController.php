@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
+use Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -42,7 +44,7 @@ class LoginController extends Controller
 
     public function showLoginForm() 
     {
-        return view('page.auth.login');
+        return view('page.customer.auth.login');
     }
 
     public function Login(Request $request)
@@ -52,8 +54,21 @@ class LoginController extends Controller
             'password' => 'bail|required|min:6',
         ]);
 
-        return 'success';
+        // check if it is a correct user
+        $validUser = Auth::once(['userid' => $validatedData['user_id'], 'password' => $validatedData['password']]);
+        if (!$validUser) { return back()->withErrors('User credentials is invalid'); }
+
+        $user = User::where('userid', $validatedData['user_id'])->first();
+        if (!$user) { return back()->withErrors('User has been removed. Please contact admin'); }
+
+        switch ($user->branchind) {
+            case 0: // staff (ALLOW)
+            case 1: // branch
+            case 2: // admin
+            case 3: // custom staff
+            case 4: // customer (ALLOW)
+        }
         // return $validatedData;
-        return $this->performLogin($request);
+        // return $this->performLogin($request);
       }
 }

@@ -1,7 +1,7 @@
 @extends('layout.basic')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="css/page/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/auth/login.css">
 @endsection
 
 @section('content')
@@ -30,22 +30,21 @@
                     <input type="password" class="form-control" placeholder="Password" name="password">
                 </div>
             </div>
+
+            @if ($errors->any())
+            <div class="error">
+                * {{$errors->first()}}
+            </div>
+            @endif
+
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-block">Login</button>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-secondary btn-block register">
-                    <a href="{{ url('register') }}">Register Now</a>
+                    <a href="{{ url('/customer/register') }}">Register Now</a>
                 </button>
             </div>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        <li>{{$errors->first()}} </li>
-                    </ul>
-                </div>
-            @endif
         </form>
     </div>
     

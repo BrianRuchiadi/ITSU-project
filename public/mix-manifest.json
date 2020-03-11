@@ -1,7 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/page/dashboard.css": "/css/page/dashboard.css",
-    "/css/page/login.css": "/css/page/login.css",
-    "/css/page/register.css": "/css/page/register.css"
+    "/css/page/auth/login.css": "/css/page/auth/login.css",
+    "/css/page/auth/register.css": "/css/page/auth/register.css"
 }

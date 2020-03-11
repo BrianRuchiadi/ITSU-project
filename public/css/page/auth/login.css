@@ -24,7 +24,8 @@ body {
   padding-right: 5px;
 }
 
-form .form-group {
+form .form-group,
+form .error {
   width: 90%;
   margin: 10px auto;
 }
@@ -55,5 +56,16 @@ form .input-group input {
   border-top: none;
   border-right: none;
   border-left: none;
+}
+
+form .error {
+  font-style: italic;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #FEDBE2;
+  border: 1px solid white;
+  border-radius: 4px;
+  color: #FF0035;
+  padding: 8px 4px;
 }
 

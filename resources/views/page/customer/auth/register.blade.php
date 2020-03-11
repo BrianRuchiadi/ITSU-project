@@ -1,7 +1,7 @@
 @extends('layout.basic')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="css/page/register.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/auth/register.css">
 @endsection
 
 @section('content')
@@ -111,7 +111,7 @@
 @section('scripts')
 <script type="text/javascript">
     function backToLogin(){
-        window.location = "{{ url('login') }}";
+        window.location = "{{ url('customer/login') }}";
     }
 </script>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
@@ -72,6 +72,6 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('page.auth.register');
+        return view('page.customer.auth.register');
     }
 }
