@@ -3,5 +3,5 @@
     "/css/app.css": "/css/app.css",
     "/css/page/dashboard.css": "/css/page/dashboard.css",
     "/css/page/login.css": "/css/page/login.css",
-    "/js/clipboard.min.js": "/js/clipboard.min.js"
+    "/css/page/register.css": "/css/page/register.css"
 }
