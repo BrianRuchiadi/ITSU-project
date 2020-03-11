@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    public $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'userid', 'password', 'name', 'remember_token', 'branchind', 'status', 'login_attempt', 'password_reset'
     ];
 
     /**
@@ -25,15 +26,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password_changed_at', 'last_login_attempt', 'usr_created', 'created_at', 'usr_updated', 'updated_at', 'usr_deleted', 'deleted_at'
     ];
 
+    public $timestamps = false;
+    
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 }
