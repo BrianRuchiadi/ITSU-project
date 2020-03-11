@@ -30,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/customer/home';
 
     /**
      * Create a new controller instance.
@@ -39,7 +39,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest.customer')->except('logout');
     }
 
     public function showLoginForm() 
@@ -60,15 +60,20 @@ class LoginController extends Controller
 
         $user = User::where('userid', $validatedData['user_id'])->first();
         if (!$user) { return back()->withErrors('User has been removed. Please contact admin'); }
+        if (!$user->acc_customer_module) { return back()->withErrors('You are not authorized to view this page'); }
 
         switch ($user->branchind) {
             case 0: // staff (ALLOW)
+                Auth::loginUsingId($user->id, true);
+                return redirect($this->redirectTo);
+            case 4: break;// customer (ALLOW) (Need to handle referrer link)
+
             case 1: // branch
             case 2: // admin
             case 3: // custom staff
-            case 4: // customer (ALLOW)
+                return back()->withErrors('You are not authorized to view this page');
         }
-        // return $validatedData;
+
         // return $this->performLogin($request);
       }
 }
