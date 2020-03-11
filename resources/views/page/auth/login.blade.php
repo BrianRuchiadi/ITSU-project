@@ -7,15 +7,6 @@
 @section('content')
 <div class="content">
     <div class="login-panel">
-    
-    <!-- Target -->
-    <input id="test" value="https://github.com/zenorocha/clipboard.js.git">
-
-    <!-- Trigger -->
-    <button class="btn" data-clipboard-target="#test">
-        <img src="assets/clippy.svg" alt="Copy to clipboard">
-    </button>
-    
         <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
         <form method="POST">
             {{ csrf_field() }}

@@ -16,6 +16,14 @@
         @yield('content')
         @yield('footer')
         @yield('scripts')
+        <script type="text/javascript">
+            const input = document.getElementById("input-copy");
+            const button = document.getElementById("button-copy");
+            button.onclick = function () {
+                input.select();
+                document.execCommand('Copy');
+            }
+        </script>
     </body>
 
 </html>
