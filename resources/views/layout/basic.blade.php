@@ -20,6 +20,15 @@
         @yield('content')
         @yield('footer')
         @yield('scripts')
+        <script src="js/clipboard.min.js"></script>
+        <!-- <script type="text/javascript">
+            const input = document.getElementById("input");
+            const button = document.getElementById("button");
+            button.onclick = function () {
+                input.select();
+                document.execCommand('Copy');
+            }
+        </script> -->
     </body>
 
 </html>
