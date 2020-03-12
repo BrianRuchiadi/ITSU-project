@@ -13,7 +13,7 @@
         </h2>
 
         <h3 class="center">Register for Individual</h3>
-        <form class="form-horizontal" action="{{ route('auth.register') }}" method="POST" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{{ route('auth.register') }}" method="POST" enctype="multipart/form-data" id="register-form">
 					    {{ csrf_field() }}
             <div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
@@ -128,8 +128,48 @@
 
 @section('scripts')
 <script type="text/javascript">
-    function backToLogin(){
+    const queryStrings = this.getAllQueryString(window.location.search);
+    const referrerCode = this.getReferrerCode();
+
+    this.injectReferrerCode();
+
+    function backToLogin() {
         window.location = "{{ url('login') }}";
+    }
+
+    function getAllQueryString(url) {
+        let queryParams = {};
+        //create an anchor tag to use the property called search
+        let anchor = document.createElement('a');
+        //assigning url to href of anchor tag
+        anchor.href = url;
+        //search property returns the query string of url
+        let queryStrings = anchor.search.substring(1);
+        let params = queryStrings.split('&');
+
+        for (var i = 0; i < params.length; i++) {
+            var pair = params[i].split('=');
+            queryParams[pair[0]] = decodeURIComponent(pair[1]);
+        }
+        return queryParams;
+    };
+
+    function getReferrerCode() {
+        return queryStrings['ref'];
+    }
+
+    function injectReferrerCode() {
+        if (!referrerCode) { return; }
+        sessionStorage.setItem("referrerCode", referrerCode);
+
+        let input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", "referrer_code");
+        input.setAttribute("value", referrerCode);
+
+        //append to form element that you want .
+        document.getElementById("register-form").appendChild(input);
+
     }
 </script>
 @endsection
