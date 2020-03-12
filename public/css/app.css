@@ -13565,3 +13565,7 @@ a:hover {
   text-align: center;
 }
 
+.alert-success {
+  background-color: #437C73;
+}
+

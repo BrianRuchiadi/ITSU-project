@@ -34,4 +34,9 @@ Route::get('email/resend', 'Auth\VerificationController@resend');
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('home', 'PageController@index');
+
+    Route::get('link/referral', 'PageController@showReferralLink');
+
+    // APIs
+    Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
 });

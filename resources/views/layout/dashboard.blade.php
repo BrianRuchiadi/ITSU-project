@@ -19,8 +19,40 @@
                     <h2 class="center">ITSU</h2>
                 </div>
                 <ul>
-                    <li>Customer</li>
-                    <li>Contract</li>
+                    @if(Auth::user()->acc_customer_module)
+                    <li onclick="toggleNavSubMenu('customer')">
+                        <i class="fas fa-users indicator"></i>
+                        Customer
+                        <i class="fas fa-caret-down expander"></i>
+                    </li>
+                    @endif
+
+                        @if(Auth::user()->branchind === 0)
+                            <li class="customer">Customers Status</li>
+                            <li class="customer">
+                                <a href="{{ url('/link/referral')}}">
+                                    Referral Link
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(Auth::user()->branchind === 4)
+                            <li class="customer">Application Form</li>
+                        @endif
+
+
+                    @if(Auth::user()->acc_contract_module)
+                    <li onclick="toggleNavSubMenu('contract')">
+                        <i class="fas fa-handshake indicator"></i>
+                        Contract
+                        <i class="fas fa-caret-down expander"></i>
+                    </li>
+                    @endif
+
+                    @if(Auth::user()->branchind === 0)
+                        <li class="contract">XXX</li>
+                        <li class="contract">YYY</li>
+                    @endif
                 </ul>
             </nav>
 
@@ -46,17 +78,24 @@
                         </li>
                     </ul>
                 </header>
-                
+            
+                <div class="content">
+                    @yield('content')
+                </div>
+            </div>
 
-                <div class="content"></content>
+            <div class="alert" id="alert">
+                Successfully copied the text
             </div>
         </div>
         @yield('header')
-        @yield('content')
         @yield('footer')
         @yield('scripts')
         <script type="text/javascript">
+            const subMenus = ['customer', 'contract'];
+
             let elementUserSubmenu = document.getElementById('user-submenu');
+            let elementAlert = document.getElementById('alert');
             let showSubmenu = false;
         
             function displayUserSubMenu() {
@@ -67,6 +106,26 @@
                 }
 
                 showSubmenu = !showSubmenu;
+            }
+
+            function toggleNavSubMenu(option) {
+                let lists = document.getElementsByClassName(option);
+
+                this.closeNavSubMenu();
+
+                for (let i = 0; i < lists.length; i++) {
+                    lists[i].classList.add("show");
+                }
+            }
+
+            function closeNavSubMenu() {
+                for (let menu of subMenus) {
+                    const lists = document.getElementsByClassName(menu);
+
+                    for (let i = 0; i < lists.length; i++) {
+                        lists[i].classList.remove("show");
+                    }
+                }
             }
 
             function logout() {

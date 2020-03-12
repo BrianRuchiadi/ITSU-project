@@ -18,7 +18,7 @@
         height: 100vh;
         font-size: 14px;
         overflow-y: scroll;
-        background-color: #A4B0B7;
+        background-color: #34495E;
         color: white;
         box-shadow: 2px 1px 5px 0px #444444;
 
@@ -29,6 +29,43 @@
             h2 {
                 padding-top: 10px;
                 color: white;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0px;
+
+            li {
+                position: relative;
+                padding: 5px 20px;
+
+                a { display: block; }
+
+                // special classes
+                &.customer, &.contract {
+                    display: none;
+                    background: #2D3B49;
+
+                    &.show {
+                        display: block;
+                    }
+                }
+
+                &:hover {
+                    background-color: #4A545E;
+                    cursor: pointer;
+                }
+
+                i.indicator {
+                    padding-right: 10px;
+                }
+                i.expander {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                }
+
             }
         }
     }
@@ -61,7 +98,7 @@
                 right: 5px;
                 top: 51px;
                 padding: 5px 0px;
-                background-color: #A4B0B7;
+                background-color: #34495E;
                 list-style-type: none;
                 border: 1px solid white;
                 border-bottom-left-radius: 4px;
@@ -80,8 +117,18 @@
             width: calc(100vw - 200px);
             min-height: calc(100vh - 80px);
             background-color: #FAFAFA;
+            padding: 10px;
         }
     }
 
-    
+    .alert {
+        font-size: 14px;
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        display: none;
+        color: white;
+
+        &.show { display: block; }
+    }
 }

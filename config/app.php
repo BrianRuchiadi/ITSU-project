@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'ITSU Contract Management'),
 
+    'salt' => env('APP_SALT', 'ranD0m3alt'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

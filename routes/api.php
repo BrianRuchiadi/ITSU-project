@@ -12,9 +12,4 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// Auth::routes();
-// Route::get('/login', 'Auth\LoginController@getLoginpage');
-
-
-Route::get('/dashboard', 'Contract\HomeController@getHomepage');
+// Route::get('/dashboard', 'Contract\HomeController@getHomepage');
