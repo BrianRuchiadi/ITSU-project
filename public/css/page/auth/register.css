@@ -73,6 +73,7 @@ form .input-group span.input-group-text {
   border-top: none;
   border-right: none;
   border-left: none;
+  width: 50px;
 }
 
 form .input-group input {

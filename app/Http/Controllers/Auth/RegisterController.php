@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use Auth;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -40,34 +42,40 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(request $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $validator = Validator::make($request->all(), [
+            'email_address' => 'required|string|email|max:255|unique:users,email',
+            'user_id' => 'required|string|max:255|unique:users,userid',
+            'password' => 'required|string|min:6|confirmed|same:password_confirmation',
+            'name' => 'required|string',
         ]);
-    }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        if ($validator->fails()){
+            return redirect()->back()->with('message', $validator->messages()->first())
+                    ->with('status','Failed to Save Register Data !')
+                    ->with('type','error');
+        }
+        
+        try {
+            $create = User::create([
+                'userid' => $request['user_id'],
+                'email' => $request['email_address'],
+                'password' => Hash::make($request['password']),
+                'name' => $request['name'],
+                'branchind' => 4,
+                'acc_customer_module' => 1
+            ]);
+            
+            if ($create) {
+                Auth::loginUsingId($create->id, true);
+                return redirect('/home');
+            }
+        }catch (\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage())
+                    ->with('status','Failed to Save Register Data !')
+                    ->with('type','error');
+        }
     }
 
     public function showRegistrationForm()

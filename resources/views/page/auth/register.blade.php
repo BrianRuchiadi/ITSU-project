@@ -13,71 +13,91 @@
         </h2>
 
         <h3 class="center">Register for Individual</h3>
-        <form method="POST">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-address-card"></i>
-                      </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Enter Your IC No / Passport No" name="ic_no">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-mobile-alt"></i>
-                      </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Mobile No" name="mobile_no">
-                </div>
-            </div>
-            <div class="form-group">
+        <form class="form-horizontal" action="{{ route('auth.register') }}" method="POST" enctype="multipart/form-data">
+					    {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="fas fa-envelope"></i>
                       </span>
                     </div>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email_address">
+                    <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required autofocus>
                 </div>
+                @error('email_address')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="fas fa-user"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="User Id" name="user_id">
+                    <input type="text" class="form-control" placeholder="User Id" name="user_id" value="{{ old('user_id') }}"  required>
                 </div>
+                @error('user_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Name" name="name" value="{{ old('name') }}"  required>
+                </div>
+                @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="fas fa-key"></i>
                       </span>
                     </div>
-                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" class="form-control" placeholder="Password" name="password" value="{{ old('password') }}"  required>
                 </div>
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="fas fa-key"></i>
                       </span>
                     </div>
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+                    <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation" value="{{ old('password_confirmation') }}"  required>
                 </div>
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="form-group">
-                <input type="checkbox" id="tandc" name="tandc" value="1">
-                <label for="tandc">I have read & agree to the <a class="tandc">Terms & Condition</a></label><br>
+                <input type="checkbox" id="tandc" name="tandc" value="1" required>
+                <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
+                @error('tandc')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             
             <div class="container button">
@@ -94,14 +114,12 @@
                   </div>
                 </div>
             </div>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        <li>{{$errors->first()}} </li>
-                    </ul>
-                </div>
+            @if(session()->has('message'))
+              <div class="alert alert-danger">
+              {{ session()->get('message') }}
+              </div>
             @endif
+
         </form>
     </div>
     
