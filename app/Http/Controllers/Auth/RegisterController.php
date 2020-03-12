@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Hashids\Hashids;
 
 class RegisterController extends Controller
 {
@@ -44,6 +45,11 @@ class RegisterController extends Controller
 
     public function register(request $request)
     {
+        // example of decoding referrer code
+        $hashIds = new Hashids(config('app.salt'), 5);
+        $decoded = $hashIds->decode($request->referrer_code);
+        // more validation needed to validate the referrer code
+
         $validator = Validator::make($request->all(), [
             'email_address' => 'required|string|email|max:255|unique:users,email',
             'user_id' => 'required|string|max:255|unique:users,userid',

@@ -155,7 +155,8 @@
     };
 
     function getReferrerCode() {
-        return queryStrings['ref'];
+        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : sessionStorage.getItem("referrerCode");
+        return referrerCode;
     }
 
     function injectReferrerCode() {
