@@ -18,6 +18,10 @@
                 <div class="logo">
                     <h2 class="center">ITSU</h2>
                 </div>
+                <ul>
+                    <li>Customer</li>
+                    <li>Contract</li>
+                </ul>
             </nav>
 
             <div class="main-content">

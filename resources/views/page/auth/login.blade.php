@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-secondary btn-block register">
-                    <a href="{{ url('/customer/register') }}">Register Now</a>
+                    <a href="{{ url('/register') }}">Register Now</a>
                 </button>
             </div>
         </form>

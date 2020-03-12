@@ -111,7 +111,7 @@
 @section('scripts')
 <script type="text/javascript">
     function backToLogin(){
-        window.location = "{{ url('customer/login') }}";
+        window.location = "{{ url('login') }}";
     }
 </script>
 @endsection

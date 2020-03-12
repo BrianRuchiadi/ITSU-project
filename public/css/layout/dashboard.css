@@ -91,15 +91,6 @@
   padding-right: 4px;
 }
 
-.container .main-content header ul.user-submenu li a {
-  display: block;
-}
-
-.container .main-content header ul.user-submenu li a:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
 .container .main-content div.content {
   width: calc(100vw - 200px);
   min-height: calc(100vh - 80px);
