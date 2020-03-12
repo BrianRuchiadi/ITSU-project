@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/customer/home';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest.customer');
+        $this->middleware('guest');
     }
 
     /**
@@ -72,6 +72,6 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('page.customer.auth.register');
+        return view('page.auth.register');
     }
 }

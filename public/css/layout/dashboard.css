@@ -1,0 +1,108 @@
+.container {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  white-space: nowrap;
+  width: 100vw;
+  height: 100vh;
+  font-size: 0px;
+}
+
+.container nav {
+  display: inline-block;
+  width: 200px;
+  height: 100vh;
+  font-size: 14px;
+  overflow-y: scroll;
+  background-color: #A4B0B7;
+  color: white;
+  box-shadow: 2px 1px 5px 0px #444444;
+}
+
+.container nav .logo {
+  height: 50px;
+  background-color: #437C73;
+}
+
+.container nav .logo h2 {
+  padding-top: 10px;
+  color: white;
+}
+
+.container .main-content {
+  vertical-align: top;
+  display: inline-block;
+  width: calc(100vw - 200px);
+  height: 100vh;
+  font-size: 14px;
+}
+
+.container .main-content header {
+  width: calc(100vw - 200px);
+  height: 50px;
+  background-color: #437C73;
+  color: white;
+}
+
+.container .main-content header span.user-management {
+  float: right;
+  margin-right: 30px;
+}
+
+.container .main-content header span.user-management i {
+  padding-right: 5px;
+}
+
+.container .main-content header span.user-management h4 {
+  padding-top: 15px;
+}
+
+.container .main-content header span.user-management:hover {
+  cursor: pointer;
+}
+
+.container .main-content header ul.user-submenu {
+  visibility: hidden;
+  position: absolute;
+  right: 5px;
+  top: 51px;
+  padding: 5px 0px;
+  background-color: #A4B0B7;
+  list-style-type: none;
+  border: 1px solid white;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.container .main-content header ul.user-submenu.show {
+  visibility: visible;
+}
+
+.container .main-content header ul.user-submenu li {
+  padding: 5px;
+}
+
+.container .main-content header ul.user-submenu li:hover {
+  cursor: pointer;
+}
+
+.container .main-content header ul.user-submenu li i {
+  padding-right: 4px;
+}
+
+.container .main-content header ul.user-submenu li a {
+  display: block;
+}
+
+.container .main-content header ul.user-submenu li a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container .main-content div.content {
+  width: calc(100vw - 200px);
+  min-height: calc(100vh - 80px);
+  background-color: #FAFAFA;
+}
+

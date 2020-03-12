@@ -49654,6 +49654,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/layout/dashboard.scss":
+/*!**********************************************!*\
+  !*** ./resources/sass/layout/dashboard.scss ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/page/auth/login.scss":
 /*!*********************************************!*\
   !*** ./resources/sass/page/auth/login.scss ***!
@@ -49677,14 +49688,15 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!********************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ***!
-  \********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ***!
+  \***********************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/js/app.js */"./resources/js/app.js");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/layout/dashboard.scss */"./resources/sass/layout/dashboard.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/login.scss */"./resources/sass/page/auth/login.scss");
 module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/register.scss */"./resources/sass/page/auth/register.scss");
 

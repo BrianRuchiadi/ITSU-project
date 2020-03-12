@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/customer/home';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -34,6 +34,6 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest.customer');
+        $this->middleware('guest');
     }
 }
