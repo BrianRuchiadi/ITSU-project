@@ -7,11 +7,11 @@
 @section('content')
     <h2 class="center">Application Form</h2>
     <form>
-        <h3 class="section-header">
+        <h3 class="section-header" onclick="toggleRequirements('product-installment')">
             1. Product Installment
             <i class="fas fa-caret-down right"></i>
         </h3>
-        <section class="group">
+        <section class="group product-installment">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Product</label>
                 <div class="col-sm-8">
@@ -27,11 +27,11 @@
             </div>
         </section>
         
-        <h3 class="section-header">
+        <h3 class="section-header" onclick="toggleRequirements('personal-information')">
             2. Personal Information
             <i class="fas fa-caret-down right"></i>
         </h3>
-        <section class="group">
+        <section class="group personal-information">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Applicant</label>
                 <div class="col-sm-8">
@@ -98,32 +98,36 @@
             </div>
     
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">City</label>
+                <label class="col-sm-4 col-form-label">Country</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="City">
+                    <select class="form-control" id="country-options" onchange="populateStates(this)">
+                    </select>
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">State</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="State">
+                    <select class="form-control" id="state-options" onchange="populateCities(this)">
+                    </select>
                 </div>
             </div>
     
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Country</label>
+                <label class="col-sm-4 col-form-label">City</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Country">
+                    <select class="form-control" id="city-options">
+
+                    </select>
                 </div>
             </div>
         </section>
 
-        <h3 class="section-header">
+        <h3 class="section-header" onclick="toggleRequirements('referral-information')">
             3. Referral Information
             <i class="fas fa-caret-down right"></i>
         </h3>
-        <section class="group">
+        <section class="group referral-information">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Reference</label>
                 <div class="col-sm-8">
@@ -268,12 +272,135 @@
 
 @section('scripts')
     <script type="text/javascript">
+        let countryOptions = document.getElementById('country-options');
+        let stateOptions = document.getElementById('state-options');
+        let cityOptions = document.getElementById('city-options');
+
+        this.getCountryOptions();
+
         function toggleRequirements(className) {
             let elements = document.getElementsByClassName(className);
 
             for (el of elements) {
                 el.classList.toggle("hide");
             }
+        }
+
+        function removeStates() {
+            while (stateOptions.hasChildNodes()) {  
+                stateOptions.removeChild(stateOptions.firstChild);
+            }
+        }
+
+        function removeCities() {
+            while (cityOptions.hasChildNodes()) {  
+                cityOptions.removeChild(cityOptions.firstChild);
+            }
+        }
+
+        function populateStates(option) {
+            // text : option.options[option.selectedIndex].innerHTML,
+            // value : option.value
+            fetch('{{ url('') }}' + `/api/country/${option.value}/states`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // stateOptions
+                    this.removeStates();
+
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    stateOptions.appendChild(option);
+
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.ST_ID);
+                        option.appendChild(document.createTextNode(each.ST_Description));
+
+                        stateOptions.appendChild(option);
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateCities(option) {
+            fetch('{{ url('') }}' + `/api/state/${option.value}/cities`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // cityOptions
+                    this.removeCities();
+
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    cityOptions.appendChild(option);
+
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.CI_ID);
+                        option.appendChild(document.createTextNode(each.CI_Description));
+
+                        cityOptions.appendChild(option);
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function getCountryOptions() {
+            fetch("{{ url('/api/countries') }}", {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // countryOptions
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    countryOptions.appendChild(option);
+
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.CO_ID);
+                        option.appendChild(document.createTextNode(each.CO_Description));
+
+                        countryOptions.appendChild(option);
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
         }
     </script>
 @endsection

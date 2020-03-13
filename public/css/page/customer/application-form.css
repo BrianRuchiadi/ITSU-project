@@ -1,5 +1,6 @@
 .important-note {
   text-decoration: underline;
+  white-space: initial;
   color: red;
   margin-top: 10px;
 }
@@ -21,13 +22,15 @@
 }
 
 .notes {
-  border: 1px double black;
+  border: 10px double black;
   padding: 5px 8px;
   border-radius: 4px;
 }
 
 .notes span {
   display: block;
+  word-wrap: break-word;
+  white-space: initial;
 }
 
 .notes span.hide {
@@ -51,6 +54,7 @@ i.right {
 
 section.group {
   border: 10px double #34495E;
+  white-space: initial;
   padding: 5px 8px;
   border-radius: 4px;
 }
