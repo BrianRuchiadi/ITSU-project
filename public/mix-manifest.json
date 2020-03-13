@@ -3,5 +3,7 @@
     "/css/app.css": "/css/app.css",
     "/css/layout/dashboard.css": "/css/layout/dashboard.css",
     "/css/page/auth/login.css": "/css/page/auth/login.css",
-    "/css/page/auth/register.css": "/css/page/auth/register.css"
+    "/css/page/auth/register.css": "/css/page/auth/register.css",
+    "/css/page/customer/application-form.css": "/css/page/customer/application-form.css",
+    "/css/page/customer/referral-link.css": "/css/page/customer/referral-link.css"
 }

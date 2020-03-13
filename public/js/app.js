@@ -49687,10 +49687,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/page/customer/application-form.scss":
+/*!************************************************************!*\
+  !*** ./resources/sass/page/customer/application-form.scss ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/page/customer/referral-link.scss":
+/*!*********************************************************!*\
+  !*** ./resources/sass/page/customer/referral-link.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!***********************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ***!
-  \***********************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ./resources/sass/page/customer/application-form.scss ./resources/sass/page/customer/referral-link.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49698,7 +49720,9 @@ __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resou
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/app.scss */"./resources/sass/app.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/layout/dashboard.scss */"./resources/sass/layout/dashboard.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/login.scss */"./resources/sass/page/auth/login.scss");
-module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/register.scss */"./resources/sass/page/auth/register.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/register.scss */"./resources/sass/page/auth/register.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/application-form.scss */"./resources/sass/page/customer/application-form.scss");
+module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/referral-link.scss */"./resources/sass/page/customer/referral-link.scss");
 
 
 /***/ })

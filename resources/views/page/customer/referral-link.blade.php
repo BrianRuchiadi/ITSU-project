@@ -1,7 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/page/auth/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/customer/referral-link.css">
 @endsection
 
 @section('content')

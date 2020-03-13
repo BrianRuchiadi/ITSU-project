@@ -17,4 +17,9 @@ class PageController extends Controller
     {
         return view('page.customer.referral-link');
     }
+
+    public function showApplicationForm() 
+    { 
+        return view('page.customer.application-form');
+    }
 }

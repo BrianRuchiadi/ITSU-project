@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="container">
-            <nav class="side-bar">
+            <nav class="side-bar show" id="user-sidemenu">
                 <div class="logo">
                     <h2 class="center">ITSU</h2>
                 </div>
@@ -37,7 +37,11 @@
                         @endif
 
                         @if(Auth::user()->branchind === 4)
-                            <li class="customer">Application Form</li>
+                            <li class="customer">
+                                <a href="{{ url('/apply') }}">
+                                    Application Form
+                                </a>
+                            </li>
                         @endif
 
 
@@ -56,8 +60,9 @@
                 </ul>
             </nav>
 
-            <div class="main-content">
+            <div class="main-content" id="main-content">
                 <header>
+                    <i class="fas fa-bars burger" onclick="displayUserSideMenu()"></i>
                     <span class="user-management" onclick="displayUserSubMenu()">
                         <h4>
                             <i class="fas fa-user"></i>
@@ -95,17 +100,23 @@
             const subMenus = ['customer', 'contract'];
 
             let elementUserSubmenu = document.getElementById('user-submenu');
+            let elementUserSidemenu = document.getElementById('user-sidemenu');
+            let elementMainContent = document.getElementById('main-content');
             let elementAlert = document.getElementById('alert');
             let showSubmenu = false;
+            let showSidemenu = true;
         
             function displayUserSubMenu() {
-                if (!showSubmenu) {
-                    elementUserSubmenu.classList.add("show");
-                } else {
-                    elementUserSubmenu.classList.remove("show");
-                }
+                elementUserSubmenu.classList.toggle("show");
 
                 showSubmenu = !showSubmenu;
+            }
+
+            function displayUserSideMenu() {
+                elementUserSidemenu.classList.toggle("show");
+                elementMainContent.classList.toggle("expand");
+
+                showSidemenu = !showSidemenu;
             }
 
             function toggleNavSubMenu(option) {

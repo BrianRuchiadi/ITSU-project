@@ -1,0 +1,57 @@
+.important-note {
+  text-decoration: underline;
+  color: red;
+  margin-top: 10px;
+}
+
+.important-note:hover {
+  cursor: pointer;
+}
+
+.section-header {
+  color: #437C73;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.section-header:hover {
+  cursor: pointer;
+}
+
+.notes {
+  border: 1px double black;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.notes span {
+  display: block;
+}
+
+.notes span.hide {
+  display: none;
+}
+
+i.right {
+  float: right;
+  padding-right: 25px;
+}
+
+.hide {
+  display: none !important;
+}
+
+.form-group a {
+  color: black;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+section.group {
+  border: 10px double #34495E;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
