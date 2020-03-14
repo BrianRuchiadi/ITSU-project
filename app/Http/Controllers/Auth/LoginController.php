@@ -60,6 +60,7 @@ class LoginController extends Controller
 
         $user = User::where('userid', $validatedData['user_id'])->first();
         if (!$user) { return back()->withErrors('User has been removed. Please contact admin'); }
+        if ($user->status == 0) { return back()->withErrors('User has not been verified, Please check email'); }
         if (!$user->acc_customer_module && !$user->acc_contract_module) { 
             return back()->withErrors('You are not authorized to view this page'); 
         }

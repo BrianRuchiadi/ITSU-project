@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Hashids\Hashids;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -43,7 +45,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function register(request $request)
+    public function register(Request $request)
     {
         // example of decoding referrer code
         $hashIds = new Hashids(config('app.salt'), 5);
@@ -70,12 +72,21 @@ class RegisterController extends Controller
                 'password' => Hash::make($request['password']),
                 'name' => $request['name'],
                 'branchind' => 4,
-                'acc_customer_module' => 1
+                'acc_customer_module' => 1,
+                'status' => 0,
+                'remember_token' => Str::random(10),
             ]);
             
             if ($create) {
-                Auth::loginUsingId($create->id, true);
-                return redirect('/home');
+                $data = [
+                    'title' => 'Email verification for ITSU Kubikt',
+                    'content' => 'Click the link below to complete the registration',
+                    'link' => env('APP_URL') . '/register/verify?token='. $create['remember_token'],
+                ];
+                Mail::send('page.auth.email', $data, function($message) use ($request) {
+                    $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
+                });
+                return redirect('/login');
             }
         }catch (\Exception $e){
             return redirect()->back()->with('message', $e->getMessage())
@@ -87,5 +98,20 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         return view('page.auth.register');
+    }
+
+    public function showVerifiedRegister(Request $request)
+    {
+        return view('page.auth.verified')->with('token', $request['token']);
+    }
+
+    public function verifyRegister(Request $request) 
+    {
+        User::where('remember_token', $request['token'])->update([
+            'status' => 1,
+            'remember_token' => null
+        ]);
+        
+        return redirect('/login');
     }
 }
