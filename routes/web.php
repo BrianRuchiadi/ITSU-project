@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('apply', 'PageController@showApplicationForm');
 
     // APIs
+    Route::get('/api/items', 'Utilities\ItemController@getItems');
     Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
     Route::get('/api/country/{country}/states', 'Utilities\CountryController@getStatesOptions');

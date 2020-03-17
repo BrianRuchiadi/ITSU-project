@@ -62,7 +62,6 @@ class IrsItemMaster extends Model
         'IM_Point06',
         'IM_RedemptionItem_YN',
         'IM_RedemptionPoint'
-
     ];
 
     protected $hidden = [

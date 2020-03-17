@@ -15,14 +15,15 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Product</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Product">
+                    <select class="form-control" id="item-options" name="product">
+                    </select>
                 </div>
             </div>
       
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="No Of Installment Month">
+                  <input type="text" class="form-control" placeholder="No Of Installment Month" name="no_of_installment_month">
                 </div>
             </div>
         </section>
@@ -35,14 +36,14 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Applicant</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Name Of Applicant">
+                  <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant">
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">IC Number</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="IC Number">
+                  <input type="text" class="form-control" placeholder="IC Number" name="ic_number">
                 </div>
             </div>
     
@@ -243,7 +244,7 @@
         <div class="form-group row">
             <div class="col-sm-9">
                 <div>
-                    <input type="checkbox" id="tandc" value="1" required>
+                    <input type="checkbox" id="tandcitsu" value="1" required>
                     <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
                     @error('tandc')
                         <span class="invalid-feedback" role="alert">
@@ -252,7 +253,7 @@
                     @enderror
                 </div>
                 <div>
-                    <input type="checkbox" id="tandc" value="1" required>
+                    <input type="checkbox" id="tandcctos" value="1" required>
                     <label for="tandc">I have read & agree with <a href="https://www.google.com" target="blank" class="tandc">CTOS Consent Authorization</a></label>
                     @error('tandc')
                     <span class="invalid-feedback" role="alert">
@@ -275,8 +276,14 @@
         let countryOptions = document.getElementById('country-options');
         let stateOptions = document.getElementById('state-options');
         let cityOptions = document.getElementById('city-options');
+        
+        let itemOptions = document.getElementById('item-options');
+        let nameOfApplicant = document.getElementById('name-of-applicant');
+        let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
 
         this.getCountryOptions();
+        this.getItems();
+        this.fillApplicantName();
 
         function toggleRequirements(className) {
             let elements = document.getElementsByClassName(className);
@@ -296,6 +303,38 @@
             while (cityOptions.hasChildNodes()) {  
                 cityOptions.removeChild(cityOptions.firstChild);
             }
+        }
+
+        function fillApplicantName() {
+            nameOfApplicant.value = applicantName;
+        }
+
+        function getItems() {
+            fetch('{{ url('') }}' + `/api/items`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.IM_ID);
+                        option.appendChild(document.createTextNode(each.IM_Description));
+                        itemOptions.appendChild(option);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
         }
 
         function populateStates(option) {
