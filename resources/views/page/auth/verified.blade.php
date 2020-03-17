@@ -1,7 +1,7 @@
 @extends('layout.basic')
 
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/page/auth/login.css">
+@section('styles')    
+    <link rel="stylesheet" type="text/css" href="/css/page/auth/verified.css">
 @endsection
 
 @section('content')

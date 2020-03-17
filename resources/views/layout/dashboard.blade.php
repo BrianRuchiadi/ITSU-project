@@ -72,7 +72,7 @@
                     </span>
                     <ul class="user-submenu" id="user-submenu">
                         <li>
-                            <a href="#">
+                            <a href="{{ url('/change-password')}}">
                                 <i class="fas fa-key"></i> Change Password
                             </a>
                         </li>

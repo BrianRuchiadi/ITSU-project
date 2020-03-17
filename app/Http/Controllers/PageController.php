@@ -22,4 +22,9 @@ class PageController extends Controller
     { 
         return view('page.customer.application-form');
     }
+
+    public function showChangePasswordForm() 
+    { 
+        return view('page.auth.change-password');
+    }
 }

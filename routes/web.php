@@ -37,6 +37,10 @@ Route::get('email/resend', 'Auth\VerificationController@resend');
 Route::group(['middleware' => 'auth'], function() {
     Route::get('home', 'PageController@index');
 
+// Change Password Routes
+    Route::get('change-password', 'PageController@showChangePasswordForm');
+    Route::post('change-password', 'Auth\ChangePasswordController@changePassword')->name('auth.change.password');
+
     Route::get('link/referral', 'PageController@showReferralLink');
     Route::get('apply', 'PageController@showApplicationForm');
 

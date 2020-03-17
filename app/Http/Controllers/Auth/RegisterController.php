@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
+use Session;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +35,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+    
     /**
      * Create a new controller instance.
      *
@@ -86,6 +87,12 @@ class RegisterController extends Controller
                 Mail::send('page.auth.email', $data, function($message) use ($request) {
                     $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
                 });
+                
+                Session::flash('flash_notification', [
+                    'level'     => 'warning',
+                    'message'   => 'Please verify your email in order to login'
+                ]);
+
                 return redirect('/login');
             }
         }catch (\Exception $e){
