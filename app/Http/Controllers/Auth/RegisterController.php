@@ -50,8 +50,8 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         // example of decoding referrer code
-        $hashIds = new Hashids(config('app.salt'), 5);
-        $decoded = $hashIds->decode($request->referrer_code);
+        // $hashIds = new Hashids(config('app.salt'), 5);
+        // $decoded = $hashIds->decode($request->referrer_code);
         // more validation needed to validate the referrer code
 
         $validator = Validator::make($request->all(), [
@@ -131,6 +131,7 @@ class RegisterController extends Controller
                 'email' => $customerRegister->email,
                 'password' => $customerRegister->password,
                 'name' => $customerRegister->name,
+                'telephone' => $customerRegister->telephoneno,
                 'branchind' => 4,
                 'status' => 1,
                 'acc_customer_module' => 1

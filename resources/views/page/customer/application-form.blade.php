@@ -15,7 +15,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Product</label>
                 <div class="col-sm-8">
-                    <select class="form-control" id="item-options" name="product">
+                    <select class="form-control" id="item-options" id="product" name="product" required>
                     </select>
                 </div>
             </div>
@@ -23,7 +23,14 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="No Of Installment Month" name="no_of_installment_month">
+                  <input type="text" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
+                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
                 </div>
             </div>
         </section>
@@ -36,49 +43,44 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Applicant</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant">
+                  <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">IC Number</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="IC Number" name="ic_number">
+                  <input type="text" class="form-control" placeholder="IC Number" id="ic-number" name="ic_number" required>
                 </div>
             </div>
     
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Contact 1 Of Applicant</label>
+                <label class="col-sm-4 col-form-label">Contact 1 Of Applicant<br/>
+                    <strong>(Will be used for SMS Tag) </strong>
+                </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="6012-333-4444">
-                </div>
-            </div>
-    
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="SMS tag">
+                  <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Contact 2 Of Applicant</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="6015-666-7777">
+                  <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-two-of-applicant" name="contact_two_of_applicant">
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Email Of Applicant</label>
                 <div class="col-sm-8">
-                  <input type="email" class="form-control" placeholder="jane.doe@gmail.com">
+                  <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Address 1</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" placeholder="Address 1">
+                    <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required>
                     </textarea>
                 </div>
             </div>
@@ -86,7 +88,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Address 2</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" placeholder="Address 1">
+                    <textarea class="form-control" placeholder="Address 1" id="address-two" name="address_two">
                     </textarea>
                 </div>
             </div>
@@ -94,14 +96,14 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Postcode</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Postcode">
+                  <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode">
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Country</label>
                 <div class="col-sm-8">
-                    <select class="form-control" id="country-options" onchange="populateStates(this)">
+                    <select class="form-control" id="country-options" onchange="populateStates(this)" name="country" required>
                     </select>
                 </div>
             </div>
@@ -109,7 +111,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">State</label>
                 <div class="col-sm-8">
-                    <select class="form-control" id="state-options" onchange="populateCities(this)">
+                    <select class="form-control" id="state-options" onchange="populateCities(this)" name="state" required>
                     </select>
                 </div>
             </div>
@@ -117,9 +119,15 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">City</label>
                 <div class="col-sm-8">
-                    <select class="form-control" id="city-options">
-
+                    <select class="form-control" id="city-options" name="city" required>
                     </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
+                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
                 </div>
             </div>
         </section>
@@ -132,28 +140,30 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Reference</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Name Of Reference">
+                  <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Contact of Reference</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Contact Of Reference">
+                  <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Seller 1</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Seller 1">
+                  <select class="form-control" id="seller-one" name="seller_one" required>
+                  </select>
                 </div>
             </div>
     
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Seller 2</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Seller 2">
+                  <select class="form-control" id="seller-two" name="seller_two">
+                  </select>
                 </div>
             </div>
         </section>
@@ -240,13 +250,12 @@
             <span class="self-employed">* Applicant must be contactable</span>
         </div>
 
-
-        <div class="form-group row">
+        <div class="form-group row" style="margin-top: 10px;">
             <div class="col-sm-9">
                 <div>
                     <input type="checkbox" id="tandcitsu" value="1" required>
                     <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
-                    @error('tandc')
+                    @error('tandcitsu')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -255,7 +264,7 @@
                 <div>
                     <input type="checkbox" id="tandcctos" value="1" required>
                     <label for="tandc">I have read & agree with <a href="https://www.google.com" target="blank" class="tandc">CTOS Consent Authorization</a></label>
-                    @error('tandc')
+                    @error('tandcctos')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -264,9 +273,28 @@
                 
             </div>
             <div class="col-sm-3" style="margin: auto;">
-                <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                <button type="button" class="btn btn-block btn-success" id="sms-tag-button" onclick="clickSendSmsTag()">Send SMS Tag</button>
             </div>
-            
+        </div>
+
+        <h3 class="section-header" onclick="toggleRequirements('verification-information')">
+            Verification Information
+            <i class="fas fa-caret-down right"></i>
+        </h3>
+        <section class="group verification-information">
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
+                    <button class="btn btn-warning" id="sms-status">Status : </button>
+                </div>
+                <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag">
+                </div>
+            </div>
+        </section>
+
+        <div class="form-group row last">
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </div>
     </form>
 @endsection
@@ -279,11 +307,53 @@
         
         let itemOptions = document.getElementById('item-options');
         let nameOfApplicant = document.getElementById('name-of-applicant');
+        let contactOneOfApplicant = document.getElementById('contact-one-of-applicant');
+        let emailOfApplicant = document.getElementById('email-of-applicant');
+
+        let sellerOne = document.getElementById('seller-one');
+        let sellerTwo = document.getElementById('seller-two');
+
+        let smsTagButton = document.getElementById('sms-tag-button');
+        let smsStatus = document.getElementById('sms-status');
+        let smsState = 'Unverified';
+        let smsTimerCountdown = 600; // 10 minutes
+        let smsTimeInterval;
+
         let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
+        let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
+        let applicantEmail = '{{ Auth::user()->branchind === 4 ? Auth::user()->email : ''}}';
 
         this.getCountryOptions();
         this.getItems();
         this.fillApplicantName();
+        this.fillApplicantContactOne();
+        this.fillEmailOfApplicant();
+        this.getUsers();
+
+        function clickSendSmsTag() {
+            smsTagButton.classList.remove('btn-success');
+            smsTagButton.classList.add('btn-disabled');
+            smsTimerCountdown = 10;
+            smsState = 'SMS Sent';
+            smsStatus.innerText = 'Status : ' + smsState;
+
+            smsTimeInterval = setInterval(function () {
+                smsTimerCountdown--;
+                let secs = smsTimerCountdown % 60;
+                let mins = Math.floor(smsTimerCountdown / 60);
+                smsTagButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
+
+                if (smsTimerCountdown === 1) {
+                    clearInterval(smsTimeInterval);
+                    smsTagButton.innerText = "Send SMS Tag";
+                    smsTagButton.classList.remove('btn-disabled');
+                    smsTagButton.classList.add('btn-success');
+                    smsState = 'Unverified';
+                    smsStatus.innerText = 'Status : ' + smsState;
+                }
+            }, 1000);
+            
+        }
 
         function toggleRequirements(className) {
             let elements = document.getElementsByClassName(className);
@@ -309,6 +379,62 @@
             nameOfApplicant.value = applicantName;
         }
 
+        function fillApplicantContactOne() {
+            contactOneOfApplicant.value = applicantContactOne;
+        }
+
+        function fillEmailOfApplicant() {
+            emailOfApplicant.value = applicantEmail;
+        }
+
+        function getUsers() {
+            fetch('{{ url('') }}' + `/api/users?ref=` + localStorage.getItem('referrerCode'), {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    let optionOne = document.createElement('option');
+                    optionOne.setAttribute('value', 0);
+                    optionOne.appendChild(document.createTextNode(''));
+
+                    sellerOne.appendChild(optionOne);
+
+                    let optionTwo = document.createElement('option');
+                    optionTwo.setAttribute('value', 0);
+                    optionTwo.appendChild(document.createTextNode(''));
+
+                    sellerTwo.appendChild(optionTwo);
+
+                    for (let each of res.data) {
+                        let optionOne = document.createElement('option');
+                        optionOne.setAttribute('value', each.id);
+                        optionOne.appendChild(document.createTextNode(each.name));
+
+                        sellerOne.appendChild(optionOne);
+
+                        let optionTwo = document.createElement('option');
+                        optionTwo.setAttribute('value', each.id);
+                        optionTwo.appendChild(document.createTextNode(each.name));
+
+                        sellerTwo.appendChild(optionTwo);
+                    }
+
+                    if (res.decoded_referrer_id) {
+                        sellerOne.value = res.decoded_referrer_id;
+                        sellerOne.setAttribute("disabled", true);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+                });
+        }
+
         function getItems() {
             fetch('{{ url('') }}' + `/api/items`, {
                 method: 'GET', // or 'PUT'
@@ -324,6 +450,8 @@
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
                     option.appendChild(document.createTextNode(''));
+
+                    itemOptions.appendChild(option);
 
                     for (let each of res.data) {
                         let option = document.createElement('option');

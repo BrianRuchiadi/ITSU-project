@@ -170,13 +170,13 @@
     };
 
     function getReferrerCode() {
-        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : sessionStorage.getItem("referrerCode");
+        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : localStorage.getItem("referrerCode");
         return referrerCode;
     }
 
     function injectReferrerCode() {
         if (!referrerCode) { return; }
-        sessionStorage.setItem("referrerCode", referrerCode);
+        localStorage.setItem("referrerCode", referrerCode);
 
         let input = document.createElement("input");
         input.setAttribute("type", "hidden");

@@ -19,6 +19,10 @@ return [
 
     'branchid' => env('BRANCH_ID', 1),
 
+    'twilio_sid' => env('TWILIO_SID', ''),
+    'twilio_auth_token' => env('TWILIO_AUTH_TOKEN', ''),
+    'twilio_verify_sid' => env('TWILIO_VERIFY_SID', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
