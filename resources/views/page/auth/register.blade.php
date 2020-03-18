@@ -15,6 +15,21 @@
         <h3 class="center">Register for Individual</h3>
         <form class="form-horizontal" action="{{ route('auth.register') }}" method="POST" enctype="multipart/form-data" id="register-form">
 					    {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('telephoneno') ? ' has-error' : '' }}">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-phone"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Telephone No" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
+                </div>
+                @error('telephoneno')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
             <div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -22,7 +37,7 @@
                         <i class="fas fa-envelope"></i>
                       </span>
                     </div>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required autofocus>
+                    <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required>
                 </div>
                 @error('email_address')
                     <span class="invalid-feedback" role="alert">

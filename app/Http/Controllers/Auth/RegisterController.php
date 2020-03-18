@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Auth;
 use Session;
 use App\Models\User;
+use App\Models\CustomerRegister;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -58,6 +59,7 @@ class RegisterController extends Controller
             'user_id' => 'required|string|max:255|unique:users,userid',
             'password' => 'required|string|min:6|confirmed|same:password_confirmation',
             'name' => 'required|string',
+            'telephoneno' => 'required',
         ]);
 
         if ($validator->fails()){
@@ -67,22 +69,22 @@ class RegisterController extends Controller
         }
         
         try {
-            $create = User::create([
+            $create = CustomerRegister::create([
                 'userid' => $request['user_id'],
                 'email' => $request['email_address'],
                 'password' => Hash::make($request['password']),
                 'name' => $request['name'],
-                'branchind' => 4,
-                'acc_customer_module' => 1,
+                'telephoneno' => $request['telephoneno'],
                 'status' => 0,
-                'remember_token' => Str::random(10),
             ]);
             
             if ($create) {
+                $hashids = new Hashids(config('app.salt'), 5);
+                $hashedId = $hashids->encode($create->id);
                 $data = [
                     'title' => 'Email verification for ITSU Kubikt',
                     'content' => 'Click the link below to complete the registration',
-                    'link' => env('APP_URL') . '/register/verify?token='. $create['remember_token'],
+                    'link' => env('APP_URL') . '/register/verify?id='. $hashedId,
                 ];
                 Mail::send('page.auth.email', $data, function($message) use ($request) {
                     $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
@@ -109,16 +111,46 @@ class RegisterController extends Controller
 
     public function showVerifiedRegister(Request $request)
     {
-        return view('page.auth.verified')->with('token', $request['token']);
+        return view('page.auth.verified')->with('id', $request['id']);
     }
 
     public function verifyRegister(Request $request) 
     {
-        User::where('remember_token', $request['token'])->update([
-            'status' => 1,
-            'remember_token' => null
-        ]);
-        
+        $hashids = new Hashids(config('app.salt'), 5);
+        $id = $hashids->decode($request['id']);
+        $customerRegister = CustomerRegister::where('id', $id)->first();
+        $userExist = User::where('userid', $customerRegister->userid)->exists();
+
+        if ($userExist){
+            return redirect()->back()->with('message', 'User Id Existed');
+        }
+
+        try {
+            $create = User::create([
+                'userid' => $customerRegister->userid,
+                'email' => $customerRegister->email,
+                'password' => $customerRegister->password,
+                'name' => $customerRegister->name,
+                'branchind' => 4,
+                'status' => 1,
+                'acc_customer_module' => 1
+            ]);
+
+            $customerRegister->update(['status' => 1]);
+            
+            if ($create) {
+                Session::flash('flash_notification', [
+                    'level'     => 'warning',
+                    'message'   => 'User successfully verified'
+                ]);
+
+                return redirect('/login');
+            }
+        }catch (\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage())
+                    ->with('status','Failed to Save Register Data !')
+                    ->with('type','error');
+        }
         return redirect('/login');
     }
 }
