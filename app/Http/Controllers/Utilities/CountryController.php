@@ -15,19 +15,23 @@ class CountryController extends Controller
 {
     public function getCountriesOptions(Request $request) {
         return [
-            'data' => IrsCountry::all(),
+            'data' => IrsCountry::whereNull('deleted_at')->get(),
         ];
     }
 
     public function getStatesOptions(Request $request, IrsCountry $country) {
         return [
-            'data' => IrsState::where('ST_Country', $country->CO_ID)->get()
+            'data' => IrsState::whereNull('deleted_at')->
+                        where('ST_Country', $country->CO_ID)->
+                        get()
         ];
     }
 
     public function getCitiesOptions(Request $request, IrsState $state) {
         return [
-            'data' => IrsCity::where('CI_State', $state->ST_ID)->get()
+            'data' => IrsCity::whereNull('deleted_at')->
+                        where('CI_State', $state->ST_ID)->
+                        get()
         ];
     }
 }

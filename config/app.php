@@ -17,6 +17,8 @@ return [
 
     'salt' => env('APP_SALT', 'ranD0m3alt'),
 
+    'branchid' => env('BRANCH_ID', 1),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
