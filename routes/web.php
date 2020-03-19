@@ -29,7 +29,7 @@ Route::post('reset-password/verify', 'Auth\ResetPasswordController@verifyReset')
 Route::group(['middleware' => 'auth'], function() {
     Route::get('home', 'PageController@index');
 
-// Change Password Routes
+    // Change Password Routes
     Route::get('change-password', 'PageController@showChangePasswordForm');
     Route::post('change-password', 'Auth\ChangePasswordController@changePassword')->name('auth.change.password');
 
@@ -37,9 +37,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('apply', 'PageController@showApplicationForm');
 
     // APIs
+    Route::get('/api/users', 'Utilities\UserController@getUsers');
     Route::get('/api/items', 'Utilities\ItemController@getItems');
     Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
     Route::get('/api/country/{country}/states', 'Utilities\CountryController@getStatesOptions');
     Route::get('/api/state/{state}/cities', 'Utilities\CountryController@getCitiesOptions');
+
+    // SMS APIs
+    Route::post('api/sms/send','Utilities\SmsController@sendSms');
+    Route::post('api/sms/verify','Utilities\SmsController@verifySms');
 });
