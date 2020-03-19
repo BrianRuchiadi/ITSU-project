@@ -23,7 +23,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
+                  <input type="number" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
                 </div>
             </div>
         </section>
@@ -240,6 +240,7 @@
                 <div>
                     <input type="checkbox" id="tandcitsu" value="1" required>
                     <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
+
                     @error('tandcitsu')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -249,6 +250,7 @@
                 <div>
                     <input type="checkbox" id="tandcctos" value="1" required>
                     <label for="tandc">I have read & agree with <a href="https://www.google.com" target="blank" class="tandc">CTOS Consent Authorization</a></label>
+
                     @error('tandcctos')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -258,23 +260,23 @@
                 
             </div>
             <div class="col-sm-3" style="margin: auto;">
-                <button type="button" class="btn btn-block btn-success" id="sms-tag-button" onclick="clickSendSmsTag()">Send SMS Tag</button>
+                <button type="button" class="btn btn-block btn-success" id="sms-tag-send-button" onclick="clickSendSmsTag()">Send SMS Tag</button>
             </div>
         </div>
 
         <h3 class="section-header" onclick="toggleRequirements('verification-information')">
             Verification Information
+            <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
             <i class="fas fa-caret-down right"></i>
         </h3>
         <section class="group verification-information">
             <div class="form-group row">
                 <div class="col-sm-4">
                     <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
-                    <button class="btn btn-warning" id="sms-status">Status : </button>
                 </div>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
-                    <button class="btn btn-success" onclick="verifySmsTag()">Verify</button>
+                    <button type="button" class="btn btn-block btn-success" onclick="verifySmsTag()" id="sms-tag-verify-button">Verify</button>
                 </div>
             </div>
         </section>
@@ -300,9 +302,11 @@
         let sellerOne = document.getElementById('seller-one');
         let sellerTwo = document.getElementById('seller-two');
 
-        let smsTagButton = document.getElementById('sms-tag-button');
-        let smsStatus = document.getElementById('sms-status');
-        let smsState = 'Unverified';
+        let smsTagSendButton = document.getElementById('sms-tag-send-button');
+        let smsTagVerifyButton = document.getElementById('sms-tag-verify-button');  
+        let smsStatusButton = document.getElementById('sms-status-button');
+
+        let smsState = 'Unverified'; // 'Unverified' , 'SMS sent', 'Verified'
         let smsTimerCountdown = 600; // 10 minutes
         let smsTimeInterval;
 
@@ -317,28 +321,32 @@
         this.fillEmailOfApplicant();
         this.getUsers();
 
-        function clickSendSmsTag() {
-            smsTagButton.classList.remove('btn-success');
-            smsTagButton.classList.add('btn-disabled');
-            smsTimerCountdown = 100;
-            smsState = 'SMS Sent';
-            smsStatus.innerText = 'Status : ' + smsState;
+        function changeSmsState(state) {
+            smsState = state;
+            smsStatusButton.innerText = 'Status : ' + state;
+        }
 
+        function clickSendSmsTag() {
+            smsTimerCountdown = 600;
+
+            this.changeSmsState('SMS Sent');
             this.sendSmsTag();
 
             smsTimeInterval = setInterval(function () {
                 smsTimerCountdown--;
                 let secs = smsTimerCountdown % 60;
                 let mins = Math.floor(smsTimerCountdown / 60);
-                smsTagButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
+
+                smsTagSendButton.classList.add('disabled');
+                smsTagSendButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
 
                 if (smsTimerCountdown === 1) {
                     clearInterval(smsTimeInterval);
-                    smsTagButton.innerText = "Send SMS Tag";
-                    smsTagButton.classList.remove('btn-disabled');
-                    smsTagButton.classList.add('btn-success');
-                    smsState = 'Unverified';
-                    smsStatus.innerText = 'Status : ' + smsState;
+    
+                    smsTagSendButton.classList.remove('disabled');
+                    smsTagSendButton.innerText = "Send SMS Tag";
+
+                    this.changeSmsState('Unverified')
                 }
             }, 1000);
             
@@ -387,9 +395,7 @@
                     {'contact_one_of_applicant' : contactOneOfApplicant.value }
                 )
                 })
-                .then((response) => {
-                    return response.json();
-                })
+                .then((response) => { return response.json(); })
                 .then((res) => {
                     console.log(['res', res]);
                 })
@@ -412,11 +418,12 @@
                     }
                 )
                 })
-                // .then((response) => {
-                //     return response.json();
-                // })
+                .then((response) => { return response.json(); })
                 .then((res) => {
-                    console.log(['res', res]);
+                    if (res.status === 'approved') {
+                        this.changeSmsState('Approved');
+                        smsTagVerifyButton.classList.add('disabled'); // disable verify button
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', error]);

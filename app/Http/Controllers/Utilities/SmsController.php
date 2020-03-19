@@ -37,7 +37,7 @@ class SmsController extends Controller
 
         return [
             'data' => 1,
-            'res' => $sendSMS->status
+            'status' => $sendSMS->status
         ];
         // return [
         //     'status' => $sendSMS->status
@@ -46,26 +46,17 @@ class SmsController extends Controller
 
     public function verifySms(Request $request) {
         $request->validate([
-            'contact_one_sms_tag' => 'required|numeric|min:6|max:6',
-            'contact_one_of_applicant' => 'required|numeric|min:8|max:20'
+            'contact_one_sms_tag' => 'required|string|min:6|max:6',
+            'contact_one_of_applicant' => 'required|string|min:8|max:20'
         ]);
-
-        return [
-            'data' => 1
-        ];
-
+        
         $verification = $this->twilio->verify->v2->services($this->twilioVerifySid)
             ->verificationChecks
             ->create($request->contact_one_sms_tag, array('to' => $request->contact_one_of_applicant));
 
-        if ($verification->valid()) {
-            return [
-                'data' => true
-            ];
-        } else {
-            return [
-                'data' => false
-            ];
-        }
+        return [
+            'data' => 1,
+            'status' => $verification->status
+        ];
     }
 }

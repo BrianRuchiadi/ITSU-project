@@ -66,3 +66,7 @@ section.group {
   border-radius: 4px;
 }
 
+button.disabled {
+  cursor: not-allowed !important;
+}
+
