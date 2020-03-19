@@ -26,13 +26,6 @@
                   <input type="text" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
-                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
-                </div>
-            </div>
         </section>
         
         <h3 class="section-header" onclick="toggleRequirements('personal-information')">
@@ -137,13 +130,6 @@
                   <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
                 </div>
             </div>
-
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
-                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
-                </div>
-            </div>
         </section>
 
         <h3 class="section-header" onclick="toggleRequirements('referral-information')">
@@ -167,7 +153,6 @@
                 </div>
             </div>
         </section>
-        
 
         <h3 class="important-note" onclick="toggleRequirements('employed-requirement')">
             Individual Applicant
@@ -288,7 +273,8 @@
                     <button class="btn btn-warning" id="sms-status">Status : </button>
                 </div>
                 <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag">
+                    <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
+                    <button class="btn btn-success" onclick="verifySmsTag()">Verify</button>
                 </div>
             </div>
         </section>
@@ -308,6 +294,7 @@
         let itemOptions = document.getElementById('item-options');
         let nameOfApplicant = document.getElementById('name-of-applicant');
         let contactOneOfApplicant = document.getElementById('contact-one-of-applicant');
+        let contactOneSmsTag = document.getElementById('contact-one-sms-tag');
         let emailOfApplicant = document.getElementById('email-of-applicant');
 
         let sellerOne = document.getElementById('seller-one');
@@ -333,9 +320,11 @@
         function clickSendSmsTag() {
             smsTagButton.classList.remove('btn-success');
             smsTagButton.classList.add('btn-disabled');
-            smsTimerCountdown = 10;
+            smsTimerCountdown = 100;
             smsState = 'SMS Sent';
             smsStatus.innerText = 'Status : ' + smsState;
+
+            this.sendSmsTag();
 
             smsTimeInterval = setInterval(function () {
                 smsTimerCountdown--;
@@ -385,6 +374,53 @@
 
         function fillEmailOfApplicant() {
             emailOfApplicant.value = applicantEmail;
+        }
+
+        function sendSmsTag() {
+            fetch('{{ url('') }}' + `/api/sms/send`, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(
+                    {'contact_one_of_applicant' : contactOneOfApplicant.value }
+                )
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    console.log(['res', res]);
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+                });
+        }
+
+        function verifySmsTag() {
+            fetch('{{ url('') }}' + `/api/sms/verify`, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(
+                    {
+                        'contact_one_of_applicant' : contactOneOfApplicant.value,
+                        'contact_one_sms_tag': contactOneSmsTag.value
+                    }
+                )
+                })
+                // .then((response) => {
+                //     return response.json();
+                // })
+                .then((res) => {
+                    console.log(['res', res]);
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+                });
         }
 
         function getUsers() {
