@@ -25,19 +25,23 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'product' => 'required|exists:irs_itemmaster,IM_ID',
             'no_of_installment_month' => 'required|numeric',
-            'name_of_applicant' => 'required|string',
+            'name_of_applicant' => 'required|string|min:3|max:50',
             'ic_number' => 'required|string',
-            'contact_one_of_applicant' => 'required|string',
-            'contact_two_of_applicant' => 'string',
+            'contact_one_of_applicant' => 'required|string|min:8|max:20',
+            'contact_two_of_applicant' => 'string|min:8|max:20',
             'email_of_application' => 'required|email',
             'address_one' => 'required|string|min:10',
-            'address_two' => 'string',
-            'postcode' => 'required',
+            'address_two' => 'string|min:10',
+            'postcode' => 'required|string|min:4|max:10',
             'city' => 'required|exists:irs_city,CI_ID',
             'state' => 'required|exists:irs_state,ST_ID',
             'country' =>  'required|exists:irs_country,CO_ID',
-            'name_of_reference' => 'string',
-            'contact_of_reference' => 'string'
+            'name_of_reference' => 'string|min:3|max:50',
+            'contact_of_reference' => 'string|min:8|max:20',
+            'seller_one' => 'required|exists:users,id',
+            'seller_two' => 'exists:users,id',
+            'tandcitsu' => 'required|boolean',
+            'tandcctos' => 'required|boolean'
         ]);
     }
 }

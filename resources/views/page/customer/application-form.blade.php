@@ -96,7 +96,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Postcode</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode">
+                  <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
                 </div>
             </div>
     
@@ -125,19 +125,6 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-sm-6">
-                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
-                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <h3 class="section-header" onclick="toggleRequirements('referral-information')">
-            3. Referral Information
-            <i class="fas fa-caret-down right"></i>
-        </h3>
-        <section class="group referral-information">
-            <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name Of Reference</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
@@ -150,7 +137,20 @@
                   <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
                 </div>
             </div>
-    
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-success">Save Input <i class="fas fa-save"></i></button>
+                    <button class="btn btn-danger">Clear Input <i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <h3 class="section-header" onclick="toggleRequirements('referral-information')">
+            3. Referral Information
+            <i class="fas fa-caret-down right"></i>
+        </h3>
+        <section class="group referral-information">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Seller 1</label>
                 <div class="col-sm-8">
