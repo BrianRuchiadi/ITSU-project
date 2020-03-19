@@ -21,6 +21,7 @@ Route::post('register', 'Auth\RegisterController@register')->name('auth.register
 Route::get('register/verify', 'Auth\RegisterController@showVerifiedRegister')->middleware('signed');
 Route::post('register/verify', 'Auth\RegisterController@verifyRegister')->name('auth.register.verify');
 
+// Reset Password Routes...
 Route::get('reset-password', 'Auth\ResetPasswordController@showResetPasswordForm');
 Route::post('reset-password', 'Auth\ResetPasswordController@sendEmailLink')->name('auth.reset-password');
 Route::get('reset-password/verify', 'Auth\ResetPasswordController@showVerifiedReset')->middleware('signed');
