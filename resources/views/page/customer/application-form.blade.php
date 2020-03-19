@@ -260,10 +260,11 @@
                 
             </div>
             <div class="col-sm-3" style="margin: auto;">
-                <button type="button" class="btn btn-block btn-success" id="sms-tag-send-button" onclick="clickSendSmsTag()">Send SMS Tag</button>
+                <button type="submit" class="btn btn-block btn-primary">Submit</button>
             </div>
         </div>
 
+        <!--
         <h3 class="section-header" onclick="toggleRequirements('verification-information')">
             Verification Information
             <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
@@ -284,6 +285,7 @@
         <div class="form-group row last">
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </div>
+        -->
     </form>
 @endsection
 
@@ -330,26 +332,7 @@
             smsTimerCountdown = 600;
 
             this.changeSmsState('SMS Sent');
-            this.sendSmsTag();
-
-            smsTimeInterval = setInterval(function () {
-                smsTimerCountdown--;
-                let secs = smsTimerCountdown % 60;
-                let mins = Math.floor(smsTimerCountdown / 60);
-
-                smsTagSendButton.classList.add('disabled');
-                smsTagSendButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
-
-                if (smsTimerCountdown === 1) {
-                    clearInterval(smsTimeInterval);
-    
-                    smsTagSendButton.classList.remove('disabled');
-                    smsTagSendButton.innerText = "Send SMS Tag";
-
-                    this.changeSmsState('Unverified')
-                }
-            }, 1000);
-            
+            this.sendSmsTag();            
         }
 
         function toggleRequirements(className) {
@@ -397,7 +380,23 @@
                 })
                 .then((response) => { return response.json(); })
                 .then((res) => {
-                    console.log(['res', res]);
+                    smsTimeInterval = setInterval(function () {
+                        smsTimerCountdown--;
+                        let secs = smsTimerCountdown % 60;
+                        let mins = Math.floor(smsTimerCountdown / 60);
+
+                        smsTagSendButton.classList.add('disabled');
+                        smsTagSendButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
+
+                        if (smsTimerCountdown === 1) {
+                            clearInterval(smsTimeInterval);
+            
+                            smsTagSendButton.classList.remove('disabled');
+                            smsTagSendButton.innerText = "Send SMS Tag";
+
+                            this.changeSmsState('Unverified')
+                        }
+                    }, 1000);
                 })
                 .catch((error) => {
                     console.log(['err', error]);

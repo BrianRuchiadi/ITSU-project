@@ -21,7 +21,6 @@ class CustomerController extends Controller
     }
 
     public function submitContractForm(Request $request) {
-
         $validator = Validator::make($request->all(), [
             'product' => 'required|exists:irs_itemmaster,IM_ID',
             'no_of_installment_month' => 'required|numeric',
@@ -43,5 +42,12 @@ class CustomerController extends Controller
             'tandcitsu' => 'required|boolean',
             'tandcctos' => 'required|boolean'
         ]);
+
+        if ($validator->fails()){
+            // if any of above validation fail 
+            return redirect()->back()->with('message', $validator->messages()->first())
+                    ->with('status','Failed to Submit Contract Form!')
+                    ->with('type','error');
+        }
     }
 }
