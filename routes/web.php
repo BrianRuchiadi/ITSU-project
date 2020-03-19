@@ -18,21 +18,13 @@ Route::post('logout', 'Auth\LoginController@logout');
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register')->name('auth.register');
-Route::get('register/verify', 'Auth\RegisterController@showVerifiedRegister');
+Route::get('register/verify', 'Auth\RegisterController@showVerifiedRegister')->middleware('signed');
 Route::post('register/verify', 'Auth\RegisterController@verifyRegister')->name('auth.register.verify');
 
-// Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-
-// Email Verification Routes...
-Route::get('email/verify', 'Auth\VerificationController@show');
-Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify'); // v6.x
-/* Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify'); // v5.x */
-Route::get('email/resend', 'Auth\VerificationController@resend');
-
+Route::get('reset-password', 'Auth\ResetPasswordController@showResetPasswordForm');
+Route::post('reset-password', 'Auth\ResetPasswordController@sendEmailLink')->name('auth.reset-password');
+Route::get('reset-password/verify', 'Auth\ResetPasswordController@showVerifiedReset')->middleware('signed');
+Route::post('reset-password/verify', 'Auth\ResetPasswordController@verifyReset')->name('auth.reset.verify');
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('home', 'PageController@index');

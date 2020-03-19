@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="content">
-    <div class="login-panel">
+    <div class="verified-panel">
         <form method="POST" action="{{ route('auth.register.verify') }}">
             {{ csrf_field() }}
             <h3>Click this button to complete account register</h3>

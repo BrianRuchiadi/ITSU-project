@@ -20,6 +20,7 @@ mix.sass('resources/sass/page/auth/login.scss', 'public/css/page/auth');
 mix.sass('resources/sass/page/auth/register.scss', 'public/css/page/auth');
 mix.sass('resources/sass/page/auth/verified.scss', 'public/css/page/auth');
 mix.sass('resources/sass/page/auth/change-password.scss', 'public/css/page/auth');
+mix.sass('resources/sass/page/auth/reset-password.scss', 'public/css/page/auth');
 mix.sass('resources/sass/page/customer/application-form.scss', 'public/css/page/customer');
 mix.sass('resources/sass/page/customer/referral-link.scss', 'public/css/page/customer');
 

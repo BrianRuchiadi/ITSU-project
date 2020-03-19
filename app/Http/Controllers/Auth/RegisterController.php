@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class RegisterController extends Controller
 {
@@ -81,10 +82,16 @@ class RegisterController extends Controller
             if ($create) {
                 $hashids = new Hashids(config('app.salt'), 5);
                 $hashedId = $hashids->encode($create->id);
+
+                $urlLink = URL::temporarySignedRoute(
+                    'auth.register.verify', now()->addDays(1), ['id' => $hashedId]
+                );
+
                 $data = [
                     'title' => 'Email verification for ITSU Kubikt',
-                    'content' => 'Click the link below to complete the registration',
-                    'link' => env('APP_URL') . '/register/verify?id='. $hashedId,
+                    'content' => 'Click link to complete registration. ',
+                    'link' => $urlLink,
+                    'warning' => 'Link will expired in 1 day'
                 ];
                 Mail::send('page.auth.email', $data, function($message) use ($request) {
                     $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
@@ -111,7 +118,7 @@ class RegisterController extends Controller
 
     public function showVerifiedRegister(Request $request)
     {
-        return view('page.auth.verified')->with('id', $request['id']);
+        return view('page.auth.register-verified')->with('id', $request['id']);
     }
 
     public function verifyRegister(Request $request) 

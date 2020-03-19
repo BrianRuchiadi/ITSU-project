@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="content">
-    <div class="login-panel">
+    <div class="register-panel">
         <h2 class="center">
             <i class="fas fa-chevron-left force-left" onclick="backToLogin()"></i>
             <i class="fas fa-user-plus"></i>Register

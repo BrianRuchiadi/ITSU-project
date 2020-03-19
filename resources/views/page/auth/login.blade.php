@@ -52,6 +52,12 @@
                     <a href="{{ url('/register') }}">Register Now</a>
                 </button>
             </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-warning btn-block register">
+                    <a href="{{ url('/reset-password') }}">Forgot Password</a>
+                </button>
+            </div>
+            <div class="form-group">
         </form>
     </div>
     
