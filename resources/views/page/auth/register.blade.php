@@ -25,9 +25,9 @@
                     <input type="text" class="form-control" placeholder="Telephone No" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
                 </div>
                 @error('telephoneno')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
@@ -40,9 +40,9 @@
                     <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required>
                 </div>
                 @error('email_address')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
@@ -55,9 +55,9 @@
                     <input type="text" class="form-control" placeholder="User Id" name="user_id" value="{{ old('user_id') }}"  required>
                 </div>
                 @error('user_id')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -70,9 +70,9 @@
                     <input type="text" class="form-control" placeholder="Name" name="name" value="{{ old('name') }}"  required>
                 </div>
                 @error('name')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -85,9 +85,9 @@
                     <input type="password" class="form-control" placeholder="Password" name="password" value="{{ old('password') }}"  required>
                 </div>
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -100,18 +100,18 @@
                     <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation" value="{{ old('password_confirmation') }}"  required>
                 </div>
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
                 <input type="checkbox" id="tandc" name="tandc" value="1" required>
                 <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
                 @error('tandc')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             
@@ -129,12 +129,6 @@
                   </div>
                 </div>
             </div>
-            @if(session()->has('message'))
-              <div class="alert alert-danger">
-              {{ session()->get('message') }}
-              </div>
-            @endif
-
         </form>
     </div>
     
