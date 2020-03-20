@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function() {
     // APIs
     Route::get('/api/users', 'Utilities\UserController@getUsers');
     Route::get('/api/items', 'Utilities\ItemController@getItems');
+    Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
     Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
     Route::get('/api/country/{country}/states', 'Utilities\CountryController@getStatesOptions');
