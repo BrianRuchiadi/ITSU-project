@@ -103,16 +103,55 @@ class CustomerController extends Controller
             $customerMasterByNRIC = CustomerMaster::where('Cust_NRIC', $request->ic_number)->whereNull('deleted_at')->get();
             $customerMasterByEmail = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->whereNull('deleted_at')->get();
 
+            // if both not found then, create record
             if (!$customerMasterByNRIC && !$customerMasterByEmail) {
-                // if both not found then, create record
-                $systemParamDetail = SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')->select(['param_val'])->first();
-                $newRuningNumber = $systemParamDetail->param_val + 1;
+                // get custidseq running number
+                $custIdSeqNumber = SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')->select(['param_val'])->first();
+                $custIdSeqNumberNew = $custIdSeqNumber->param_val + 1;
 
                 SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')
-                    ->update(['param_val' => $newRuningNumber]);
+                    ->update(['param_val' => $custIdSeqNumberNew]);
+
+                // get custacctcdseq running number
+                $custAcctCdSeqNumber = SystemParamDetail::where('sysparam_cd', 'CUSTACCTCDSEQ')->select(['param_val'])->first();
+                $custAcctCdSeqNumberNew = $custAcctCdSeqNumber->param_val + 1;
+
+                SystemParamDetail::where('sysparam_cd', 'CUSTACCTCDSEQ')
+                    ->update(['param_val' => $custAcctCdSeqNumberNew]);
+                
+                // get custccidseq running number
+                $custCcIdSeqNumber = SystemParamDetail::where('sysparam_cd', 'CUSTCCIDSEQ')->select(['param_val'])->first();
+                $custCcIdSeqNumberNew = $custCcIdSeqNumber->param_val + 1;
+
+                SystemParamDetail::where('sysparam_cd', 'CUSTCCIDSEQ')
+                    ->update(['param_val' => $custCcIdSeqNumberNew]);
+
+                CustomerMaster::create([
+                    'Cust_ID' =>  $custIdSeqNumberNew,
+                    'Cust_AccountCode' => $custAcctCdSeqNumberNew,
+                    'Cust_Name' => $request->name_of_applicant,
+                    'Cust_MainAddress1' => $request->address_one,
+                    'Cust_MainAddress2' => $request->address_two,
+                    'Cust_MainPostcode' => $request->postcode,
+                    'Cust_MainCity' => $request->city,
+                    'Cust_MainState' => $request->state,
+                    'Cust_MainCountry' => $request->country,
+                    'Cust_AltAddress1' => $request->address_one,
+                    'Cust_AltAddress2' => $request->address_two,
+                    'Cust_AltPostcode' => $request->postcode,
+                    'Cust_AltCity' => $request->city,
+                    'Cust_AltState' => $request->state,
+                    'Cust_AltCountry' => $request->country,
+                    'Cust_Phone1' => $request->contact_one_of_applicant,
+                    'Cust_Email' => $request->email_of_applicant,
+                    'Cust_NRIC' => $request->ic_number,
+                    'CC_ID' => $custCcIdSeqNumberNew,
+                    'usr_created' => Auth::user()->id
+                ]);
+                
             } else {
+                // update by using NRIC
                 if ($customerMasterByNRIC) {
-                    // update by using NRIC
                     CustomerMaster::where('Cust_NRIC', $request->ic_number)
                         ->whereNull('deleted_at')
                         ->update([
@@ -158,7 +197,6 @@ class CustomerController extends Controller
                             'usr_updated' => Auth::user()->id
                         ]);
                 }
-
             }
           
 
