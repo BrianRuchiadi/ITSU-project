@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\View;
 use Hashids\Hashids;
 use Session;
 
+use App\Models\IrsSalesBranch;
+use App\Models\CustomerMaster;
+use App\Models\CustomerUserMap;
+use App\Models\ContractMaster;
+use App\Models\ContractMasterDtl;
+use App\Models\SystemParamDetail;
+
 
 class CustomerController extends Controller
 {
@@ -87,7 +94,76 @@ class CustomerController extends Controller
             return redirect()->back();
         }
 
-        return ['proceedable' => 'yes, please '];
         // if both validation passed, then only do next step insert etc etc
+        try {
+            $irsSalesBranch = IrsSalesBranch::where('SB_Code', config('app.branch_id'))
+                                    ->select(['SB_DefaultWarehouse', 'SB_DefaultBinLocation'])
+                                    ->first();
+            
+            $customerMasterByNRIC = CustomerMaster::where('Cust_NRIC', $request->ic_number)->whereNull('deleted_at')->get();
+            $customerMasterByEmail = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->whereNull('deleted_at')->get();
+
+            if (!$customerMasterByNRIC && !$customerMasterByEmail) {
+                // if both not found then, create record
+                $systemParamDetail = SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')->select(['param_val'])->first();
+                $newRuningNumber = $systemParamDetail->param_val + 1;
+
+                SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')
+                    ->update(['param_val' => $newRuningNumber]);
+            } else {
+                if ($customerMasterByNRIC) {
+                    // update by using NRIC
+                    CustomerMaster::where('Cust_NRIC', $request->ic_number)
+                        ->whereNull('deleted_at')
+                        ->update([
+                            'Cust_Name' => $request->name_of_applicant,
+                            'Cust_MainAddress1' => $request->address_one,
+                            'Cust_MainAddress2' => $request->address_two,
+                            'Cust_MainPostcode' => $request->postcode,
+                            'Cust_MainCity' => $request->city,
+                            'Cust_MainState' => $request->state,
+                            'Cust_MainCountry' => $request->country,
+                            'Cust_AltAddress1' => $request->address_one,
+                            'Cust_AltAddress2' => $request->address_two,
+                            'Cust_AltPostcode' => $request->postcode,
+                            'Cust_AltCity' => $request->city,
+                            'Cust_AltState' => $request->state,
+                            'Cust_AltCountry' => $request->country,
+                            'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Email' => $request->email_of_applicant,
+                            'Cust_NRIC' => $request->ic_number,
+                            'usr_updated' => Auth::user()->id
+                        ]);
+                } else {
+                    // update by using Email
+                    CustomerMaster::where('Cust_Email', $request->email_of_applicant)
+                        ->whereNull('deleted_at')
+                        ->update([
+                            'Cust_Name' => $request->name_of_applicant,
+                            'Cust_MainAddress1' => $request->address_one,
+                            'Cust_MainAddress2' => $request->address_two,
+                            'Cust_MainPostcode' => $request->postcode,
+                            'Cust_MainCity' => $request->city,
+                            'Cust_MainState' => $request->state,
+                            'Cust_MainCountry' => $request->country,
+                            'Cust_AltAddress1' => $request->address_one,
+                            'Cust_AltAddress2' => $request->address_two,
+                            'Cust_AltPostcode' => $request->postcode,
+                            'Cust_AltCity' => $request->city,
+                            'Cust_AltState' => $request->state,
+                            'Cust_AltCountry' => $request->country,
+                            'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Email' => $request->email_of_applicant,
+                            'Cust_NRIC' => $request->ic_number,
+                            'usr_updated' => Auth::user()->id
+                        ]);
+                }
+
+            }
+          
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
