@@ -64,9 +64,7 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()){
-            return redirect()->back()->with('message', $validator->messages()->first())
-                    ->with('status','Failed to Save Register Data !')
-                    ->with('type','error');
+            return redirect()->back()->withErrors($validator->errors());
         }
         
         try {
