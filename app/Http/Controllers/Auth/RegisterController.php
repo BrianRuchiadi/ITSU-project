@@ -138,7 +138,7 @@ class RegisterController extends Controller
                 'email' => $customerRegister->email,
                 'password' => $customerRegister->password,
                 'name' => $customerRegister->name,
-                'telephoneno' => $customerRegister->telephoneno,
+                'telephone' => $customerRegister->telephoneno,
                 'branchind' => 4,
                 'status' => 1,
                 'acc_customer_module' => 1
