@@ -15,6 +15,7 @@ class CustomerRegister extends Model
         'email',
         'userid',
         'password',
+        'icno',
         'telephoneno',
         'status'        
     ];
