@@ -9,7 +9,7 @@
     <form method="POST" action="{{ url('/api/apply') }}" id="form">
         {{ csrf_field() }}
 
-        @if (!Session::has('displaySmsTag'))
+        @if (!Session::has('displaySMSTag'))
             <h3 class="section-header" onclick="toggleRequirements('product-installment')">
                 1. Product Installment
                 <i class="fas fa-caret-down right"></i>
@@ -268,7 +268,7 @@
             </div>
         @endif
 
-        @if (Session::has('displaySmsTag'))
+        @if (Session::has('displaySMSTag'))
             <h3 class="section-header" onclick="toggleRequirements('verification-information')">
                 Verification Information
                 <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
@@ -335,7 +335,7 @@
             this.getUsers();
         @endif
 
-        @if (Session::has('displaySmsTag'))
+        @if (Session::has('displaySMSTag'))
             let networkRequest = {};
             // START : verification information
             let contactOneOfApplicant = {{ Session::get('contact_one_of_applicant') }};
@@ -352,6 +352,7 @@
             let smsTimeInterval;
 
             this.fillPreviousRequestData();
+            console.log(['networkRequest', networkRequest]);
         @endif
 
         function fillPreviousRequestData() {

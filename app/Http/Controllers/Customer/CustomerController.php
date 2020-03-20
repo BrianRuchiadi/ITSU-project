@@ -58,6 +58,7 @@ class CustomerController extends Controller
         ]);
 
         // if only SMS tag fail, then return
+
         if ($validatorSMSTag->fails()) {
             Session::flash('displaySMSTag', 'Display SMS Tag');
 
