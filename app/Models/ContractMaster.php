@@ -50,15 +50,15 @@ class ContractMaster extends Model
         'CNH_RejectDate',
         'CNH_RejectDesc',
         'CNH_CommissionMonth',
-        'CNH_CommissionStartDate'
+        'CNH_CommissionStartDate',
+        'usr_created',
+        'usr_updated',
+        'usr_deleted',
     ];
 
     protected $hidden = [
-        'usr_created',
         'created_at',
-        'usr_updated',
         'updated_at',
-        'usr_deleted',
         'deleted_at',
     ];
     public $timestamps = false;

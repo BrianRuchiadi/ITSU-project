@@ -17,7 +17,7 @@ return [
 
     'salt' => env('APP_SALT', 'ranD0m3alt'),
 
-    'branchid' => env('BRANCH_ID', 1),
+    'branchid' => env('BRANCH_ID', 2),
 
     'twilio_sid' => env('TWILIO_SID', ''),
     'twilio_auth_token' => env('TWILIO_AUTH_TOKEN', ''),

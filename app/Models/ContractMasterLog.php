@@ -71,11 +71,11 @@ class ContractMasterLog extends Model
         'CND_ItemSeq',
         'CND_WarehouseID',
         'CND_BinLocationID',
-        'cndeliveryorder_id'
+        'cndeliveryorder_id',
+        'usr_created',
     ];
 
     protected $hidden = [
-        'usr_created',
         'created_at',
         'updated_at',
         'deleted_at',
