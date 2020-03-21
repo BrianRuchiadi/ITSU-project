@@ -25,11 +25,10 @@ class SmsController extends Controller
 
     }
 
-    public function sendSms(Request $request) {
+    public function sendSms(Request $request) {        
         $request->validate([
             'contact_one_of_applicant' => 'required|string|min:8|max:20'
         ]);
-
         
         $sendSMS = $this->twilio->verify->v2->services($this->twilioVerifySid)
             ->verifications

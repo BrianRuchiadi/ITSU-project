@@ -20,13 +20,24 @@
                     <div class="col-sm-8">
                         <select class="form-control" id="item-options" id="product" name="product" required>
                         </select>
+                    @error('product')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
+               
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                     <div class="col-sm-8">
                     <input type="number" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
+                    @error('no_of_installment_month')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
             </section>
@@ -39,14 +50,25 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Name Of Applicant</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
+                        <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
+                        @error('name_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
+                   
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">IC Number</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="IC Number" id="ic-number" name="ic_number" required>
+                    @error('ic_number')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
@@ -56,6 +78,11 @@
                     </label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                    @error('contact_one_of_applicant')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
@@ -63,6 +90,11 @@
                     <label class="col-sm-4 col-form-label">Contact 2 Of Applicant</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-two-of-applicant" name="contact_two_of_applicant">
+                    @error('contact_two_of_applicant')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
@@ -70,22 +102,35 @@
                     <label class="col-sm-4 col-form-label">Email Of Applicant</label>
                     <div class="col-sm-8">
                     <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
+                    @error('email_of_applicant')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Address 1</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required></textarea>
+                    @error('address_one')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Address 2</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" placeholder="Address 1" id="address-two" name="address_two">
-                        </textarea>
+                        <textarea class="form-control" placeholder="Address 2" id="address-two" name="address_two"></textarea>
+                    @error('address_two')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
                 
@@ -93,6 +138,11 @@
                     <label class="col-sm-4 col-form-label">Postcode</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
+                    @error('postcode')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
@@ -101,6 +151,11 @@
                     <div class="col-sm-8">
                         <select class="form-control" id="country-options" onchange="populateStates(this)" name="country" required>
                         </select>
+                    @error('country')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                     </div>
                 </div>
         
@@ -109,6 +164,11 @@
                     <div class="col-sm-8">
                         <select class="form-control" id="state-options" onchange="populateCities(this)" name="state" required>
                         </select>
+                    @error('state')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
         
@@ -117,6 +177,11 @@
                     <div class="col-sm-8">
                         <select class="form-control" id="city-options" name="city" required>
                         </select>
+                    @error('city')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
 
@@ -124,6 +189,11 @@
                     <label class="col-sm-4 col-form-label">Name Of Reference</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
+                    @error('name_of_reference')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
         
@@ -131,6 +201,11 @@
                     <label class="col-sm-4 col-form-label">Contact of Reference</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
+                    @error('contact_of_reference')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
             </section>
@@ -145,6 +220,11 @@
                     <div class="col-sm-8">
                     <select class="form-control" id="seller-one" name="seller_one" required>
                     </select>
+                    @error('seller_one')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
         
@@ -153,6 +233,11 @@
                     <div class="col-sm-8">
                     <select class="form-control" id="seller-two" name="seller_two">
                     </select>
+                    @error('seller_two')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror 
                     </div>
                 </div>
             </section>
@@ -245,30 +330,29 @@
                         <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
 
                         @error('tandcitsu')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="form-alert alert-danger">
                                 <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                            </div>
+                        @enderror 
                     </div>
                     <div>
                         <input type="checkbox" name="tandcctos" id="tandcctos" value="1" required>
                         <label for="tandc">I have read & agree with <a href="https://www.google.com" target="blank" class="tandc">CTOS Consent Authorization</a></label>
 
                         @error('tandcctos')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                     
                 </div>
                 <div class="col-sm-3" style="margin: auto;">
                     <button type="submit" class="btn btn-block btn-primary">Submit</button>
                 </div>
-            </div>
-        @endif
-
-        @if (Session::has('displaySMSTag'))
+            </div>        
+            @endif
+            @if (Session::has('displaySMSTag'))
             <h3 class="section-header" onclick="toggleRequirements('verification-information')">
                 Verification Information
                 <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
@@ -278,6 +362,7 @@
                 <div class="form-group row">
                     <div class="col-sm-4">
                         <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
+                        <button type="button" id="sms-tag-send-button" class="btn btn-block btn-success" onclick="clickSendSmsTag()">Send SMS</button>
                     </div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
@@ -287,7 +372,7 @@
             </section>
 
             <div class="form-group row last">
-                <button type="button" class="btn btn-primary btn-block" onclick="submitFinalForm()">Submit</button>
+                <button type="button" id="sms-tag-submit-button" class="btn btn-primary btn-block" onclick="submitFinalForm()" disabled>Submit</button>
             </div>
         @endif
     </form>
@@ -295,6 +380,7 @@
 
 @section('scripts')
     <script type="text/javascript">
+              
         @if (!Session::has('displaySMSTag'))
             let form = document.getElementById('form');
             // START : product installment 
@@ -335,16 +421,34 @@
             this.getUsers();
         @endif
 
+        @if (Session::has('errorFormValidation'))
+            this.getCountryOptions();
+            this.getItems();
+            this.getUsers();
+            noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
+            nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
+            icNumber.value = '{{ session()->get('ic_number') }}';           
+            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
+            contactTwoOfApplicant.value = '{{ session()->get('contact_two_of_applicant') }}';           
+            emailOfApplicant.value = '{{ session()->get('email_of_applicant') }}';           
+            addressOne.value = '{{ session()->get('address_one') }}';           
+            addressTwo.value = '{{ session()->get('address_two') }}';           
+            postcode.value = '{{ session()->get('postcode') }}';           
+            nameOfReference.value = '{{ session()->get('name_of_reference') }}';           
+            contactOfReference.value = '{{ session()->get('contact_of_reference') }}';        
+        @endif
+              
         @if (Session::has('displaySMSTag'))
             let networkRequest = {};
             // START : verification information
-            let contactOneOfApplicant = {{ Session::get('contact_one_of_applicant') }};
+            let contactOneOfApplicant = '{{ session()->get('contact_one_of_applicant') }}';
             let contactOneSmsVerified = 'invalid'; // 'invalid', 'valid'
             let contactOneSmsTag = document.getElementById('contact-one-sms-tag');
             // END : verification information
 
             let smsTagSendButton = document.getElementById('sms-tag-send-button');
             let smsTagVerifyButton = document.getElementById('sms-tag-verify-button');  
+            let smsTagSubmitButton = document.getElementById('sms-tag-submit-button');
             let smsStatusButton = document.getElementById('sms-status-button');
 
             let smsState = 'Unverified'; // 'Unverified' , 'SMS sent', 'Verified'
@@ -399,7 +503,6 @@
         }
 
         function clickSendSmsTag() {
-            smsTimerCountdown = 600;
 
             this.changeSmsState('SMS Sent');
             this.sendSmsTag();            
@@ -437,6 +540,7 @@
             emailOfApplicant.value = applicantEmail;
         }
 
+// try again, save 
         function sendSmsTag() {
             fetch('{{ url('') }}' + `/api/sms/send`, {
                 method: 'POST', // or 'PUT'
@@ -445,17 +549,19 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify(
-                    {'contact_one_of_applicant' : contactOneOfApplicant.value }
+                    {'contact_one_of_applicant' : contactOneOfApplicant }
                 )
                 })
-                .then((response) => { return response.json(); })
+                .then((response) => { return response.json() })
                 .then((res) => {
+                    smsTimerCountdown = 600;
                     smsTimeInterval = setInterval(function () {
                         smsTimerCountdown--;
                         let secs = smsTimerCountdown % 60;
                         let mins = Math.floor(smsTimerCountdown / 60);
 
                         smsTagSendButton.classList.add('disabled');
+                        smsTagSendButton.disabled = true;
                         smsTagSendButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
 
                         if (smsTimerCountdown === 1) {
@@ -469,7 +575,7 @@
                     }, 1000);
                 })
                 .catch((error) => {
-                    console.log(['err', error]);
+                    console.log(['error', error]);
                 });
         }
 
@@ -482,7 +588,7 @@
                 },
                 body: JSON.stringify(
                     {
-                        'contact_one_of_applicant' : contactOneOfApplicant.value,
+                        'contact_one_of_applicant' : contactOneOfApplicant,
                         'contact_one_sms_tag': contactOneSmsTag.value
                     }
                 )
@@ -492,6 +598,12 @@
                     if (res.status === 'approved') {
                         this.changeSmsState('Approved');
                         smsTagVerifyButton.classList.add('disabled'); // disable verify button
+                        smsTagVerifyButton.disabled = true;
+                        smsTagSubmitButton.classList.remove('disabled');
+                        smsTagSubmitButton.disabled = false;
+
+                        networkRequest.contact_one_sms_tag = contactOneSmsTag.value;
+                        networkRequest.contact_one_sms_verified = 'valid';
                     }
                 })
                 .catch((error) => {
@@ -511,6 +623,8 @@
                     return response.json();
                 })
                 .then((res) => {
+                    this.clearItems(sellerOne);
+                    this.clearItems(sellerTwo);
                     let optionOne = document.createElement('option');
                     optionOne.setAttribute('value', "");
                     optionOne.appendChild(document.createTextNode(''));
@@ -537,6 +651,11 @@
                         sellerTwo.appendChild(optionTwo);
                     }
 
+                    @if (Session::has('errorFormValidation'))
+                        sellerOne.value = '{{ session()->get('seller_one') }}';
+                        sellerTwo.value = '{{ session()->get('seller_two') }}';
+                    @endif
+                    
                     if (res.decoded_referrer_id) {
                         sellerOne.value = res.decoded_referrer_id;
                         sellerOne.setAttribute("disabled", true);
@@ -567,6 +686,7 @@
                     return response.json();
                 })
                 .then((res) => {
+                    this.clearItems(itemOptions);
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
                     option.appendChild(document.createTextNode(''));
@@ -579,6 +699,11 @@
                         option.appendChild(document.createTextNode(each.IM_Description));
                         itemOptions.appendChild(option);
                     }
+
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        itemOptions.value = '{{ session()->get('product') }}';
+                    @endif
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -615,6 +740,12 @@
 
                         stateOptions.appendChild(option);
                     }
+                    
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        stateOptions.value = '{{ session()->get('state') }}';
+                        this.populateCities(stateOptions);
+                    @endif
 
                 })
                 .catch((error) => {
@@ -650,6 +781,11 @@
 
                         cityOptions.appendChild(option);
                     }
+                    
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        cityOptions.value = '{{ session()->get('city') }}';
+                    @endif
 
                 })
                 .catch((error) => {
@@ -670,6 +806,7 @@
                 })
                 .then((res) => {
                     // countryOptions
+                    this.clearItems(countryOptions);
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
                     option.appendChild(document.createTextNode(''));
@@ -684,10 +821,22 @@
                         countryOptions.appendChild(option);
                     }
 
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        countryOptions.value = '{{ session()->get('country') }}';
+                        this.populateStates(countryOptions);
+                    @endif
                 })
                 .catch((error) => {
                     console.log(['err', err]);
                 });
+        }
+
+        function clearItems(item)
+        {
+            for (i = item.options.length-1; i >= 0; i--) {
+                item.options[i] = null;
+            }
         }
     </script>
 @endsection

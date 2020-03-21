@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Customer;
 
+use App\Data;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,47 +22,7 @@ class CustomerController extends Controller
         ];
     }
 
-    public function submitContractForm(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'product' => 'required|exists:irs_itemmaster,IM_ID',
-            'no_of_installment_month' => 'required|numeric',
-            'name_of_applicant' => 'required|string|min:3|max:50',
-            'ic_number' => 'required|string',
-            'contact_one_of_applicant' => 'required|string|min:8|max:20',
-            'contact_two_of_applicant' => 'string|min:8|max:20|nullable',
-            'email_of_applicant' => 'required|email',
-            'address_one' => 'required|string|min:10',
-            'address_two' => 'string|min:10|nullable',
-            'postcode' => 'required|string|min:4|max:10',
-            'city' => 'required|exists:irs_city,CI_ID',
-            'state' => 'required|exists:irs_state,ST_ID',
-            'country' =>  'required|exists:irs_country,CO_ID',
-            'name_of_reference' => 'string|min:3|max:50',
-            'contact_of_reference' => 'string|min:8|max:20',
-            'seller_one' => 'required|exists:users,id',
-            'seller_two' => 'exists:users,id|nullable',
-            'tandcitsu' => 'required|in:1',
-            'tandcctos' => 'required|in:1'
-        ]);
-
-        // if any of above validation fail 
-        if ($validator->fails()){
-            return redirect()->back()->with('message', $validator->messages()->first())
-                    ->with('status','Failed to Submit Contract Form!')
-                    ->with('type','error');
-        }
-
-        // if all passed, check for SMS tag
-        $validatorSMSTag = Validator::make($request->all(), [
-            'contact_one_sms_tag' => 'required|string|min:6|max:6',
-            'contact_one_sms_verified' => "required|in:'valid"
-        ]);
-
-        // if only SMS tag fail, then return
-
-        if ($validatorSMSTag->fails()) {
-            Session::flash('displaySMSTag', 'Display SMS Tag');
-
+    public function saveDataInSession($request) {
             // START : throw back all the already validated request, so that it will be included in next request
             Session::flash('product', $request->product);
             Session::flash('no_of_installment_month', $request->no_of_installment_month);
@@ -82,8 +43,51 @@ class CustomerController extends Controller
             Session::flash('seller_two', $request->seller_two);
             Session::flash('tandcitsu', $request->tandcitsu);
             Session::flash('tandcctos', $request->tandcctos);
-            // END : throw back all the already validated request, so that it will be included in next request
+        // END : throw back all the already validated request, so that it will be included in next request
+    }
 
+    public function submitContractForm(Request $request) {
+        
+        $validator = Validator::make($request->all(), [
+            'product' => 'required|exists:irs_itemmaster,IM_ID',
+            'no_of_installment_month' => 'required|numeric',
+            'name_of_applicant' => 'required|string|min:3|max:50',
+            'ic_number' => 'required|string',
+            'contact_one_of_applicant' => 'required|string|min:8|max:20',
+            'contact_two_of_applicant' => 'string|min:8|max:20|nullable',
+            'email_of_applicant' => 'required|email',
+            'address_one' => 'required|string|min:10',
+            'address_two' => 'string|min:10|nullable',
+            'postcode' => 'required|string|min:4|max:10',
+            'city' => 'required|exists:irs_city,CI_ID',
+            'state' => 'required|exists:irs_state,ST_ID',
+            'country' =>  'required|exists:irs_country,CO_ID',
+            'name_of_reference' => 'string|min:3|max:50',
+            'contact_of_reference' => 'string|min:8|max:20',
+            'seller_one' => 'required|exists:users,id|different:seller_two',
+            'seller_two' => 'exists:users,id|nullable',
+            'tandcitsu' => 'required|in:1',
+            'tandcctos' => 'required|in:1'
+        ]);
+
+        // if any of above validation fail 
+        if ($validator->fails()){
+            Session::flash('errorFormValidation', 'Display Data');
+            $this->saveDataInSession($request);
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
+        // if all passed, check for SMS tag
+        $validatorSMSTag = Validator::make($request->all(), [
+            'contact_one_of_applicant' => 'required|string|min:8|max:20',
+            'contact_one_sms_tag' => 'required|string|min:6|max:6',
+            'contact_one_sms_verified' => "required|in:valid"
+        ]);
+        // if only SMS tag fail, then return
+
+        if ($validatorSMSTag->fails()) {
+            Session::flash('displaySMSTag', 'Display SMS Tag');
+            $this->saveDataInSession($request);
             return redirect()->back();
         }
 
