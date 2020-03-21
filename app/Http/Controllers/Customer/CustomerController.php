@@ -20,6 +20,8 @@ use App\Models\CustomerUserMap;
 use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
 use App\Models\SystemParamDetail;
+use App\Models\ContractMasterAttachment;
+use App\Models\ContractMasterLog;
 
 
 class CustomerController extends Controller
@@ -106,7 +108,7 @@ class CustomerController extends Controller
         DB::beginTransaction();
 
         try {
-            $irsSalesBranch = IrsSalesBranch::where('SB_Code', config('app.branch_id'))
+            $irsSalesBranch = IrsSalesBranch::where('SB_Code', config('app.branchid'))
                                     ->select(['SB_DefaultWarehouse', 'SB_DefaultBinLocation'])
                                     ->first();
             
@@ -162,7 +164,7 @@ class CustomerController extends Controller
             } else {
                 // update by using NRIC
                 if ($customerMasterByNRIC) {
-                    $customerMaster = CustomerMaster::where('Cust_NRIC', $request->ic_number)
+                    CustomerMaster::where('Cust_NRIC', $request->ic_number)
                         ->whereNull('deleted_at')
                         ->update([
                             'Cust_Name' => $request->name_of_applicant,
@@ -183,9 +185,10 @@ class CustomerController extends Controller
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
                         ]);
+                    $customerMaster = CustomerMaster::where('Cust_NRIC', $request->ic_number)->first();
                 } else {
                     // update by using Email
-                    $customerMaster = CustomerMaster::where('Cust_Email', $request->email_of_applicant)
+                    CustomerMaster::where('Cust_Email', $request->email_of_applicant)
                         ->whereNull('deleted_at')
                         ->update([
                             'Cust_Name' => $request->name_of_applicant,
@@ -206,6 +209,8 @@ class CustomerController extends Controller
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
                         ]);
+                    $customerMaster = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->first();
+
                 }
             }
 
@@ -228,6 +233,7 @@ class CustomerController extends Controller
 
             // START : get CNH_DocNo
             $cnrtlDocSeqNumber = SystemParamDetail::where('sysparam_cd', 'CNRTLDOCSEQ')->select(['param_val'])->first();
+            
             $cnrtlDocSeqNumberNew = $cnrtlDocSeqNumber->param_val + 1;
 
             SystemParamDetail::where('sysparam_cd', 'CNRTLDOCSEQ')
@@ -240,19 +246,25 @@ class CustomerController extends Controller
             // END : get CNH_DocNo
 
             $contractMaster = ContractMaster::create([
-                'branchid' => config('app.branch_id'),
+                'branchid' => config('app.branchid'),
                 'CNH_DocNo' => $cnhDocNo,
                 'CNH_CustomerID' => $customerMaster->id,
-                'CNH_PostingDate' => Carbon::now()->timestamp,
-                'CNH_DocDate' => Carbon::now()->timestamp,
+                'CNH_PostingDate' => Carbon::now(),
+                'CNH_DocDate' => Carbon::now(),
                 'CNH_NameRef' => $request->name_of_reference,
                 'CNH_ContactRef' => $request->contact_of_reference,
                 'CNH_SalesAgent1' => $request->seller_one,
+                'CNH_SalesAgent1' => $request->seller_one,
                 'CNH_SalesAgent2' => $request->seller_two,
-                'CNH_TotInsPeriod' => $request->no_of_installment_month,
+                'CNH_TotInstPeriod' => $request->no_of_installment_month,
                 'CNH_Total' => 1 * $irsItemUom->IU_SalesPrice2,
                 'CNH_Tax' => 0,
                 'CNH_Taxable_Amt' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_InstallAddress1' => $request->address_one,
+                'CNH_InstallPostCode' => $request->postcode,
+                'CNH_InstallCity' => $request->city,
+                'CNH_InstallState' => $request->state,
+                'CNH_InstallCountry' => $request->country,
                 'CNH_NetTotal' => 1 * $irsItemUom->IU_SalesPrice2,
                 'CNH_TNCInd' => $request->tandcitsu,
                 'CNH_CTOSInd' => $request->tandcctos,
@@ -278,7 +290,7 @@ class CustomerController extends Controller
                 'CND_Description' => $irsItemMaster->IM_Description,
                 'CND_ItemUOMID' => $irsItemMaster->IM_Type,
                 'CND_ItemTypeID' => $irsItemMaster->IM_BaseUOMID,
-                'CND_QTY' => $cndQty,
+                'CND_Qty' => $cndQty,
                 'CND_UnitPrice' => $cndUnitPrice,
                 'CND_SubTotal' => $cndSubTotal,
                 'CND_TaxAmt' => $cndTaxAmt,
@@ -290,8 +302,8 @@ class CustomerController extends Controller
                 'usr_created' => Auth::user()->id
             ]);
 
-            $contractMasterAttachment = ContractMasterAttachment::create([
-                'contractmast_id' => $contractMaster->id,
+            // $contractMasterAttachment = ContractMasterAttachment::create([
+            //     'contractmast_id' => $contractMaster->id,
                 // 'icno_file' => '',
                 // 'icno_mime' => '',
                 // 'icno_size' => '',
@@ -310,7 +322,7 @@ class CustomerController extends Controller
                 // 'comp_bankstatement_file' => '',
                 // 'comp_bankstatement_mime' => '',
                 // 'comp_bankstatement_size' => '',
-            ]);
+            // ]);
 
             // Call CTOS API : To be Confirmed
             $ctosRes = false;
@@ -391,7 +403,7 @@ class CustomerController extends Controller
                 'cndeliveryorder_id' => $contractMasterDtl->cndeliveryorder_id,
                 'usr_created' => Auth::user()->id
             ]);
-
+            DB::commit();
         } catch (Exception $e) {
             DB::rollback();
             return $e->getMessage();
