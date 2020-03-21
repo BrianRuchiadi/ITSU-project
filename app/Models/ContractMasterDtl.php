@@ -26,15 +26,15 @@ class ContractMasterDtl extends Model
         'CND_ItemSeq',
         'CND_WarehouseID',
         'CND_BinLocationID',
-        'cndeliveryorder_id'
+        'cndeliveryorder_id',
+        'usr_created',
+        'usr_updated',
+        'usr_deleted',
     ];
 
     protected $hidden = [
-        'usr_created',
         'created_at',
-        'usr_updated',
         'updated_at',
-        'usr_deleted',
         'deleted_at',
     ];
     public $timestamps = false;
