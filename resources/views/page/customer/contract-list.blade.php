@@ -71,34 +71,32 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>No</th>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Contract Number</th>
-          <th>Status</th>
-          <th>View Details</th>
+          <th class="center">Date</th>
+          <th class="center">Name</th>
+          <th class="center">Contract Number</th>
+          <th class="center">Status</th>
+          <th class="center">View Details</th>
         </tr>
       </thead>
       <tbody>
-      @foreach ($contracts as $index => $contract)
+      @foreach ($contracts as $contract)
         <tr>
-            <td>{{ $index += 1 }}</td>
-            <td>{{ $contract->CNH_PostingDate }}</td>
-            <td>{{ $contract->Cust_NAME }}</td>
-            <td>{{ $contract->CNH_DocNo }}</td>
-            <td>{{ $contract->CNH_Status }}</td>            
-            <td><a href="{{ route('contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
+            <td class="center">{{ $contract->CNH_PostingDate }}</td>
+            <td class="center">{{ $contract->Cust_NAME }}</td>
+            <td class="center">{{ $contract->CNH_DocNo }}</td>
+            <td class="center">{{ $contract->CNH_Status }}</td>            
+            <td class="center"><a href="{{ route('contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
         </tr>
       @endforeach
       @if(count($contracts) == 0)
       <tr>
-        <td colspan="6" class="center">No Contract Found</td>
+        <td colspan="5" class="center">No Contract Found</td>
       </tr>
       @endif
-      </tbody>
-      <tbody>
+      
       </tbody>
     </table>
+      {{ $contracts->links() }}
   </div>
 </div>
 @endsection
