@@ -6,7 +6,7 @@
 
 @section('content')
     <h2 class="center">Application Form</h2>
-    <form method="POST" action="{{ url('/api/apply') }}" id="form">
+    <form method="POST" action="{{ url('/api/apply') }}" enctype="multipart/form-data" id="form">
         {{ csrf_field() }}
 
         @if (!Session::has('displaySMSTag'))
@@ -49,13 +49,17 @@
                     
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="applicant_type" value="individual_applicant" onclick="changeApplicantType(this)">Individual Applicant
+                                <input type="radio" class="form-check-input" name="applicant_type" value="individual_applicant" 
+                                    onclick="changeApplicantType(this)" required>
+                                Individual Applicant
                             </label>
                         </div>
 
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="applicant_type" value="self_employed" onclick="changeApplicantType(this)">Self Employed
+                                <input type="radio" class="form-check-input" name="applicant_type" value="self_employed" 
+                                    onclick="changeApplicantType(this)">
+                                    Self Employed
                             </label>
                         </div>
                         @error('applicant_type')
@@ -275,21 +279,37 @@
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-8 col-form-label">One Photocopy Of I/C</label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_individual_icno">
+                        <input type="file" class="form-control" name="file_individual_icno">
+                        @error('file_individual_icno')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
+                    
                 </div>
 
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-8 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_individual_income">
+                        <input type="file" class="form-control" name="file_individual_income">
+                        @error('file_individual_income')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
                 </div>
 
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-8 col-form-label">Updated Bank Statement Or Savings Passbook</label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_individual_bankstatement">
+                        <input type="file" class="form-control" name="file_individual_bankstatement">
+                        @error('file_individual_bankstatement')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
                 </div>
             </div>
@@ -306,7 +326,12 @@
                         (Borang A and D)
                     </label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_company_form">
+                        <input type="file" class="form-control" name="file_company_form">
+                        @error('file_company_form')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
                 </div>
 
@@ -315,7 +340,12 @@
                         Photocopied I/C Of Proprietor / Partners / Directors
                     </label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_company_icno">
+                        <input type="file" class="form-control" name="file_company_icno">
+                        @error('file_company_icno')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
                 </div>
 
@@ -324,7 +354,12 @@
                         Updated 3 Month Bank Statement
                     </label>
                     <div class="col-sm-4">
-                    <input type="file" class="form-control" name="file_company_bankstatement">
+                        <input type="file" class="form-control" name="file_company_bankstatement">
+                        @error('file_company_bankstatement')
+                        <div class="form-alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror 
                     </div>
                 </div>
             </div>
@@ -508,6 +543,7 @@
             networkRequest.contact_one_of_applicant = '{{ Session::get('contact_one_of_applicant') }}';
             networkRequest.contact_two_of_applicant = '{{ Session::get('contact_two_of_applicant') }}';
             networkRequest.email_of_applicant = '{{ Session::get('email_of_applicant') }}';
+            networkRequest.applicant_type = '{{ Session::get('applicant_type') }}';
             networkRequest.address_one = '{{ Session::get('address_one') }}';
             networkRequest.address_two = '{{ Session::get('address_two') }}';
             networkRequest.postcode = '{{ Session::get('postcode') }}';

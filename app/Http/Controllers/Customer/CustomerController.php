@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 use Hashids\Hashids;
 use Carbon\Carbon;
 use Session;
@@ -56,13 +57,13 @@ class CustomerController extends Controller
             'seller_two' => 'exists:users,id|nullable',
             'tandcitsu' => 'required|in:1',
             'tandcctos' => 'required|in:1',
-
-            'file_individual_icno' => 'file',
-            'file_individual_income' => 'file',
-            'file_individual_bankstatement' => 'file',
-            'file_company_form' => 'file',
-            'file_company_icno' => 'file',
-            'file_company_bankstatement' => 'file',
+            'applicant_type' => 'required|in:individual_applicant,self_employed',
+            'file_individual_icno' => 'file|nullable',
+            'file_individual_income' => 'file|nullable',
+            'file_individual_bankstatement' => 'file|nullable',
+            'file_company_form' => 'file|nullable',
+            'file_company_icno' => 'file|nullable',
+            'file_company_bankstatement' => 'file|nullable',
         ]);
 
         // if any of above validation fail 
@@ -72,7 +73,12 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        // if all passed, check for SMS tag
+        // TEMPORARILY upload the file to a TEMP folder, 
+        if (!$request->contact_one_sms_verified) {
+            $this->saveTemporarilyUploadedFile($request);
+        }
+
+        // check for SMS tag
         $validatorSMSTag = Validator::make($request->all(), [
             'contact_one_of_applicant' => 'required|string|min:8|max:20',
             'contact_one_sms_tag' => 'required|string|min:6|max:6',
@@ -82,10 +88,10 @@ class CustomerController extends Controller
         // if only SMS tag fail, then return
         if ($validatorSMSTag->fails()) {
             Session::flash('displaySMSTag', 'Display SMS Tag');
+
             $this->saveDataInSession($request);
             return redirect()->back();
         }
-
         // if both validation passed, then only do next step insert etc etc
         DB::beginTransaction();
 
@@ -284,27 +290,51 @@ class CustomerController extends Controller
                 'usr_created' => Auth::user()->id
             ]);
 
-            // $contractMasterAttachment = ContractMasterAttachment::create([
-            //     'contractmast_id' => $contractMaster->id,
-                // 'icno_file' => '',
-                // 'icno_mime' => '',
-                // 'icno_size' => '',
-                // 'income_file' => '',
-                // 'income_mime' => '',
-                // 'income_size' => '',
-                // 'bankstatement_file' => '',
-                // 'bankstatement_mime' => '',
-                // 'bankstatement_size' => '',
-                // 'comp_form_file' => '',
-                // 'comp_form_mime' => '',
-                // 'comp_form_size' => '',
-                // 'comp_icno_file' => '',
-                // 'comp_icno_mime' => '',
-                // 'comp_icno_size' => '',
-                // 'comp_bankstatement_file' => '',
-                // 'comp_bankstatement_mime' => '',
-                // 'comp_bankstatement_size' => '',
-            // ]);
+            // save all the temp file to main folder
+            $filenameMask = $this->saveTempAttachment($request, $contractMaster);
+
+            $contractMasterAttachment = ContractMasterAttachment::create([
+                'contractmast_id' => $contractMaster->id,
+                'icno_file' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_icno_file') . '_' . $filenameMask . '.' . Session::get('file_temp_individual_icno_extension') : null,
+                'icno_mime' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_icno_mime') : null,
+                'icno_size' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_icno_size') : null,
+                'income_file' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_income_file') . '_' . $filenameMask . '.' . Session::get('file_temp_individual_income_extension') : null,
+                'income_mime' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_income_mime') : null,
+                'income_size' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_income_size') : null,
+                'bankstatement_file' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_bankstatement_file') . '_' . $filenameMask . '.' . Session::get('file_temp_individual_bankstatement_extension') : null,
+                'bankstatement_mime' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_bankstatement_mime') : null,
+                'bankstatement_size' => ($request->applicant_type == 'individual_applicant') ? 
+                    Session::get('file_temp_individual_bankstatement_size') : null,
+                'comp_form_file' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_form_file') . '_' . $filenameMask . '.' . Session::get('file_temp_company_form_extension') : null,
+                'comp_form_mime' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_form_mime') : null,
+                'comp_form_size' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_form_size') : null,
+                'comp_icno_file' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_icno_file') . '_' . $filenameMask . '.' . Session::get('file_temp_company_icno_extension') : null,
+                'comp_icno_mime' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_icno_mime') : null,
+                'comp_icno_size' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_icno_size') : null,
+                'comp_bankstatement_file' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_bankstatement_file') . '_' . $filenameMask . '.' . Session::get('file_temp_company_bankstatement_extension') : null,
+                'comp_bankstatement_mime' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_bankstatement_mime') : null,
+                'comp_bankstatement_size' => ($request->applicant_type == 'self_employed') ? 
+                    Session::get('file_temp_company_bankstatement_size') : null,
+            ]);
+
+            // remove all the temp session
+            $this->flushAllFileTempSession($request);
 
             // Call CTOS API : To be Confirmed
             $ctosRes = false;
@@ -392,6 +422,134 @@ class CustomerController extends Controller
         }
     }
 
+    public function flushAllFileTempSession(Request $request) {
+        foreach ($request->session()->all() as $key => $val) {
+            if (strpos($key, 'file_temp') !== false) {
+                // remove the related file
+                $request->session()->forget($key);
+            }
+        }
+    }
+
+    public function saveTempAttachment(Request $request, ContractMaster $contractMaster) {
+        $mask = str_pad($contractMaster, 6, '0', STR_PAD_LEFT); // generate unique value
+
+        if ($request->applicant_type == 'individual_applicant') {
+            // move IC
+            Storage::move(
+                '_temp/' . Session::get('file_temp_individual_icno_file') . '.' . Session::get('file_temp_individual_icno_extension'),
+                'individual/ic/' . Session::get('file_temp_individual_icno_file') . '_' . $mask . '.' . Session::get('file_temp_individual_icno_extension')
+            );
+            // move Income
+            Storage::move(
+                '_temp/' . Session::get('file_temp_individual_income_file') . '.' . Session::get('file_temp_individual_income_extension'),
+                'individual/income/' . Session::get('file_temp_individual_income_file') . '_' . $mask . '.' . Session::get('file_temp_individual_income_extension')
+            );
+            // move BankStatement
+            Storage::move(
+                '_temp/' . Session::get('file_temp_individual_bankstatement_file') . '.' . Session::get('file_temp_individual_bankstatement_extension'),
+                'individual/bankstatement/' . Session::get('file_temp_individual_bankstatement_file') . '_' . $mask . '.' . Session::get('file_temp_individual_bankstatement_extension')
+            );
+        } else if ($request->applicant_type == 'self_employed') {
+            // move IC
+            Storage::move(
+                '_temp/' . Session::get('file_temp_company_icno_file') . '.' . Session::get('file_temp_company_icno_extension'),
+                'company/ic/' . Session::get('file_temp_company_icno_file') . '_' . $mask . '.' . Session::get('file_temp_company_icno_extension')
+            );
+            // move Form File
+            Storage::move(
+                '_temp/' . Session::get('file_temp_company_form_file') . '.' . Session::get('file_temp_company_form_extension'),
+                'company/form/' . Session::get('file_temp_company_form_file') . '_' . $mask . '.' . Session::get('file_temp_company_form_extension')
+            );
+            // move BankStatment 
+            Storage::move(
+                '_temp/' . Session::get('file_temp_company_bankstatement_file') . '.' . Session::get('file_temp_company_bankstatement_extension'),
+                'company/bankstatement/' . Session::get('file_temp_company_bankstatement_file') . '_' . $mask . '.' . Session::get('file_temp_company_bankstatement_extension')
+            );
+        }
+
+        return $mask;
+    }
+
+    public function saveTemporarilyUploadedFile(Request $request) {
+        Session::flash('file_temp_temporary_saved', true);
+
+        if ($request->applicant_type == 'individual_applicant') {
+            // $request->file_individual_icno
+            $request->file('file_individual_icno')->storeAs(
+                '_temp', 
+                'file_individual_icno_' . Auth::user()->id .
+                '.' . $request->file('file_individual_icno')->extension() // extension
+            );
+
+            Session::put('file_temp_individual_icno_file', 'file_individual_icno_' . Auth::user()->id);
+            Session::put('file_temp_individual_icno_mime', $request->file('file_individual_icno')->getClientMimeType());
+            Session::put('file_temp_individual_icno_size', $request->file('file_individual_icno')->getSize());
+            Session::put('file_temp_individual_icno_extension', $request->file('file_individual_icno')->extension());
+
+            // $request->file_individual_income
+            $request->file('file_individual_income')->storeAs(
+                '_temp', 
+                'file_individual_income_' . Auth::user()->id .
+                '.' . $request->file('file_individual_income')->extension()
+            );
+
+            Session::put('file_temp_individual_income_file', 'file_individual_income_' . Auth::user()->id);
+            Session::put('file_temp_individual_income_mime', $request->file('file_individual_income')->getClientMimeType());
+            Session::put('file_temp_individual_income_size', $request->file('file_individual_income')->getSize());
+            Session::put('file_temp_individual_income_extension', $request->file('file_individual_income')->extension());
+
+            // $request->file_individual_bankstatement
+            $request->file('file_individual_bankstatement')->storeAs(
+                '_temp', 
+                'file_individual_bankstatement_' . Auth::user()->id .
+                '.' . $request->file('file_individual_bankstatement')->extension()
+            );
+
+            Session::put('file_temp_individual_bankstatement_file', 'file_individual_bankstatement_' . Auth::user()->id);
+            Session::put('file_temp_individual_bankstatement_mime', $request->file('file_individual_bankstatement')->getClientMimeType());
+            Session::put('file_temp_individual_bankstatement_size', $request->file('file_individual_bankstatement')->getSize());
+            Session::put('file_temp_individual_bankstatement_extension', $request->file('file_individual_bankstatement')->extension());
+
+        } else if ($request->applicant_type == 'self_employed') {
+            // $request->file_company_icno
+            $request->file('file_company_icno')->storeAs(
+                '_temp', 
+                'file_company_icno_' . Auth::user()->id . 
+                '.' . $request->file('file_company_icno')->extension()
+            );
+
+            Session::put('file_temp_company_icno_file', 'file_company_icno_' . Auth::user()->id);
+            Session::put('file_temp_company_icno_mime', $request->file('file_company_icno')->getClientMimeType());
+            Session::put('file_temp_company_icno_size', $request->file('file_company_icno')->getSize());
+            Session::put('file_temp_company_icno_extension', $request->file('file_company_icno')->extension());
+
+            // $request->file_company_form
+            $request->file('file_company_form')->storeAs(
+                '_temp',
+                'file_company_form_' . Auth::user()->id . 
+                '.' . $request->file('file_company_form')->extension()
+            );
+
+            Session::put('file_temp_company_form_file', 'file_company_form_' . Auth::user()->id);
+            Session::put('file_temp_company_form_mime', $request->file('file_company_form')->getClientMimeType());
+            Session::put('file_temp_company_form_size', $request->file('file_company_form')->getSize());
+            Session::put('file_temp_company_form_extension', $request->file('file_company_form')->extension());
+
+            // $request->file_company_bankstatement
+            $request->file('file_company_bankstatement')->storeAs(
+                '_temp', 
+                'file_company_bankstatement_' . Auth::user()->id . 
+                '.' . $request->file('file_company_bankstatement')->extension()
+            );
+
+            Session::put('file_temp_company_bankstatement_file', 'file_company_bankstatement_' . Auth::user()->id);
+            Session::put('file_temp_company_bankstatement_mime', $request->file('file_company_bankstatement')->getClientMimeType());
+            Session::put('file_temp_company_bankstatement_size', $request->file('file_company_bankstatement')->getSize());
+            Session::put('file_temp_company_bankstatement_extension', $request->file('file_company_bankstatement')->extension());
+        }
+    }
+
     public function saveDataInSession($request) {
         // START : throw back all the already validated request, so that it will be included in next request
         Session::flash('product', $request->product);
@@ -408,6 +566,7 @@ class CustomerController extends Controller
         Session::flash('state', $request->state);
         Session::flash('country', $request->country);
         Session::flash('name_of_reference', $request->name_of_reference);
+        Session::flash('applicant_type', $request->applicant_type);
         Session::flash('contact_of_reference', $request->contact_of_reference);
         Session::flash('seller_one', $request->seller_one);
         Session::flash('seller_two', $request->seller_two);
