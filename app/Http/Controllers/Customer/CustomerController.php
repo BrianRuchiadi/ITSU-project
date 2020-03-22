@@ -425,12 +425,12 @@ class CustomerController extends Controller
         if (Auth::user()->branchind == 0) {
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->simplePaginate(30);
+                           ->paginate(30);
         } else if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->first();
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->where('CNH_CustomerID', $userMap->customer_id)->simplePaginate(30);
+                           ->where('CNH_CustomerID', $userMap->customer_id)->paginate(30);
         }
 
         $user = Auth::user();
@@ -445,7 +445,7 @@ class CustomerController extends Controller
                        ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
                        ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
                        ->where('contractmaster.CNH_DocNo', 'like', '%' . $request->contract_no . '%')
-                       ->simplePaginate(30);
+                       ->paginate(30);
 
         $user = Auth::user();
 
