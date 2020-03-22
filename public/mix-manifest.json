@@ -4,9 +4,6 @@
     "/css/layout/dashboard.css": "/css/layout/dashboard.css",
     "/css/page/auth/login.css": "/css/page/auth/login.css",
     "/css/page/auth/register.css": "/css/page/auth/register.css",
-    "/css/page/auth/verified.css": "/css/page/auth/verified.css",
-    "/css/page/auth/change-password.css": "/css/page/auth/change-password.css",
-    "/css/page/auth/reset-password.css": "/css/page/auth/reset-password.css",
     "/css/page/customer/application-form.css": "/css/page/customer/application-form.css",
     "/css/page/customer/referral-link.css": "/css/page/customer/referral-link.css"
 }

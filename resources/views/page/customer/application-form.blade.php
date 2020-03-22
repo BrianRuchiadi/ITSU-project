@@ -40,6 +40,31 @@
                     @enderror
                     </div>
                 </div>
+
+                <div class="form-group row" style="margin-bottom: 0px;">
+                    <div class="col-sm-4">
+                        <label class="col-form-label">Applicant Type</label>
+                    </div>
+                    <div class="col-sm-8">
+                    
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="applicant_type" value="individual_applicant" onclick="changeApplicantType(this)">Individual Applicant
+                            </label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="applicant_type" value="self_employed" onclick="changeApplicantType(this)">Self Employed
+                            </label>
+                        </div>
+                        @error('applicant_type')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                    </div>
+                </div>
             </section>
             
             <h3 class="section-header" onclick="toggleRequirements('personal-information')">
@@ -242,85 +267,93 @@
                 </div>
             </section>
 
-            <h3 class="important-note" onclick="toggleRequirements('employed-requirement')">
-                Individual Applicant
-                <i class="fas fa-caret-down"></i>
-            </h3>
-            <div class="form-group row employed-requirement">
-                <label class="col-sm-8 col-form-label">One Photocopy Of I/C</label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
+            <div id="individual-applicant-requirement">
+                <h3 class="important-note" onclick="toggleRequirements('employed-requirement')">
+                    Individual Applicant
+                    <i class="fas fa-caret-down"></i>
+                </h3>
+                <div class="form-group row employed-requirement">
+                    <label class="col-sm-8 col-form-label">One Photocopy Of I/C</label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_individual_icno">
+                    </div>
+                </div>
+
+                <div class="form-group row employed-requirement">
+                    <label class="col-sm-8 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_individual_income">
+                    </div>
+                </div>
+
+                <div class="form-group row employed-requirement">
+                    <label class="col-sm-8 col-form-label">Updated Bank Statement Or Savings Passbook</label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_individual_bankstatement">
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row employed-requirement">
-                <label class="col-sm-8 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
+            <div id="self-employed-requirement">
+                <h3 class="important-note" onclick="toggleRequirements('self-employed-requirement')">
+                    Self-Employed
+                    <i class="fas fa-caret-down"></i>
+                </h3>
+
+                <div class="form-group row self-employed-requirement">
+                    <label class="col-sm-8 col-form-label">
+                        Form J and Business Registration Form<br/>
+                        (Borang A and D)
+                    </label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_company_form">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row employed-requirement">
-                <label class="col-sm-8 col-form-label">Updated Bank Statement Or Savings Passbook</label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
+                <div class="form-group row self-employed-requirement">
+                    <label class="col-sm-8 col-form-label">
+                        Photocopied I/C Of Proprietor / Partners / Directors
+                    </label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_company_icno">
+                    </div>
                 </div>
-            </div>
 
-            <h3 class="important-note" onclick="toggleRequirements('self-employed-requirement')">
-                Self-Employed
-                <i class="fas fa-caret-down"></i>
-            </h3>
-
-            <div class="form-group row self-employed-requirement">
-                <label class="col-sm-8 col-form-label">
-                    Form J and Business Registration Form<br/>
-                    (Borang A and D)
-                </label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-group row self-employed-requirement">
-                <label class="col-sm-8 col-form-label">
-                    Photocopied I/C Of Proprietor / Partners / Directors
-                </label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-group row self-employed-requirement">
-                <label class="col-sm-8 col-form-label">
-                    Updated 3 Month Bank Statement
-                </label>
-                <div class="col-sm-4">
-                <input type="file" class="form-control">
+                <div class="form-group row self-employed-requirement">
+                    <label class="col-sm-8 col-form-label">
+                        Updated 3 Month Bank Statement
+                    </label>
+                    <div class="col-sm-4">
+                    <input type="file" class="form-control" name="file_company_bankstatement">
+                    </div>
                 </div>
             </div>
 
             <div class="notes">
-                <h3 class="important-note" onclick="toggleRequirements('employed')">
-                    Applicant's Requirements
-                    <i class="fas fa-caret-down"></i>
-                </h3>
-                <span class="employed">* Individual Malaysian citizen aged 18 years and above</span>
-                <span class="employed">* Applicants should be employed for at least 6 months in current employment</span>
-                <span class="employed">* Minimum monthly net pay : RM 800.00</span>
-                <span class="employed">* Office telephone number and HP / home telephone number is compulsory</span>
-                <span class="employed">* One contactable referee</span>
-                <span class="employed">* Applicant must be contactable</span>
+                <div id="individual-applicant-notes">
+                    <h3 class="important-note" onclick="toggleRequirements('employed')">
+                        Applicant's Requirements
+                        <i class="fas fa-caret-down"></i>
+                    </h3>
+                    <span class="employed">* Individual Malaysian citizen aged 18 years and above</span>
+                    <span class="employed">* Applicants should be employed for at least 6 months in current employment</span>
+                    <span class="employed">* Minimum monthly net pay : RM 800.00</span>
+                    <span class="employed">* Office telephone number and HP / home telephone number is compulsory</span>
+                    <span class="employed">* One contactable referee</span>
+                    <span class="employed">* Applicant must be contactable</span>
+                </div>
 
-                <h3 class="important-note" onclick="toggleRequirements('self-employed')">
-                    Self-Employed Malaysian citizen aged 18 years and above
-                    <i class="fas fa-caret-down"></i>
-                </h3>
-                <span class="self-employed">* Self-employed applicants current employment must be at least 1 year</span>
-                <span class="self-employed">* Minimum monthly net pay : RM 1,000.00</span>
-                <span class="self-employed">* Providing office telephone and HP / home telephone number is compulsory</span>
-                <span class="self-employed">* One contactable referee</span>
-                <span class="self-employed">* Applicant must be contactable</span>
+                <div id="self-employed-notes">
+                    <h3 class="important-note" onclick="toggleRequirements('self-employed')">
+                        Self-Employed Malaysian citizen aged 18 years and above
+                        <i class="fas fa-caret-down"></i>
+                    </h3>
+                    <span class="self-employed">* Self-employed applicants current employment must be at least 1 year</span>
+                    <span class="self-employed">* Minimum monthly net pay : RM 1,000.00</span>
+                    <span class="self-employed">* Providing office telephone and HP / home telephone number is compulsory</span>
+                    <span class="self-employed">* One contactable referee</span>
+                    <span class="self-employed">* Applicant must be contactable</span>
+                </div>
             </div>
 
             <div class="form-group row" style="margin-top: 10px;">
@@ -353,28 +386,28 @@
             </div>        
             @endif
             @if (Session::has('displaySMSTag'))
-            <h3 class="section-header" onclick="toggleRequirements('verification-information')">
-                Verification Information
-                <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
-                <i class="fas fa-caret-down right"></i>
-            </h3>
-            <section class="group verification-information">
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
-                        <button type="button" id="sms-tag-send-button" class="btn btn-block btn-success" onclick="clickSendSmsTag()">Send SMS</button>
+                <h3 class="section-header" onclick="toggleRequirements('verification-information')">
+                    Verification Information
+                    <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
+                    <i class="fas fa-caret-down right"></i>
+                </h3>
+                <section class="group verification-information">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
+                            <button type="button" id="sms-tag-send-button" class="btn btn-block btn-success" onclick="clickSendSmsTag()">Send SMS</button>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
+                            <button type="button" class="btn btn-block btn-success" onclick="verifySmsTag()" id="sms-tag-verify-button">Verify</button>
+                        </div>
                     </div>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
-                        <button type="button" class="btn btn-block btn-success" onclick="verifySmsTag()" id="sms-tag-verify-button">Verify</button>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <div class="form-group row last">
-                <button type="button" id="sms-tag-submit-button" class="btn btn-primary btn-block" onclick="submitFinalForm()" disabled>Submit</button>
-            </div>
-        @endif
+                <div class="form-group row last">
+                    <button type="button" id="sms-tag-submit-button" class="btn btn-primary btn-block" onclick="submitFinalForm()" disabled>Submit</button>
+                </div>
+            @endif
     </form>
 @endsection
 
@@ -408,6 +441,14 @@
             let sellerOne = document.getElementById('seller-one');
             let sellerTwo = document.getElementById('seller-two');
             // END : referral information
+
+            // START : File and requirements note
+            let individualApplicantRequirement = document.getElementById('individual-applicant-requirement');
+            let selfEmployedRequirement = document.getElementById('self-employed-requirement');
+
+            let individualApplicantNotes = document.getElementById('individual-applicant-notes');
+            let selfEmployedNotes = document.getElementById('self-employed-notes');
+            // END : File and requirements note
             
             let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
             let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
@@ -837,6 +878,25 @@
             for (i = item.options.length-1; i >= 0; i--) {
                 item.options[i] = null;
             }
+        }
+
+        function changeApplicantType(selected) {
+            this.hideAllApplicantType();
+
+            if (selected.value === 'individual_applicant') {
+                individualApplicantRequirement.classList.remove('hide');
+                individualApplicantNotes.classList.remove('hide');
+            } else if (selected.value === 'self_employed') {
+                selfEmployedRequirement.classList.remove('hide');
+                selfEmployedNotes.classList.remove('hide');
+            }
+        }
+
+        function hideAllApplicantType() {
+            individualApplicantRequirement.classList.add('hide');
+            selfEmployedRequirement.classList.add('hide');
+            individualApplicantNotes.classList.add('hide');
+            selfEmployedNotes.classList.add('hide');
         }
     </script>
 @endsection
