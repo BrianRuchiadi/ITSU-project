@@ -71,6 +71,10 @@ class CustomerController extends Controller
             'file_company_bankstatement' => 'file|nullable',
         ]);
 
+        if (!$request->contact_one_sms_verified) {
+            $this->saveTemporarilyUploadedFile($request);
+        }
+
         // if any of above validation fail 
         if ($validator->fails()){
             Session::flash('errorFormValidation', 'Display Data');
@@ -79,9 +83,7 @@ class CustomerController extends Controller
         }
 
         // TEMPORARILY upload the file to a TEMP folder, 
-        if (!$request->contact_one_sms_verified) {
-            $this->saveTemporarilyUploadedFile($request);
-        }
+        
 
         // check for SMS tag
         $validatorSMSTag = Validator::make($request->all(), [
@@ -107,9 +109,8 @@ class CustomerController extends Controller
             
             $customerMasterByNRIC = CustomerMaster::where('Cust_NRIC', $request->ic_number)->whereNull('deleted_at')->get();
             $customerMasterByEmail = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->whereNull('deleted_at')->get();
-
             // if both not found then, create record
-            if (!$customerMasterByNRIC && !$customerMasterByEmail) {
+            if (!$customerMasterByNRIC->count() && !$customerMasterByEmail->count()) {
                 // get custidseq running number
                 $custIdSeqNumber = SystemParamDetail::where('sysparam_cd', 'CUSTIDSEQ')->select(['param_val'])->first();
                 $custIdSeqNumberNew = $custIdSeqNumber->param_val + 1;
@@ -153,7 +154,6 @@ class CustomerController extends Controller
                     'CC_ID' => $custCcIdSeqNumberNew,
                     'usr_created' => Auth::user()->id
                 ]);
-                
             } else {
                 // update by using NRIC
                 if ($customerMasterByNRIC) {
@@ -206,7 +206,6 @@ class CustomerController extends Controller
 
                 }
             }
-
             // if user is a customer
             if (Auth::user()->branchind === 4) {
                 $customerUserMap = CustomerUserMap::firstOrCreate(
@@ -237,7 +236,6 @@ class CustomerController extends Controller
             $cnrtlDocSeqNumberNewPadded = str_pad((string)$cnrtlDocSeqNumberNew, 8, "0", STR_PAD_LEFT);
             $cnhDocNo = "{$cnrtlDocPrefix->param_val}-{$cnrtlDocSeqNumberNewPadded}";
             // END : get CNH_DocNo
-
             $contractMaster = ContractMaster::create([
                 'branchid' => config('app.branchid'),
                 'CNH_DocNo' => $cnhDocNo,
@@ -337,7 +335,6 @@ class CustomerController extends Controller
                 'comp_bankstatement_size' => ($request->applicant_type == 'self_employed') ? 
                     Session::get('file_temp_company_bankstatement_size') : null,
             ]);
-
             // remove all the temp session
             $this->flushAllFileTempSession($request);
 
@@ -437,7 +434,7 @@ class CustomerController extends Controller
     }
 
     public function saveTempAttachment(Request $request, ContractMaster $contractMaster) {
-        $mask = str_pad($contractMaster, 6, '0', STR_PAD_LEFT); // generate unique value
+        $mask = str_pad($contractMaster->id, 6, '0', STR_PAD_LEFT); // generate unique value
 
         if ($request->applicant_type == 'individual_applicant') {
             // move IC
