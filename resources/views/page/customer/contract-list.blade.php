@@ -90,6 +90,11 @@
             <td><a href="{{ route('contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
         </tr>
       @endforeach
+      @if(count($contracts) == 0)
+      <tr>
+        <td colspan="6" class="center">No Contract Found</td>
+      </tr>
+      @endif
       </tbody>
       <tbody>
       </tbody>
