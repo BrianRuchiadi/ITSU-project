@@ -49,4 +49,10 @@ Route::group(['middleware' => 'auth'], function() {
     // SMS APIs
     Route::post('api/sms/send','Utilities\SmsController@sendSms');
     Route::post('api/sms/verify','Utilities\SmsController@verifySms');
+
+    // Customer Contract List
+    Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
+    Route::get('contract', 'Customer\CustomerController@showSearchResult')->name('contract.search');
+    Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
+
 });
