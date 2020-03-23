@@ -428,14 +428,30 @@
                 </h3>
                 <section class="group verification-information">
                     <div class="form-group row">
-                        <div class="col-sm-4">
-                            <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
-                            <button type="button" id="sms-tag-send-button" class="btn btn-block btn-success" onclick="clickSendSmsTag()">Send SMS</button>
+                        <button type="button" id="sms-tag-send-button" class="btn btn-block btn-success" onclick="clickSendSmsTag()">Send SMS</button>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Contact 1 Of Applicant<br/>
+                            <strong>(Please Include Country Code) </strong>
+                        </label>
+                        <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                        @error('contact_one_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                         </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Contact 1 SMS tag</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" placeholder="SMS tag" name="contact_one_sms_tag" id="contact-one-sms-tag">
-                            <button type="button" class="btn btn-block btn-success" onclick="verifySmsTag()" id="sms-tag-verify-button">Verify</button>
                         </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <button type="button" class="btn btn-block btn-success" onclick="verifySmsTag()" id="sms-tag-verify-button">Verify</button>
                     </div>
                 </section>
 
@@ -517,7 +533,9 @@
         @if (Session::has('displaySMSTag'))
             let networkRequest = {};
             // START : verification information
-            let contactOneOfApplicant = '{{ session()->get('contact_one_of_applicant') }}';
+            let contactOneOfApplicant = document.getElementById('contact-one-of-applicant');
+            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';
+
             let contactOneSmsVerified = 'invalid'; // 'invalid', 'valid'
             let contactOneSmsTag = document.getElementById('contact-one-sms-tag');
             // END : verification information
@@ -532,7 +550,6 @@
             let smsTimeInterval;
 
             this.fillPreviousRequestData();
-            console.log(['networkRequest', networkRequest]);
         @endif
 
         function fillPreviousRequestData() {
@@ -621,7 +638,6 @@
             emailOfApplicant.value = applicantEmail;
         }
 
-// try again, save 
         function sendSmsTag() {
             fetch('{{ url('') }}' + `/api/sms/send`, {
                 method: 'POST', // or 'PUT'
@@ -630,7 +646,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify(
-                    {'contact_one_of_applicant' : contactOneOfApplicant }
+                    {'contact_one_of_applicant' : contactOneOfApplicant.value }
                 )
                 })
                 .then((response) => { return response.json() })
@@ -669,7 +685,7 @@
                 },
                 body: JSON.stringify(
                     {
-                        'contact_one_of_applicant' : contactOneOfApplicant,
+                        'contact_one_of_applicant' : contactOneOfApplicant.value,
                         'contact_one_sms_tag': contactOneSmsTag.value
                     }
                 )
@@ -685,6 +701,8 @@
 
                         networkRequest.contact_one_sms_tag = contactOneSmsTag.value;
                         networkRequest.contact_one_sms_verified = 'valid';
+                    } else {
+                        this.changeSmsState('Invalid Tag');
                     }
                 })
                 .catch((error) => {

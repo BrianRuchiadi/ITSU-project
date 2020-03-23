@@ -54,6 +54,13 @@ section.group {
     padding: 10px 8px;
     padding-bottom: 5px;
     border-radius: 4px;
+
+    &.verification-information {
+        .row button {
+            margin: 0 auto;
+            width: 90%;
+        }
+    }
 }
 
 button.disabled {

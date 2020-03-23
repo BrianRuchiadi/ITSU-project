@@ -80,10 +80,7 @@ class CustomerController extends Controller
             Session::flash('errorFormValidation', 'Display Data');
             $this->saveDataInSession($request);
             return redirect()->back()->withErrors($validator->errors());
-        }
-
-        // TEMPORARILY upload the file to a TEMP folder, 
-        
+        }        
 
         // check for SMS tag
         $validatorSMSTag = Validator::make($request->all(), [
@@ -598,7 +595,7 @@ class CustomerController extends Controller
         return view('page.customer.contract-list', compact('contracts', 'user'));
     }
 
-    public function showSearchResult(Request $request) {              
+    public function showSearchResult(Request $request) {    
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
                        ->where('customermaster.Cust_Name', 'like', '%' . $request->customer . '%')

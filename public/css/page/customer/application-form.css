@@ -66,6 +66,11 @@ section.group {
   border-radius: 4px;
 }
 
+section.group.verification-information .row button {
+  margin: 0 auto;
+  width: 90%;
+}
+
 button.disabled {
   cursor: not-allowed !important;
 }

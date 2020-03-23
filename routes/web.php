@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Customer Contract List
     Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
-    Route::get('contract', 'Customer\CustomerController@showSearchResult')->name('contract.search');
+    Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('contract.search');
     Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
 
 });
