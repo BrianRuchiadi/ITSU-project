@@ -132,7 +132,7 @@ class CustomerController extends Controller
                 $customerMaster = CustomerMaster::create([
                     'Cust_ID' =>  $custIdSeqNumberNew,
                     'Cust_AccountCode' => $custAcctCdSeqNumberNew,
-                    'Cust_Name' => $request->name_of_applicant,
+                    'Cust_NAME' => $request->name_of_applicant,
                     'Cust_MainAddress1' => $request->address_one,
                     'Cust_MainAddress2' => $request->address_two,
                     'Cust_MainPostcode' => $request->postcode,
@@ -157,7 +157,7 @@ class CustomerController extends Controller
                     CustomerMaster::where('Cust_NRIC', $request->ic_number)
                         ->whereNull('deleted_at')
                         ->update([
-                            'Cust_Name' => $request->name_of_applicant,
+                            'Cust_NAME' => $request->name_of_applicant,
                             'Cust_MainAddress1' => $request->address_one,
                             'Cust_MainAddress2' => $request->address_two,
                             'Cust_MainPostcode' => $request->postcode,
@@ -181,7 +181,7 @@ class CustomerController extends Controller
                     CustomerMaster::where('Cust_Email', $request->email_of_applicant)
                         ->whereNull('deleted_at')
                         ->update([
-                            'Cust_Name' => $request->name_of_applicant,
+                            'Cust_NAME' => $request->name_of_applicant,
                             'Cust_MainAddress1' => $request->address_one,
                             'Cust_MainAddress2' => $request->address_two,
                             'Cust_MainPostcode' => $request->postcode,
@@ -598,7 +598,7 @@ class CustomerController extends Controller
     public function showSearchResult(Request $request) {    
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                       ->where('customermaster.Cust_Name', 'like', '%' . $request->customer . '%')
+                       ->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%')
                        ->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%')
                        ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
                        ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
