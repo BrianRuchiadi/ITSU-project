@@ -47,7 +47,7 @@ class CustomerController extends Controller
             'no_of_installment_month' => 'required|numeric',
             'name_of_applicant' => 'required|string|min:3|max:50',
             'ic_number' => 'required|string',
-            'contact_one_of_applicant' => 'required|string|min:8|max:20',
+            'contact_one_of_applicant' => 'required|string',
             'contact_two_of_applicant' => 'string|min:8|max:20|nullable',
             'email_of_applicant' => 'required|email',
             'address_one' => 'required|string|min:10',
