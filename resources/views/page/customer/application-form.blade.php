@@ -514,37 +514,15 @@
             this.fillApplicantName();
             this.fillApplicantContactOne();
             this.fillEmailOfApplicant();
-            this.getUsers();
-        @endif
 
-        @if (Session::has('errorFormValidation'))
-            let applicantType = '{{ session()->get('applicant_type') }}';
-
-            this.getCountryOptions();
-            this.getItems();
-            this.getUsers();
-
-            noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
-            nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
-            icNumber.value = '{{ session()->get('ic_number') }}';           
-            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
-            contactTwoOfApplicant.value = '{{ session()->get('contact_two_of_applicant') }}';           
-            emailOfApplicant.value = '{{ session()->get('email_of_applicant') }}';           
-            addressOne.value = '{{ session()->get('address_one') }}';           
-            addressTwo.value = '{{ session()->get('address_two') }}';           
-            postcode.value = '{{ session()->get('postcode') }}';           
-            nameOfReference.value = '{{ session()->get('name_of_reference') }}';           
-            contactOfReference.value = '{{ session()->get('contact_of_reference') }}';  
-
-            if (applicantType == 'individual_applicant') {
-                radioIndividualApplicant.checked = true;
-            } else if (applicantType == 'self_employed') {
-                radioSelfEmployed.checked = true;
+            if (localStorage.getItem('referrerCode')) {
+                this.getUsers();
+            } else {
+                sellerOne.disabled = true;
+                sellerTwo.disabled = true;
             }
-
-            this.changeApplicantType(applicantType);
         @endif
-              
+
         @if (Session::has('displaySMSTag'))
             let networkRequest = {};
             // START : verification information
@@ -567,6 +545,40 @@
             this.fillPreviousRequestData();
         @endif
 
+        @if (Session::has('errorFormValidation'))
+            let applicantType = '{{ session()->get('applicant_type') }}';
+
+            this.getCountryOptions();
+            this.getItems();
+
+            if (localStorage.getItem('referrerCode')) {
+                this.getUsers();
+            } else {
+                sellerOne.disabled = true;
+                sellerTwo.disabled = true;
+            }
+
+            noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
+            nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
+            icNumber.value = '{{ session()->get('ic_number') }}';           
+            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
+            contactTwoOfApplicant.value = '{{ session()->get('contact_two_of_applicant') }}';           
+            emailOfApplicant.value = '{{ session()->get('email_of_applicant') }}';           
+            addressOne.value = '{{ session()->get('address_one') }}';           
+            addressTwo.value = '{{ session()->get('address_two') }}';           
+            postcode.value = '{{ session()->get('postcode') }}';           
+            nameOfReference.value = '{{ session()->get('name_of_reference') }}';           
+            contactOfReference.value = '{{ session()->get('contact_of_reference') }}';  
+
+            if (applicantType == 'individual_applicant') {
+                radioIndividualApplicant.checked = true;
+            } else if (applicantType == 'self_employed') {
+                radioSelfEmployed.checked = true;
+            }
+
+            this.changeApplicantType(applicantType);
+        @endif
+              
         function fillPreviousRequestData() {
             networkRequest.product = '{{ Session::get('product') }}';
             networkRequest.no_of_installment_month = '{{ Session::get('no_of_installment_month') }}';
