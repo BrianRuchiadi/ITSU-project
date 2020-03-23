@@ -137,6 +137,14 @@
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">IC No</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" alt="">
+                </div>
+              </div>
+            </div>
         </form>
     </div>
     

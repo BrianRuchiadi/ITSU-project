@@ -95,6 +95,8 @@ class CustomerController extends Controller
 
         if (!$request->contact_one_sms_verified) {
             $this->saveTemporarilyUploadedFile($request);
+            $base64 = base64_encode(file_get_contents($request->file_individual_icno->path()));
+            Session::put('base64_icno', $base64);
         }
 
         // if any of above validation fail 
@@ -672,8 +674,8 @@ class CustomerController extends Controller
                   ->where('deleted_at', '=', null)
                   ->first();
 
-        // $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->getMedia();
+        $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->first();
 
-        return view('page.customer.contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2'));
+        return view('page.customer.contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
     }
 }
