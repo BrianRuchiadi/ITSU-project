@@ -49,16 +49,16 @@
                     
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="applicant_type" value="individual_applicant" 
-                                    onclick="changeApplicantType(this)" required>
+                                <input type="radio" class="form-check-input" name="applicant_type" value="individual_applicant"  id="radio-individual-applicant"
+                                    onclick="changeApplicantType('individual_applicant')" required>
                                 Individual Applicant
                             </label>
                         </div>
 
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="applicant_type" value="self_employed" 
-                                    onclick="changeApplicantType(this)">
+                                <input type="radio" class="form-check-input" name="applicant_type" value="self_employed" id="radio-self-employed"
+                                    onclick="changeApplicantType('self_employed')">
                                     Self Employed
                             </label>
                         </div>
@@ -488,6 +488,8 @@
             let cityOptions = document.getElementById('city-options');
             let nameOfReference = document.getElementById('name-of-reference');
             let contactOfReference = document.getElementById('contact-of-reference');
+            let radioSelfEmployed = document.getElementById('radio-self-employed');
+            let radioIndividualApplicant = document.getElementById('radio-individual-applicant');
             // END : personal information
 
             // START : referral information
@@ -516,9 +518,12 @@
         @endif
 
         @if (Session::has('errorFormValidation'))
+            let applicantType = '{{ session()->get('applicant_type') }}';
+
             this.getCountryOptions();
             this.getItems();
             this.getUsers();
+
             noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
             nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
             icNumber.value = '{{ session()->get('ic_number') }}';           
@@ -529,7 +534,15 @@
             addressTwo.value = '{{ session()->get('address_two') }}';           
             postcode.value = '{{ session()->get('postcode') }}';           
             nameOfReference.value = '{{ session()->get('name_of_reference') }}';           
-            contactOfReference.value = '{{ session()->get('contact_of_reference') }}';        
+            contactOfReference.value = '{{ session()->get('contact_of_reference') }}';  
+
+            if (applicantType == 'individual_applicant') {
+                radioIndividualApplicant.checked = true;
+            } else if (applicantType == 'self_employed') {
+                radioSelfEmployed.checked = true;
+            }
+
+            this.changeApplicantType(applicantType);
         @endif
               
         @if (Session::has('displaySMSTag'))
@@ -604,7 +617,6 @@
         }
 
         function clickSendSmsTag() {
-
             this.changeSmsState('SMS Sent');
             this.sendSmsTag();            
         }
@@ -941,13 +953,13 @@
             }
         }
 
-        function changeApplicantType(selected) {
+        function changeApplicantType(type) {
             this.hideAllApplicantType();
 
-            if (selected.value === 'individual_applicant') {
+            if (type === 'individual_applicant') {
                 individualApplicantRequirement.classList.remove('hide');
                 individualApplicantNotes.classList.remove('hide');
-            } else if (selected.value === 'self_employed') {
+            } else if (type === 'self_employed') {
                 selfEmployedRequirement.classList.remove('hide');
                 selfEmployedNotes.classList.remove('hide');
             }
