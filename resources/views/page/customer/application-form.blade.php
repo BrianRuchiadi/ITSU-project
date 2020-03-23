@@ -239,6 +239,8 @@
                 </div>
             </section>
 
+            <input type="hidden" name="file_inclusion" value="include">
+
             <h3 class="section-header" onclick="toggleRequirements('referral-information')">
                 3. Referral Information
                 <i class="fas fa-caret-down right"></i>
@@ -573,6 +575,7 @@
             networkRequest.seller_two = '{{ Session::get('seller_two') }}';
             networkRequest.tandcitsu = '{{ Session::get('tandcitsu') }}';
             networkRequest.tandcctos = '{{ Session::get('tandcctos') }}';
+            networkRequest.file_inclusion = 'exclude';
         }
 
         function submitFinalForm() {

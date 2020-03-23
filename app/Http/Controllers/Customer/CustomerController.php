@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Hashids\Hashids;
 use Carbon\Carbon;
 use Session;
@@ -63,13 +64,34 @@ class CustomerController extends Controller
             'tandcitsu' => 'required|in:1',
             'tandcctos' => 'required|in:1',
             'applicant_type' => 'required|in:individual_applicant,self_employed',
-            'file_individual_icno' => 'file|nullable',
-            'file_individual_income' => 'file|nullable',
-            'file_individual_bankstatement' => 'file|nullable',
-            'file_company_form' => 'file|nullable',
-            'file_company_icno' => 'file|nullable',
-            'file_company_bankstatement' => 'file|nullable',
+            'file_inclusion' => 'required|string|in:include,exclude',
         ]);
+
+        // START : File Validation 
+        $hasFileValidation = ($request->file_inclusion == 'include') ? true : false;
+
+        if ($hasFileValidation) {
+            if ($request->applicant_type == 'individual_applicant') {
+                $validatorFile = Validator::make($request->all(), [
+                    'file_individual_icno' => 'file|required',
+                    'file_individual_income' => 'file|required',
+                    'file_individual_bankstatement' => 'file|required',
+                ]);
+            } else if ($request->applicant_type == 'self_employed') {
+                $validatorFile = Validator::make($request->all(), [
+                    'file_company_form' => 'file|required',
+                    'file_company_icno' => 'file|required',
+                    'file_company_bankstatement' => 'file|required',
+                ]);
+            }
+
+            if ($validatorFile->fails()) {
+                Session::flash('errorFormValidation', 'Display Data');
+                $this->saveDataInSession($request);
+                return redirect()->back()->withErrors($validatorFile->errors());
+            }
+        }
+        // END : File Validation
 
         if (!$request->contact_one_sms_verified) {
             $this->saveTemporarilyUploadedFile($request);
