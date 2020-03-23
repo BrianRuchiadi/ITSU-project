@@ -448,7 +448,7 @@
 
 @section('scripts')
     <script type="text/javascript">
-              
+        
         @if (!Session::has('displaySMSTag'))
             let form = document.getElementById('form');
             // START : product installment 
@@ -568,7 +568,11 @@
                 body: JSON.stringify(networkRequest)
                 })
                 .then((response) => { return response.json(); })
-                .then((res) => { console.log(['res', res]); })
+                .then((res) => { 
+                    if (res.status === 'success') {
+                        location.reload();
+                    }
+                })
                 .catch((error) => {
                     console.log(['err', error]);
                 });

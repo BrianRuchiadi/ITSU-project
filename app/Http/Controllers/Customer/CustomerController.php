@@ -156,7 +156,7 @@ class CustomerController extends Controller
                 ]);
             } else {
                 // update by using NRIC
-                if ($customerMasterByNRIC) {
+                if ($customerMasterByNRIC->count()) {
                     CustomerMaster::where('Cust_NRIC', $request->ic_number)
                         ->whereNull('deleted_at')
                         ->update([
@@ -418,6 +418,11 @@ class CustomerController extends Controller
                 'usr_created' => Auth::user()->id
             ]);
             DB::commit();
+            Session::flash('showSuccessMessage', 'Successfully submitted application form');
+
+            return [
+                'status' => 'success'
+            ];
         } catch (Exception $e) {
             DB::rollback();
             return $e->getMessage();

@@ -114,11 +114,26 @@
             let elementAlert = document.getElementById('alert');
             let showSubmenu = false;
             let showSidemenu = true;
+
+            @if (Session::has('showSuccessMessage'))
+                this.showAlert('{{ Session::get('showSuccessMessage') }}');
+            @endif
         
             function displayUserSubMenu() {
                 elementUserSubmenu.classList.toggle("show");
 
                 showSubmenu = !showSubmenu;
+            }
+
+            function showAlert(message, alertType = 'alert-success') {
+                elementAlert.classList.add(alertType);
+                elementAlert.classList.add('show');
+                elementAlert.innerText = message;
+
+                setTimeout(function () {
+                    elementAlert.classList.remove(alertType);
+                    elementAlert.classList.remove('show');
+                }, 3000);
             }
 
             function displayUserSideMenu() {
