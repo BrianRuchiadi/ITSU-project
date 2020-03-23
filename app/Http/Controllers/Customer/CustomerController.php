@@ -314,11 +314,13 @@ class CustomerController extends Controller
 
             // save all the temp file to main folder
             $filenameMask = $this->saveTempAttachment($request, $contractMaster);
+            // TEMPORARILY test BLOB for file_individual_icno
+            $base64 = base64_encode(file_get_contents(Session::get('file_temp_individual_icno_path')));
 
             $contractMasterAttachment = ContractMasterAttachment::create([
                 'contractmast_id' => $contractMaster->id,
                 'icno_file' => ($request->applicant_type == 'individual_applicant') ? 
-                    Session::get('file_temp_individual_icno_file') . '_' . $filenameMask . '.' . Session::get('file_temp_individual_icno_extension') : null,
+                    $base64 : null,
                 'icno_mime' => ($request->applicant_type == 'individual_applicant') ? 
                     Session::get('file_temp_individual_icno_mime') : null,
                 'icno_size' => ($request->applicant_type == 'individual_applicant') ? 
@@ -512,6 +514,8 @@ class CustomerController extends Controller
             Session::put('file_temp_individual_icno_mime', $request->file('file_individual_icno')->getClientMimeType());
             Session::put('file_temp_individual_icno_size', $request->file('file_individual_icno')->getSize());
             Session::put('file_temp_individual_icno_extension', $request->file('file_individual_icno')->extension());
+            // TEMPORARILY!!!
+            Session::put('file_temp_individual_icno_path', $request->file('file_individual_icno')->path());
 
             // $request->file_individual_income
             $request->file('file_individual_income')->storeAs(
