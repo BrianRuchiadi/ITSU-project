@@ -1,0 +1,10 @@
+To cater long BLOB database storage, we need to change few things:
+- 1. Open MySql config file, named my.cnf
+- 2. Change the max_allowed_packet value
+- 3. max_allowed_packet=1073741824, this will let MySQL accept LongBlob
+- 4. Change innodb_log_file_size value
+- 5. innodb_log_file_size=512M, this will allow MySQL to log more data
+- 6. restart MySQL server
+
+
+

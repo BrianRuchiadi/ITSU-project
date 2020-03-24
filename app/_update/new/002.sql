@@ -1,1 +1,0 @@
-CREATE TABLE `itsu_app`.`customerusermap` ( `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT , `users_id` INT(11) UNSIGNED NOT NULL , `customer_id` INT(11) UNSIGNED NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NULL , `deleted_at` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
