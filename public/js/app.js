@@ -49672,7 +49672,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/change-password.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -49705,7 +49705,7 @@ throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/reset-password.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -49716,7 +49716,7 @@ throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/verified.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -49738,7 +49738,7 @@ throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-details.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -49749,7 +49749,7 @@ throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-list.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

@@ -1,16 +1,21 @@
 @extends('layout.basic')
 
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/page/auth/login.css">
+@section('styles')    
+    <link rel="stylesheet" type="text/css" href="/css/page/auth/verified.css">
 @endsection
 
 @section('content')
 <div class="content">
-    <div class="login-panel">
+    <div class="verified-panel">
         <form method="POST" action="{{ route('auth.register.verify') }}">
             {{ csrf_field() }}
             <h3>Click this button to complete account register</h3>
-            <input type="hidden" class="form-control" placeholder="Hidden Token" name="token" value="{{ $token }}">
+            <input type="hidden" class="form-control" placeholder="Hidden Id" name="id" value="{{ $id }}">
+            @if(session()->has('message'))
+                <div class="alert alert-danger">
+                {{ session()->get('message') }}
+                </div>
+            @endif
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-block">Verify</button>
             </div>

@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="content">
-    <div class="login-panel">
+    <div class="register-panel">
         <h2 class="center">
             <i class="fas fa-chevron-left force-left" onclick="backToLogin()"></i>
             <i class="fas fa-user-plus"></i>Register
@@ -15,6 +15,21 @@
         <h3 class="center">Register for Individual</h3>
         <form class="form-horizontal" action="{{ route('auth.register') }}" method="POST" enctype="multipart/form-data" id="register-form">
 					    {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('telephoneno') ? ' has-error' : '' }}">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-phone"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Telephone No" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
+                </div>
+                @error('telephoneno')
+                    <div class="alert alert-danger">
+                        <strong>{{ $message }}</strong>
+                    </div>
+                @enderror
+            </div>
             <div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -22,12 +37,12 @@
                         <i class="fas fa-envelope"></i>
                       </span>
                     </div>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required autofocus>
+                    <input type="email" class="form-control" placeholder="Email Address" name="email_address" value="{{ old('email_address') }}" required>
                 </div>
                 @error('email_address')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
@@ -40,9 +55,9 @@
                     <input type="text" class="form-control" placeholder="User Id" name="user_id" value="{{ old('user_id') }}"  required>
                 </div>
                 @error('user_id')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -55,9 +70,9 @@
                     <input type="text" class="form-control" placeholder="Name" name="name" value="{{ old('name') }}"  required>
                 </div>
                 @error('name')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -70,9 +85,9 @@
                     <input type="password" class="form-control" placeholder="Password" name="password" value="{{ old('password') }}"  required>
                 </div>
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -85,18 +100,18 @@
                     <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation" value="{{ old('password_confirmation') }}"  required>
                 </div>
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
                 <input type="checkbox" id="tandc" name="tandc" value="1" required>
                 <label for="tandc">I have read & agree to the <a href="https://www.google.com" target="blank" class="tandc">Terms & Condition</a></label>
                 @error('tandc')
-                    <span class="invalid-feedback" role="alert">
+                    <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
-                    </span>
+                    </div>
                 @enderror
             </div>
             
@@ -114,12 +129,6 @@
                   </div>
                 </div>
             </div>
-            @if(session()->has('message'))
-              <div class="alert alert-danger">
-              {{ session()->get('message') }}
-              </div>
-            @endif
-
         </form>
     </div>
     
@@ -155,13 +164,13 @@
     };
 
     function getReferrerCode() {
-        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : sessionStorage.getItem("referrerCode");
+        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : localStorage.getItem("referrerCode");
         return referrerCode;
     }
 
     function injectReferrerCode() {
         if (!referrerCode) { return; }
-        sessionStorage.setItem("referrerCode", referrerCode);
+        localStorage.setItem("referrerCode", referrerCode);
 
         let input = document.createElement("input");
         input.setAttribute("type", "hidden");

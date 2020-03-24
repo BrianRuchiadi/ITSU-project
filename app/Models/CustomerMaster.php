@@ -95,15 +95,15 @@ class CustomerMaster extends Model
         'telext3',
         'Cust_Email2',
         'corp_department',
-        'corp_position'
+        'corp_position',
+        'usr_created',
+        'usr_updated',
+        'usr_deleted',
     ];
 
     protected $hidden = [
-        'usr_created',
         'created_at',
-        'usr_updated',
         'updated_at',
-        'usr_deleted',
         'deleted_at',
 
     ];

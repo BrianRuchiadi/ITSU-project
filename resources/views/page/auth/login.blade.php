@@ -37,6 +37,13 @@
             </div>
             @endif
 
+            @if (session()->has('flash_notification.message'))
+                <div class="container">
+                    <div class="alert alert-{{ session()->get('flash_notification.level') }}">
+                       * {!! session()->get('flash_notification.message') !!}
+                    </div>
+                </div>
+            @endif
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-block">Login</button>
             </div>
@@ -45,6 +52,12 @@
                     <a href="{{ url('/register') }}">Register Now</a>
                 </button>
             </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-warning btn-block register">
+                    <a href="{{ url('/reset-password') }}">Forgot Password</a>
+                </button>
+            </div>
+            <div class="form-group">
         </form>
     </div>
     

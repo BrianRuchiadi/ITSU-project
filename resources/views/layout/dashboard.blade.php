@@ -28,7 +28,11 @@
                     @endif
 
                         @if(Auth::user()->branchind === 0)
-                            <li class="customer">Customers Status</li>
+                            <li class="customer">
+                                <a href="{{ url('/contract') }}">
+                                    Contract List
+                                </a>
+                            </li>
                             <li class="customer">
                                 <a href="{{ url('/link/referral')}}">
                                     Referral Link
@@ -40,6 +44,11 @@
                             <li class="customer">
                                 <a href="{{ url('/apply') }}">
                                     Application Form
+                                </a>
+                            </li>
+                            <li class="customer">
+                                <a href="{{ url('/contract') }}">
+                                    Contract List
                                 </a>
                             </li>
                         @endif
@@ -72,7 +81,7 @@
                     </span>
                     <ul class="user-submenu" id="user-submenu">
                         <li>
-                            <a href="#">
+                            <a href="{{ url('/change-password')}}">
                                 <i class="fas fa-key"></i> Change Password
                             </a>
                         </li>
@@ -105,11 +114,26 @@
             let elementAlert = document.getElementById('alert');
             let showSubmenu = false;
             let showSidemenu = true;
+
+            @if (Session::has('showSuccessMessage'))
+                this.showAlert('{{ Session::get('showSuccessMessage') }}');
+            @endif
         
             function displayUserSubMenu() {
                 elementUserSubmenu.classList.toggle("show");
 
                 showSubmenu = !showSubmenu;
+            }
+
+            function showAlert(message, alertType = 'alert-success') {
+                elementAlert.classList.add(alertType);
+                elementAlert.classList.add('show');
+                elementAlert.innerText = message;
+
+                setTimeout(function () {
+                    elementAlert.classList.remove(alertType);
+                    elementAlert.classList.remove('show');
+                }, 3000);
             }
 
             function displayUserSideMenu() {

@@ -12,12 +12,8 @@ i.force-left {
     left: 0;
 }
 
-.register-panel {
-    width: 90%;
-    max-width: 350px;
-    margin: 80px auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.contract-details-panel {
+    padding: 10px;
     background-color: white;
     border-radius: 4px;
     // padding: 8px;
@@ -35,7 +31,6 @@ i.force-left {
 
 form {
     .form-group  {
-        width: 90%;
         margin: 10px auto;
     }
 
@@ -69,23 +64,6 @@ form {
         button {
             width: 100%;
         }
-    }
-
-    .input-group {
-        span.input-group-text {
-            background-color: transparent;
-            border-top: none;
-            border-right: none;
-            border-left: none;
-            width: 50px;
-        }
-
-        input {
-            border-top: none;
-            border-right: none;
-            border-left: none;
-        }
-    }
-    
+    }    
 }
 

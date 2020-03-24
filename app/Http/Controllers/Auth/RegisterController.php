@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
+use Session;
 use App\Models\User;
+use App\Models\CustomerRegister;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class RegisterController extends Controller
 {
@@ -34,7 +37,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+    
     /**
      * Create a new controller instance.
      *
@@ -48,8 +51,8 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         // example of decoding referrer code
-        $hashIds = new Hashids(config('app.salt'), 5);
-        $decoded = $hashIds->decode($request->referrer_code);
+        // $hashIds = new Hashids(config('app.salt'), 5);
+        // $decoded = $hashIds->decode($request->referrer_code);
         // more validation needed to validate the referrer code
 
         $validator = Validator::make($request->all(), [
@@ -57,35 +60,46 @@ class RegisterController extends Controller
             'user_id' => 'required|string|max:255|unique:users,userid',
             'password' => 'required|string|min:6|confirmed|same:password_confirmation',
             'name' => 'required|string',
+            'telephoneno' => 'required',
         ]);
 
         if ($validator->fails()){
-            return redirect()->back()->with('message', $validator->messages()->first())
-                    ->with('status','Failed to Save Register Data !')
-                    ->with('type','error');
+            return redirect()->back()->withErrors($validator->errors());
         }
         
         try {
-            $create = User::create([
+            $create = CustomerRegister::create([
                 'userid' => $request['user_id'],
                 'email' => $request['email_address'],
                 'password' => Hash::make($request['password']),
                 'name' => $request['name'],
-                'branchind' => 4,
-                'acc_customer_module' => 1,
+                'telephoneno' => $request['telephoneno'],
                 'status' => 0,
-                'remember_token' => Str::random(10),
             ]);
             
             if ($create) {
+                $hashids = new Hashids(config('app.salt'), 5);
+                $hashedId = $hashids->encode($create->id);
+
+                $urlLink = URL::temporarySignedRoute(
+                    'auth.register.verify', now()->addDays(1), ['id' => $hashedId]
+                );
+
                 $data = [
                     'title' => 'Email verification for ITSU Kubikt',
-                    'content' => 'Click the link below to complete the registration',
-                    'link' => env('APP_URL') . '/register/verify?token='. $create['remember_token'],
+                    'content' => 'Click link to complete registration. ',
+                    'link' => $urlLink,
+                    'warning' => 'Link will expired in 1 day'
                 ];
                 Mail::send('page.auth.email', $data, function($message) use ($request) {
                     $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
                 });
+                
+                Session::flash('flash_notification', [
+                    'level'     => 'warning',
+                    'message'   => 'Please verify your email in order to login'
+                ]);
+
                 return redirect('/login');
             }
         }catch (\Exception $e){
@@ -102,16 +116,47 @@ class RegisterController extends Controller
 
     public function showVerifiedRegister(Request $request)
     {
-        return view('page.auth.verified')->with('token', $request['token']);
+        return view('page.auth.register-verified')->with('id', $request['id']);
     }
 
     public function verifyRegister(Request $request) 
     {
-        User::where('remember_token', $request['token'])->update([
-            'status' => 1,
-            'remember_token' => null
-        ]);
-        
+        $hashids = new Hashids(config('app.salt'), 5);
+        $id = $hashids->decode($request['id']);
+        $customerRegister = CustomerRegister::where('id', $id)->first();
+        $userExist = User::where('userid', $customerRegister->userid)->exists();
+
+        if ($userExist){
+            return redirect()->back()->with('message', 'User Id Existed');
+        }
+
+        try {
+            $create = User::create([
+                'userid' => $customerRegister->userid,
+                'email' => $customerRegister->email,
+                'password' => $customerRegister->password,
+                'name' => $customerRegister->name,
+                'telephone' => $customerRegister->telephoneno,
+                'branchind' => 4,
+                'status' => 1,
+                'acc_customer_module' => 1
+            ]);
+
+            $customerRegister->update(['status' => 1]);
+            
+            if ($create) {
+                Session::flash('flash_notification', [
+                    'level'     => 'warning',
+                    'message'   => 'User successfully verified'
+                ]);
+
+                return redirect('/login');
+            }
+        }catch (\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage())
+                    ->with('status','Failed to Save Register Data !')
+                    ->with('type','error');
+        }
         return redirect('/login');
     }
 }
