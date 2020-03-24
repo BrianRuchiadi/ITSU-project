@@ -54,5 +54,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
     Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('contract.search');
     Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
+    
+    Route::get('pending-contract', 'Contract\ContractController@showPendingContractList');
+    Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
+    Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
 
 });

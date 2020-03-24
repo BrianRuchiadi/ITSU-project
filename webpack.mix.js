@@ -26,5 +26,8 @@ mix.sass('resources/sass/page/customer/referral-link.scss', 'public/css/page/cus
 mix.sass('resources/sass/page/customer/contract-list.scss', 'public/css/page/customer');
 mix.sass('resources/sass/page/customer/contract-details.scss', 'public/css/page/customer');
 
+mix.sass('resources/sass/page/contract/pending-contract-list.scss', 'public/css/page/contract');
+mix.sass('resources/sass/page/contract/pending-contract-details.scss', 'public/css/page/contract');
+
 
 mix.copyDirectory('resources/assets/pictures', 'public/assets/pictures');

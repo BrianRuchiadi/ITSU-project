@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>ITSU Contract Management</title>
+        <title>ITSU Contract Management v{{ env('VERSION') }}</title>
         @yield('styles')
 
         <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet"> -->
@@ -28,11 +28,11 @@
                     @endif
 
                         @if(Auth::user()->branchind === 0)
-                            <li class="customer">
+                            <!-- <li class="customer">
                                 <a href="{{ url('/contract') }}">
                                     Contract List
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="customer">
                                 <a href="{{ url('/link/referral')}}">
                                     Referral Link
@@ -63,7 +63,11 @@
                     @endif
 
                     @if(Auth::user()->branchind === 0)
-                        <li class="contract">XXX</li>
+                        <li class="contract">
+                            <a href="{{ url('/pending-contract') }}">
+                                Pending Contract
+                            </a>
+                        </li>
                         <li class="contract">YYY</li>
                     @endif
                 </ul>
