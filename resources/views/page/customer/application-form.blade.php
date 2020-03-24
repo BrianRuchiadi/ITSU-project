@@ -425,7 +425,7 @@
             @if (Session::has('displaySMSTag'))
                 <h3 class="section-header" onclick="toggleRequirements('verification-information')">
                     Verification Information
-                    <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed">Status : </button>
+                    <button class="btn btn-warning" id="sms-status-button" style="cursor: not-allowed" disabled>Status : </button>
                     <i class="fas fa-caret-down right"></i>
                 </h3>
                 <section class="group verification-information">
@@ -604,6 +604,8 @@
         }
 
         function submitFinalForm() {
+            smsTagSubmitButton.classList.add('disabled');
+            smsTagSubmitButton.disabled = true;
             fetch('{{ url('') }}' + `/api/apply`, {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -629,8 +631,7 @@
         }
 
         function clickSendSmsTag() {
-            this.changeSmsState('SMS Sent');
-            this.sendSmsTag();            
+            this.sendSmsTag();
         }
 
         function toggleRequirements(className) {
@@ -666,6 +667,8 @@
         }
 
         function sendSmsTag() {
+            smsTagSendButton.classList.add('disabled');
+            smsTagSendButton.disabled = true;
             fetch('{{ url('') }}' + `/api/sms/send`, {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -678,20 +681,19 @@
                 })
                 .then((response) => { return response.json() })
                 .then((res) => {
+                    this.changeSmsState('SMS Sent');
                     smsTimerCountdown = 600;
                     smsTimeInterval = setInterval(function () {
                         smsTimerCountdown--;
                         let secs = smsTimerCountdown % 60;
                         let mins = Math.floor(smsTimerCountdown / 60);
 
-                        smsTagSendButton.classList.add('disabled');
-                        smsTagSendButton.disabled = true;
                         smsTagSendButton.innerText = "Verification SMS is sent. Expired in : " + mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
 
                         if (smsTimerCountdown === 1) {
                             clearInterval(smsTimeInterval);
-            
                             smsTagSendButton.classList.remove('disabled');
+                            smsTagSendButton.disabled = false;
                             smsTagSendButton.innerText = "Send SMS Tag";
 
                             this.changeSmsState('Unverified')
@@ -704,6 +706,8 @@
         }
 
         function verifySmsTag() {
+            smsTagVerifyButton.classList.add('disabled'); // disable verify button
+            smsTagVerifyButton.disabled = true;
             fetch('{{ url('') }}' + `/api/sms/verify`, {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -721,8 +725,6 @@
                 .then((res) => {
                     if (res.status === 'approved') {
                         this.changeSmsState('Approved');
-                        smsTagVerifyButton.classList.add('disabled'); // disable verify button
-                        smsTagVerifyButton.disabled = true;
                         smsTagSubmitButton.classList.remove('disabled');
                         smsTagSubmitButton.disabled = false;
 
@@ -730,6 +732,8 @@
                         networkRequest.contact_one_sms_verified = 'valid';
                     } else {
                         this.changeSmsState('Invalid Tag');
+                        smsTagVerifyButton.classList.remove('disabled'); // disable verify button
+                        smsTagVerifyButton.disabled = false;
                     }
                 })
                 .catch((error) => {

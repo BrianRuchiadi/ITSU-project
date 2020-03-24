@@ -518,8 +518,8 @@ class CustomerController extends Controller
                 case 'bankstatement':
                     return base64_encode(
                         file_get_contents(
-                            "{$baseStoragePath}/" . Session::get('file_temp_bankstatement_form_file') . 
-                            "." . Session::get('file_temp_bankstatement_form_extension')
+                            "{$baseStoragePath}/" . Session::get('file_temp_company_bankstatement_file') . 
+                            "." . Session::get('file_temp_company_bankstatement_extension')
                         )
                     );
             }

@@ -137,14 +137,58 @@
                 </div>
               </div>
             </div>
+            @if ($attachment->icno_file != null) 
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-3">IC No</span>
                 <div class="col-sm-9">
-                    <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" alt="">
+                  <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" alt="" height="300">
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">Income</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" alt="" height="300">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">Bank Statement</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" alt="" height="300">
+                </div>
+              </div>
+            </div>
+            @endif
+            @if ($attachment->comp_form_file != null) 
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">Company Form</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" alt="" height="300">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">Company IC No</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" alt="" height="300">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">Company Bank Statement</span>
+                <div class="col-sm-9">
+                    <img src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" alt="" height="300">
+                </div>
+              </div>
+            </div>
+            @endif
         </form>
     </div>
     
