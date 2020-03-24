@@ -361,7 +361,7 @@ class CustomerController extends Controller
 
             // Call CTOS API : To be Confirmed
             $ctosRes = false;
-
+ 
             // based on fail or successful API call
             $contractMaster->update([
                 'CTOS_verify' => ($ctosRes) ? 1 : 0,
