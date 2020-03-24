@@ -49665,6 +49665,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/page/auth/change-password.scss":
+/*!*******************************************************!*\
+  !*** ./resources/sass/page/auth/change-password.scss ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/change-password.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+
+/***/ }),
+
 /***/ "./resources/sass/page/auth/login.scss":
 /*!*********************************************!*\
   !*** ./resources/sass/page/auth/login.scss ***!
@@ -49687,6 +49698,28 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/page/auth/reset-password.scss":
+/*!******************************************************!*\
+  !*** ./resources/sass/page/auth/reset-password.scss ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/reset-password.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+
+/***/ }),
+
+/***/ "./resources/sass/page/auth/verified.scss":
+/*!************************************************!*\
+  !*** ./resources/sass/page/auth/verified.scss ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/verified.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+
+/***/ }),
+
 /***/ "./resources/sass/page/customer/application-form.scss":
 /*!************************************************************!*\
   !*** ./resources/sass/page/customer/application-form.scss ***!
@@ -49695,6 +49728,28 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/page/customer/contract-details.scss":
+/*!************************************************************!*\
+  !*** ./resources/sass/page/customer/contract-details.scss ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-details.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
+
+/***/ }),
+
+/***/ "./resources/sass/page/customer/contract-list.scss":
+/*!*********************************************************!*\
+  !*** ./resources/sass/page/customer/contract-list.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-list.scss'\n    at runLoaders (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20)\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at process.nextTick (/Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
 
 /***/ }),
 
@@ -49710,19 +49765,24 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ./resources/sass/page/customer/application-form.scss ./resources/sass/page/customer/referral-link.scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ./resources/sass/page/auth/verified.scss ./resources/sass/page/auth/change-password.scss ./resources/sass/page/auth/reset-password.scss ./resources/sass/page/customer/application-form.scss ./resources/sass/page/customer/referral-link.scss ./resources/sass/page/customer/contract-list.scss ./resources/sass/page/customer/contract-details.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\layout\dashboard.scss */"./resources/sass/layout/dashboard.scss");
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\page\auth\login.scss */"./resources/sass/page/auth/login.scss");
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\page\auth\register.scss */"./resources/sass/page/auth/register.scss");
-__webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\page\customer\application-form.scss */"./resources/sass/page/customer/application-form.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\itsu-project\resources\sass\page\customer\referral-link.scss */"./resources/sass/page/customer/referral-link.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/layout/dashboard.scss */"./resources/sass/layout/dashboard.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/login.scss */"./resources/sass/page/auth/login.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/register.scss */"./resources/sass/page/auth/register.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/verified.scss */"./resources/sass/page/auth/verified.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/change-password.scss */"./resources/sass/page/auth/change-password.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/auth/reset-password.scss */"./resources/sass/page/auth/reset-password.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/application-form.scss */"./resources/sass/page/customer/application-form.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/referral-link.scss */"./resources/sass/page/customer/referral-link.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-list.scss */"./resources/sass/page/customer/contract-list.scss");
+module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-details.scss */"./resources/sass/page/customer/contract-details.scss");
 
 
 /***/ })
