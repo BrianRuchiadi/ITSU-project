@@ -638,10 +638,11 @@ class CustomerController extends Controller
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
                            ->paginate(30);
         } else if (Auth::user()->branchind == 4) {
-            $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->first();
+            $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
+            $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->where('CNH_CustomerID', $userMap->customer_id)->paginate(30);
+                           ->whereIn('CNH_CustomerID', $userMapCustomer)->paginate(30);
         }
 
         $user = Auth::user();
