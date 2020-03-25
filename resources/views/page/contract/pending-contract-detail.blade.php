@@ -137,6 +137,14 @@
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-3">CTOS Verify</span>
+                <div class="col-sm-9">
+                  <label class="form-control">{{ ($contractDetails->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}</label>  
+                </div>
+              </div>
+            </div>
             @if ($attachment->icno_file != null) 
             <div class="form-group row">
               <div class="input-group">

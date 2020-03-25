@@ -13,37 +13,57 @@ use App\Models\CustomerMaster;
 use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
 use App\Models\ContractMasterAttachment;
+use App\Models\ContractMasterLog;
 
 use App\Models\IrsCity;
 use App\Models\IrsState;
 use App\Models\IrsCountry;
 use App\Models\User;
+use App\Models\SystemParamDetail;
+use Session;
 
 class ContractController extends Controller
 {
-    public function showPendingContractList(Request $request) {
+    public function showPendingContractList() {
         
-            $contracts = DB::table('contractmaster')
-                           ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
-                           ->where('contractmaster.CNH_Status', '=', 'Pending')
-                           ->where('contractmaster.deleted_at', '=', null)
-                           ->paginate(30);
+        $contracts = DB::table('contractmaster')
+                        ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
+                        ->leftjoin('irs_city', 'customermaster.Cust_MainCity', '=', 'irs_city.id')
+                        ->leftjoin('irs_state', 'customermaster.Cust_MainState', '=', 'irs_state.id')
+                        ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
+                        ->where('contractmaster.CNH_Status', '=', 'Pending')
+                        ->where('contractmaster.deleted_at', '=', null)
+                        ->paginate(30);
 
+        foreach ($contracts as $contract) {
+            $contract->start_date = Carbon::today()->toDateString();
+            $contract->end_date = Carbon::today()->addMonths($contract->CNH_TotInstPeriod)->toDateString();
+        }
         $user = Auth::user();
+
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
 
     public function showSearchResult(Request $request) {    
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                       ->leftjoin('irs_city', 'customermaster.Cust_MainCity', '=', 'irs_city.id')
+                       ->leftjoin('irs_state', 'customermaster.Cust_MainState', '=', 'irs_state.id')
+                       ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
                        ->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%')
                        ->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%')
                        ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
                        ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
                        ->where('contractmaster.CNH_DocNo', 'like', '%' . $request->contract_no . '%')
+                       ->where('contractmaster.CNH_Status', '=', 'Pending')
+                       ->where('contractmaster.deleted_at', '=', null)
                        ->paginate(30);
 
         $user = Auth::user();
+        foreach ($contracts as $contract) {
+            $contract->start_date = Carbon::today()->toDateString();
+            $contract->end_date = Carbon::today()->addMonths($contract->CNH_TotInstPeriod)->toDateString();
+        }
 
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
@@ -87,5 +107,116 @@ class ContractController extends Controller
         $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->first();
 
         return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
+    }
+
+    public function contractVerifyCTOS(Request $request) {
+
+        ContractMaster::where('id', $request->id)->update(['CTOS_verify' => 1]);
+        $contract = ContractMaster::where('id', $request->id)->first();
+        Session::flash('showSuccessMessage', "Successfully Verify CTOS ( {$contract->CNH_DocNo} )");
+        return ['status' => 'success'];
+    }
+
+    public function reviewCustomerContract(Request $request) {
+
+        if ($request->Option == 'Approve') {
+            ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->update([
+                'CNH_Status' => 'Approve',
+                'CNH_EffectiveDay' => $request->effective_day,
+                'CNH_StartDate' => $request->start_date,
+                'CNH_EndDate' => $request->end_date,
+                'CNH_ApproveDate' => Carbon::now(),
+                'CNH_CommissionMonth' => $request->commision_months,
+                'CNH_CommissionStartDate' => $request->commision_date,
+                'CNH_InstallAddress1' => $request->cust_mainAddress1,
+                'CNH_InstallAddress2' => $request->cust_mainAddress2,
+                'CNH_InstallPostcode' => $request->cust_mainPostcode,
+                'CNH_InstallCity' => $request->cust_mainCity,
+                'CNH_InstallState' => $request->cust_mainState,
+                'CNH_InstallCountry' => $request->cust_mainCountry,
+                'usr_updated' => Auth::user()->id,
+            ]);
+        } else if ($request->Option == 'Reject') {
+            ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->update([
+                'CNH_Status' => 'Reject',
+                'CNH_RejectDate' => Carbon::now(),
+                'CNH_RejectDesc' => $request->reject_reason,
+                'usr_updated' => Auth::user()->id,
+            ]);
+        }
+
+        $contract = ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->first();
+        $cnsoLogSeqNumber = SystemParamDetail::where('sysparam_cd', 'CNSOLOGSEQ')->select(['param_val'])->first();
+        $cnsoLogSeqNumberNew = $cnsoLogSeqNumber->param_val + 1;
+        $contractDtl = ContractMasterDtl::where('contractmast_id', $contract->id)->first();
+
+        ContractMasterLog::create([
+            'rcd_grp' => $cnsoLogSeqNumberNew,
+            'action' => 'UPD',
+            'trx_type' => 'CNSO',
+            'subtrx_type' => '',
+            'contractmast_id' => $contract->id,
+            'branchid' => $contract->branchid,
+            'CNH_DocNo' => $contract->CNH_DocNo,
+            'CNH_CustomerID' => $contract->CNH_Customer_ID,
+            'CNH_PostingDate' => $contract->CNH_PostingDate,
+            'CNH_DocDate' => $contract->CNH_DocDate,
+            'CNH_NameRef' => $contract->CNH_NameRef,
+            'CNH_ContactRef' => $contract->CNH_ContactRef,
+            'CNH_SalesAgent1' => $contract->CNH_SalesAgent1,
+            'CNH_SalesAgent2' => $contract->CNH_SalesAgent2,
+            'CNH_TotInstPeriod' => $contract->CNH_TotInstPeriod,
+            'CNH_Total' => $contract->CNH_Total,
+            'CNH_Tax' => $contract->CNH_Tax,
+            'CNH_TaxableAmt' => $contract->CNH_TaxableAmt,
+            'CNH_NetTotal' => $contract->CNH_NetTotal,
+            'CNH_InstallAddress1' => $contract->CNH_InstallAddress1,
+            'CNH_InstallAddress2' => $contract->CNH_InstallAddress2,
+            'CNH_InstallAddress3' => $contract->CNH_InstallAddress3,
+            'CNH_InstallAddress4' => $contract->CNH_InstallAddress4,
+            'CNH_InstallPostcode' => $contract->CNH_InstallPostcode,
+            'CNH_InstallCity' => $contract->CNH_InstallCity,
+            'CNH_InstallState' => $contract->CNH_InstallState,
+            'CNH_InstallCountry' => $contract->CNH_InstallCountry,
+            'CNH_TNCInd' => $contract->CNH_TNCInd,
+            'CNH_CTOSInd' => $contract->CNH_CTOSInd,
+            'CNH_SmsTag' => $contract->CNH_SmsTag,
+            'CNH_EmailVerify' => $contract->CNH_EmailVerify,
+            'CNH_WarehouseID' => $contract->CNH_WarehouseID,
+            'CNH_Status' => $contract->CNH_Status,
+            'CTOS_verify' => $contract->CTOS_verify,
+            'CTOS_Score' => $contract->CTOS_Score,
+            'do_complete_ind' => $contract->do_complete_ind,
+            'CNH_EffectiveDay' => $contract->CNH_EffectiveDay,
+            'CNH_StartDate' => $contract->CNH_StartDate,
+            'CNH_EndDate' => $contract->CNH_EndDate,
+            'CNH_ApproveDate' => $contract->CNH_ApproveDate,
+            'CNH_RejectDate' => $contract->CNH_RejectDate,
+            'CNH_RejectDesc' => $contract->CNH_RejectDesc,
+            'CNH_CommissionMonth' => $contract->CNH_CommissionMonth,
+            'CNH_CommissionStartDate' => $contract->CNH_CommissionStartDate,
+            'contractmastdtl_id' => $contractDtl->id,
+            'CND_ItemID' => $contractDtl->CND_ItemID,
+            'CND_Description' => $contractDtl->CND_Description,
+            'CND_ItemUOMID' => $contractDtl->CND_ItemUOMID,
+            'CND_ItemTypeID' => $contractDtl->CND_ItemTypeID,
+            'CND_Qty' => $contractDtl->CND_Qty,
+            'CND_UnitPrice' => $contractDtl->CND_UnitPrice,
+            'CND_SubTotal' => $contractDtl->CND_SubTotal,
+            'CND_TaxAmt' => $contractDtl->CND_TaxAmt,
+            'CND_TaxableAmt' => $contractDtl->CND_TaxableAmt,
+            'CND_Total' => $contractDtl->CND_Total,
+            'CND_SerialNo' => $contractDtl->CND_SerialNo,
+            'CND_ItemSeq' => $contractDtl->CND_ItemSeq,
+            'CND_WarehouseID' => $contractDtl->CND_WarehouseID,
+            'CND_BinLocationID' => $contractDtl->CND_BinLocationID,
+            'cndeliveryorder_id' => $contractDtl->cndeliveryorder_id,
+            'usr_created' => Auth::user()->id
+        ]);
+
+        Session::flash('showSuccessMessage', "Successfully {$request->Option} Contract ( {$contract->CNH_DocNo} )");
+
+        return $this->showPendingContractList();
+
     }
 }
