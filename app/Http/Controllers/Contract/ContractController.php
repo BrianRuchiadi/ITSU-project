@@ -33,6 +33,23 @@ class ContractController extends Controller
                         ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
                         ->where('contractmaster.CNH_Status', '=', 'Pending')
                         ->where('contractmaster.deleted_at', '=', null)
+                        ->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'contractmaster.CTOS_verify',
+                            'contractmaster.CNH_TotInstPeriod',
+                            'customermaster.Cust_NAME',
+                            'customermaster.Cust_MainAddress1',
+                            'customermaster.Cust_MainAddress2',
+                            'customermaster.Cust_MainPostcode',
+                            'customermaster.Cust_MainCity',
+                            'customermaster.Cust_MainState',
+                            'customermaster.Cust_MainCountry',
+                            'irs_city.CI_Description',
+                            'irs_state.ST_Description',
+                            'irs_country.CO_Description',
+                        ])
                         ->paginate(30);
 
         foreach ($contracts as $contract) {
