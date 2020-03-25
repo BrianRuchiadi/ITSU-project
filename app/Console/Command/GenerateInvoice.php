@@ -45,12 +45,12 @@ class GenerateInvoice extends Command
     */
     public function handle()
     {
-        $this->info('searching for approved contract..');
+        $selectedDay = 1; // 16 or 1
+        $this->info('searching for approved contract that effective day is ' . $selectedDay . ' ....');
 
         $todayDateString = Carbon::now()->toDateString();
         $approvedContracts = ContractMaster::where('CNH_Status', 'Approve')
             ->where('CNH_EffectiveDay', 1)
-            ->orWhere('CNH_EffectiveDay', 16)
             ->where('CNH_StartDate', '<', $todayDateString)
             ->where('CNH_EndDate', '>', $todayDateString)
             ->whereNull('deleted_at')
@@ -93,7 +93,7 @@ class GenerateInvoice extends Command
 
                 $totalContracts = $existingContracts->count() + 1;
                 $totalPrevBal = ($existingContracts->count()) ?
-                    array_sum(array_column($existingContracts, 'CSIH_BalTotal')) : 0; 
+                    array_sum(array_column($existingContracts->toArray(), 'CSIH_BalTotal')) : 0; 
 
                 $this->info('previous contracts count :' . $totalContracts);
                 $this->info('previous total balance :' . $totalPrevBal);
@@ -203,7 +203,7 @@ class GenerateInvoice extends Command
                 $this->info(' ');
             }
             
-    
+            DB::commit();
             $this->info('Command Finished Successfully!');
         } catch (Exception $e) {
             DB::rollback();
