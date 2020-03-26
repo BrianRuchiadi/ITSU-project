@@ -668,9 +668,7 @@ class CustomerController extends Controller
         $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
         $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
         $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
-        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone2', 'like', $request->tel_no . '%') : $contracts; 
         $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
-               
 
         $contracts = $contracts->select([
             'contractmaster.id',
