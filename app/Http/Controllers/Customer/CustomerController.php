@@ -636,13 +636,25 @@ class CustomerController extends Controller
         if (Auth::user()->branchind == 0) {
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->paginate(30);
+                           ->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         } else if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->whereIn('CNH_CustomerID', $userMapCustomer)->paginate(30);
+                           ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         }
 
         $user = Auth::user();
@@ -651,13 +663,22 @@ class CustomerController extends Controller
 
     public function showSearchResult(Request $request) {    
         $contracts = DB::table('customermaster')
-                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                       ->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%')
-                       ->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%')
-                       ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
-                       ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
-                       ->where('contractmaster.CNH_DocNo', 'like', '%' . $request->contract_no . '%')
-                       ->paginate(30);
+                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID');
+
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone2', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
+               
+
+        $contracts = $contracts->select([
+            'contractmaster.id',
+            'contractmaster.CNH_PostingDate',
+            'contractmaster.CNH_DocNo',
+            'customermaster.Cust_NAME',
+            'contractmaster.CNH_Status'
+        ])->paginate(30);
 
         $user = Auth::user();
 

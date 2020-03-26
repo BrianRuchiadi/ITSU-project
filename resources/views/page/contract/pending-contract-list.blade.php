@@ -116,7 +116,7 @@
                 <form class="form-horizontal" method="POST" action="{{ route('contract.review') }}" enctype="multipart/form-data">
                   {{ csrf_field() }}
                   <input type="hidden" name="Option" value="Approve">
-                  <input type="hidden" name="CNH_DocNo" value="{{ $contract->CNH_DocNo }}">
+                  <input type="hidden" name="contract_id" value="{{ $contract->id }}">
                 <div class="form-group row">
                     <div class="input-group">
                       <span class="col-sm-3">Contract Effective Day</span>  
@@ -133,7 +133,7 @@
                       <span class="col-sm-3">Contract Start Date</span>
                       <div class="col-sm-9">
                         <input type="date" name="start_date" class="form-control"
-                        placeholder="{{ $contract->start_date }}" value="{{ $contract->start_date }}" required>
+                        placeholder="{{ $contract->start_date }}" value="{{ $contract->start_date }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -142,7 +142,7 @@
                       <span class="col-sm-3">Contract End Date</span>
                       <div class="col-sm-9">
                         <input type="date" name="end_date" class="form-control"
-                        placeholder="{{ $contract->end_date }}" value="{{ $contract->end_date }}" required>
+                        placeholder="{{ $contract->end_date }}" value="{{ $contract->end_date }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -150,7 +150,7 @@
                     <div class="input-group">
                       <span class="col-sm-3">Commision (No Of Months)</span>
                       <div class="col-sm-9">
-                        <input class="form-control" name="commision_months" value="{{ $contract->CNH_TotInstPeriod}}">
+                        <input class="form-control" name="commision_months" value="{{ $contract->CNH_TotInstPeriod}}" readonly>
                       </div>
                     </div>
                   </div>
@@ -159,7 +159,7 @@
                       <span class="col-sm-3">Commision (Disburse Effective on which month)</span>
                       <div class="col-sm-9">
                         <input type="date" name="commision_date" class="form-control"
-                        placeholder="{{ $contract->start_date }}" value="{{ $contract->start_date }}" required>
+                        placeholder="{{ $contract->start_date }}" value="{{ $contract->start_date }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -167,7 +167,7 @@
                     <div class="input-group">
                       <span class="col-sm-3">Installation Address 1</span>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" name="cust_mainAddress1" value="{{ $contract->Cust_MainAddress1 }}"></input>
+                        <input type="text" class="form-control" name="cust_mainAddress1" value="{{ $contract->Cust_MainAddress1 }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -175,7 +175,7 @@
                     <div class="input-group">
                       <span class="col-sm-3">Installation Address 2</span>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" name="cust_mainAddress2" value="{{ $contract->Cust_MainAddress2 }}"></input>
+                        <input type="text" class="form-control" name="cust_mainAddress2" value="{{ $contract->Cust_MainAddress2 }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -183,7 +183,7 @@
                     <div class="input-group">
                       <span class="col-sm-3">Installation Post Code</span>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" name="cust_mainPostcode" value="{{ $contract->Cust_MainPostcode }}">
+                        <input type="text" class="form-control" name="cust_mainPostcode" value="{{ $contract->Cust_MainPostcode }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -192,7 +192,7 @@
                       <span class="col-sm-3">Installation City</span>
                       <div class="col-sm-9">
                         <input type="hidden" class="form-control" name="cust_mainCity" value="{{ $contract->Cust_MainCity }}">
-                        <label class="form-control">{{ $contract->CI_Description }}</label>
+                        <label class="form-control" readonly>{{ $contract->CI_Description }}</label>
                       </div>
                     </div>
                   </div>
@@ -201,7 +201,7 @@
                       <span class="col-sm-3">Installation State</span>
                       <div class="col-sm-9">
                         <input type="hidden" class="form-control" name="cust_mainState" value="{{ $contract->Cust_MainState }}">
-                        <label class="form-control">{{ $contract->ST_Description }}</label>
+                        <label class="form-control" readonly>{{ $contract->ST_Description }}</label>
                       </div>
                     </div>
                   </div>
@@ -210,7 +210,7 @@
                       <span class="col-sm-3">Installation Country</span>
                       <div class="col-sm-9">
                         <input type="hidden" class="form-control" name="cust_mainCountry" value="{{ $contract->Cust_MainCountry }}">
-                        <label class="form-control">{{ $contract->CO_Description }}</label>
+                        <label class="form-control" readonly>{{ $contract->CO_Description }}</label>
                       </div>
                     </div>
                   </div>
@@ -239,7 +239,7 @@
                 <form class="form-horizontal" method="POST" action="{{ route('contract.review') }}" enctype="multipart/form-data">
                  {{ csrf_field() }}
                 <input type="hidden" name="Option" value="Reject">
-                <input type="hidden" name="CNH_DocNo" value="{{ $contract->CNH_DocNo }}">
+                <input type="hidden" name="contract_id" value="{{ $contract->id }}">
                   <div class="form-group row">
                     <div class="input-group">
                       <span class="col-sm-3">Reject Reason</span>

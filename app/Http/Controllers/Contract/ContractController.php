@@ -61,20 +61,38 @@ class ContractController extends Controller
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
 
-    public function showSearchResult(Request $request) {    
+    public function showSearchResult(Request $request) {
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
                        ->leftjoin('irs_city', 'customermaster.Cust_MainCity', '=', 'irs_city.id')
                        ->leftjoin('irs_state', 'customermaster.Cust_MainState', '=', 'irs_state.id')
                        ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
-                       ->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%')
-                       ->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%')
-                       ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
-                       ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
-                       ->where('contractmaster.CNH_DocNo', 'like', '%' . $request->contract_no . '%')
                        ->where('contractmaster.CNH_Status', '=', 'Pending')
-                       ->where('contractmaster.deleted_at', '=', null)
-                       ->paginate(30);
+                       ->where('contractmaster.deleted_at', '=', null);
+
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone2', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
+
+        $contracts = $contracts->select([
+                        'contractmaster.id',
+                        'contractmaster.CNH_PostingDate',
+                        'contractmaster.CNH_DocNo',
+                        'contractmaster.CTOS_verify',
+                        'contractmaster.CNH_TotInstPeriod',
+                        'customermaster.Cust_NAME',
+                        'customermaster.Cust_MainAddress1',
+                        'customermaster.Cust_MainAddress2',
+                        'customermaster.Cust_MainPostcode',
+                        'customermaster.Cust_MainCity',
+                        'customermaster.Cust_MainState',
+                        'customermaster.Cust_MainCountry',
+                        'irs_city.CI_Description',
+                        'irs_state.ST_Description',
+                        'irs_country.CO_Description',
+                    ])->paginate(30);
 
         $user = Auth::user();
         foreach ($contracts as $contract) {
@@ -137,7 +155,7 @@ class ContractController extends Controller
     public function reviewCustomerContract(Request $request) {
 
         if ($request->Option == 'Approve') {
-            ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->update([
+            ContractMaster::where('id', $request->contract_id)->update([
                 'CNH_Status' => 'Approve',
                 'CNH_EffectiveDay' => $request->effective_day,
                 'CNH_StartDate' => $request->start_date,
@@ -154,7 +172,7 @@ class ContractController extends Controller
                 'usr_updated' => Auth::user()->id,
             ]);
         } else if ($request->Option == 'Reject') {
-            ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->update([
+            ContractMaster::where('id', $request->contract_id)->update([
                 'CNH_Status' => 'Reject',
                 'CNH_RejectDate' => Carbon::now(),
                 'CNH_RejectDesc' => $request->reject_reason,
@@ -162,7 +180,7 @@ class ContractController extends Controller
             ]);
         }
 
-        $contract = ContractMaster::where('CNH_DocNo', $request->CNH_DocNo)->first();
+        $contract = ContractMaster::where('id', $request->contract_id)->first();
         $cnsoLogSeqNumber = SystemParamDetail::where('sysparam_cd', 'CNSOLOGSEQ')->select(['param_val'])->first();
         $cnsoLogSeqNumberNew = $cnsoLogSeqNumber->param_val + 1;
         $contractDtl = ContractMasterDtl::where('contractmast_id', $contract->id)->first();
