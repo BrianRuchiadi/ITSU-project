@@ -12,7 +12,7 @@
     </div>
     
     @if ($user->branchind == 0)
-    <form class="form-horizontal" action="{{ route('contract.search') }}" method="GET">
+    <form class="form-horizontal" action="{{ route('pending.contract.search') }}" method="GET">
       {{ csrf_field() }}
       <div class="form-group row">
         <div class="input-group mb-2 col-4">

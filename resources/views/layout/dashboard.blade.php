@@ -28,11 +28,11 @@
                     @endif
 
                         @if(Auth::user()->branchind === 0)
-                            <!-- <li class="customer">
+                            <li class="customer">
                                 <a href="{{ url('/contract') }}">
                                     Contract List
                                 </a>
-                            </li> -->
+                            </li>
                             <li class="customer">
                                 <a href="{{ url('/link/referral')}}">
                                     Referral Link
