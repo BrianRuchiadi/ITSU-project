@@ -25,7 +25,6 @@ use Session;
 class ContractController extends Controller
 {
     public function showPendingContractList() {
-        
         $contracts = DB::table('contractmaster')
                         ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
                         ->where('contractmaster.CNH_Status', '=', 'Pending')
@@ -245,6 +244,5 @@ class ContractController extends Controller
         Session::flash('showSuccessMessage', "Successfully {$request->Option} Contract ( {$contract->CNH_DocNo} )");
 
         return $this->showPendingContractList();
-
     }
 }
