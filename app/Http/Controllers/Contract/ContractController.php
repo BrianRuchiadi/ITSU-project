@@ -28,9 +28,6 @@ class ContractController extends Controller
         
         $contracts = DB::table('contractmaster')
                         ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
-                        ->leftjoin('irs_city', 'customermaster.Cust_MainCity', '=', 'irs_city.id')
-                        ->leftjoin('irs_state', 'customermaster.Cust_MainState', '=', 'irs_state.id')
-                        ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
                         ->where('contractmaster.CNH_Status', '=', 'Pending')
                         ->where('contractmaster.deleted_at', '=', null)
                         ->select([
@@ -38,24 +35,10 @@ class ContractController extends Controller
                             'contractmaster.CNH_PostingDate',
                             'contractmaster.CNH_DocNo',
                             'contractmaster.CTOS_verify',
-                            'contractmaster.CNH_TotInstPeriod',
                             'customermaster.Cust_NAME',
-                            'customermaster.Cust_MainAddress1',
-                            'customermaster.Cust_MainAddress2',
-                            'customermaster.Cust_MainPostcode',
-                            'customermaster.Cust_MainCity',
-                            'customermaster.Cust_MainState',
-                            'customermaster.Cust_MainCountry',
-                            'irs_city.CI_Description',
-                            'irs_state.ST_Description',
-                            'irs_country.CO_Description',
                         ])
                         ->paginate(30);
 
-        foreach ($contracts as $contract) {
-            $contract->start_date = Carbon::today()->toDateString();
-            $contract->end_date = Carbon::today()->addMonths($contract->CNH_TotInstPeriod)->toDateString();
-        }
         $user = Auth::user();
 
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
@@ -64,9 +47,6 @@ class ContractController extends Controller
     public function showSearchResult(Request $request) {
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                       ->leftjoin('irs_city', 'customermaster.Cust_MainCity', '=', 'irs_city.id')
-                       ->leftjoin('irs_state', 'customermaster.Cust_MainState', '=', 'irs_state.id')
-                       ->leftjoin('irs_country', 'customermaster.Cust_MainCountry', '=', 'irs_country.id')
                        ->where('contractmaster.CNH_Status', '=', 'Pending')
                        ->where('contractmaster.deleted_at', '=', null);
 
@@ -80,17 +60,7 @@ class ContractController extends Controller
                         'contractmaster.CNH_PostingDate',
                         'contractmaster.CNH_DocNo',
                         'contractmaster.CTOS_verify',
-                        'contractmaster.CNH_TotInstPeriod',
                         'customermaster.Cust_NAME',
-                        'customermaster.Cust_MainAddress1',
-                        'customermaster.Cust_MainAddress2',
-                        'customermaster.Cust_MainPostcode',
-                        'customermaster.Cust_MainCity',
-                        'customermaster.Cust_MainState',
-                        'customermaster.Cust_MainCountry',
-                        'irs_city.CI_Description',
-                        'irs_state.ST_Description',
-                        'irs_country.CO_Description',
                     ])->paginate(30);
 
         $user = Auth::user();
@@ -107,8 +77,32 @@ class ContractController extends Controller
                             ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
                             ->join('contractmasterdtl', 'contractmaster.id', '=', 'contractmasterdtl.contractmast_id')
                             ->where('contractmaster.id', '=', $contractId)
-                            ->first();
+                            ->select([
+                                'contractmaster.id',
+                                'contractmaster.CNH_DocNo',
+                                'contractmaster.CNH_TotInstPeriod',
+                                'contractmaster.CNH_SalesAgent1',
+                                'contractmaster.CNH_SalesAgent2',
+                                'contractmaster.CTOS_verify',
+                                'contractmaster.CNH_NameRef',
+                                'contractmaster.CNH_ContactRef',
+                                'contractmasterdtl.CND_ItemID',
+                                'customermaster.Cust_NAME',
+                                'customermaster.Cust_NRIC',
+                                'customermaster.Cust_Phone1',
+                                'customermaster.Cust_Phone2',
+                                'customermaster.Cust_Email',
+                                'customermaster.Cust_MainAddress1',
+                                'customermaster.Cust_MainAddress2',
+                                'customermaster.Cust_MainPostcode',
+                                'customermaster.Cust_MainCity',
+                                'customermaster.Cust_MainState',
+                                'customermaster.Cust_MainCountry',
+                            ])->first();
 
+        $contractDetails->start_date = Carbon::today()->toDateString();
+        $contractDetails->end_date = Carbon::today()->addMonths($contractDetails->CNH_TotInstPeriod)->toDateString();
+                
         $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
                         ->where('IM_TYPE', '=', '1')
                         ->where('IM_NonSaleItem_YN', '=', 0)
@@ -151,7 +145,7 @@ class ContractController extends Controller
         return ['status' => 'success'];
     }
 
-    public function reviewCustomerContract(Request $request) {
+    public function customerContractDecision(Request $request) {
 
         if ($request->Option == 'Approve') {
             ContractMaster::where('id', $request->contract_id)->update([
@@ -160,7 +154,7 @@ class ContractController extends Controller
                 'CNH_StartDate' => $request->start_date,
                 'CNH_EndDate' => $request->end_date,
                 'CNH_ApproveDate' => Carbon::now(),
-                'CNH_CommissionMonth' => $request->commision_months,
+                'CNH_CommissionMonth' => $request->commision_no_of_month,
                 'CNH_CommissionStartDate' => $request->commision_date,
                 'CNH_InstallAddress1' => $request->cust_mainAddress1,
                 'CNH_InstallAddress2' => $request->cust_mainAddress2,

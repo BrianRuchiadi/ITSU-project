@@ -106,7 +106,7 @@
                         <strong>(Will be used for SMS Tag) </strong>
                     </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                    <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
                     @error('contact_one_of_applicant')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -518,6 +518,7 @@
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
+                this.checkUser();
                 sellerOne.disabled = true;
                 sellerTwo.disabled = true;
             }
@@ -554,6 +555,7 @@
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
+                this.checkUser();
                 sellerOne.disabled = true;
                 sellerTwo.disabled = true;
             }
@@ -789,14 +791,21 @@
                     if (res.decoded_referrer_id) {
                         sellerOne.value = res.decoded_referrer_id;
                         sellerOne.setAttribute("disabled", true);
+                        sellerTwo.setAttribute("disabled", true);
 
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", "seller_one");
                         input.setAttribute("value", res.decoded_referrer_id);
-
+                        
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", "");
+                        
                         //append to form element that you want .
                         form.appendChild(input);
+                        form.appendChild(input2);
                     }
                 })
                 .catch((error) => {
@@ -804,6 +813,75 @@
                 });
         }
 
+        function checkUser() {
+            fetch('{{ url('') }}' + `/api/check/user`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    this.clearItems(sellerOne);
+                    this.clearItems(sellerTwo);
+                    let optionOne = document.createElement('option');
+                    optionOne.setAttribute('value', "");
+                    optionOne.appendChild(document.createTextNode(''));
+
+                    sellerOne.appendChild(optionOne);
+
+                    let optionTwo = document.createElement('option');
+                    optionTwo.setAttribute('value', "");
+                    optionTwo.appendChild(document.createTextNode(''));
+
+                    sellerTwo.appendChild(optionTwo);
+
+                    for (let each of res.data) {
+                        let optionOne = document.createElement('option');
+                        optionOne.setAttribute('value', each.id);
+                        optionOne.appendChild(document.createTextNode(each.name));
+
+                        sellerOne.appendChild(optionOne);
+
+                        let optionTwo = document.createElement('option');
+                        optionTwo.setAttribute('value', each.id);
+                        optionTwo.appendChild(document.createTextNode(each.name));
+
+                        sellerTwo.appendChild(optionTwo);
+                    }
+
+                    @if (Session::has('errorFormValidation'))
+                        sellerOne.value = '{{ session()->get('seller_one') }}';
+                        sellerTwo.value = '{{ session()->get('seller_two') }}';
+                    @endif
+                    
+                    if (res.staff) {
+                        sellerOne.value = res.staff;
+                        sellerOne.setAttribute("disabled", true);
+                        sellerTwo.setAttribute("disabled", true);
+
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "seller_one");
+                        input.setAttribute("value", res.staff);
+                        
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", "");
+                        
+                        //append to form element that you want .
+                        form.appendChild(input);
+                        form.appendChild(input2);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+                });
+        }
         function getItems() {
             fetch('{{ url('') }}' + `/api/items`, {
                 method: 'GET', // or 'PUT'
@@ -843,7 +921,7 @@
         function populateStates(option) {
             // text : option.options[option.selectedIndex].innerHTML,
             // value : option.value
-            fetch('{{ url('') }}' + `/api/country/${option.value}/states`, {
+            fetch('{{ url('') }}' + `/api/country/states?co_id=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -855,6 +933,7 @@
                 })
                 .then((res) => {
                     // stateOptions
+                    this.removeCities();
                     this.removeStates();
 
                     let option = document.createElement('option');
@@ -884,7 +963,7 @@
         }
 
         function populateCities(option) {
-            fetch('{{ url('') }}' + `/api/state/${option.value}/cities`, {
+            fetch('{{ url('') }}' + `/api/state/cities?st_id=` + option.value , {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',

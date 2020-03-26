@@ -39,12 +39,13 @@ Route::group(['middleware' => 'auth'], function() {
 
     // APIs
     Route::get('/api/users', 'Utilities\UserController@getUsers');
+    Route::get('/api/check/user', 'Utilities\UserController@checkUser');
     Route::get('/api/items', 'Utilities\ItemController@getItems');
     Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
     Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
-    Route::get('/api/country/{country}/states', 'Utilities\CountryController@getStatesOptions');
-    Route::get('/api/state/{state}/cities', 'Utilities\CountryController@getCitiesOptions');
+    Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
+    Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
 
     // SMS APIs
     Route::post('api/sms/send','Utilities\SmsController@sendSms');
@@ -56,10 +57,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
     
     Route::get('pending-contract', 'Contract\ContractController@showPendingContractList');
-    Route::post('pending-contract', 'Contract\ContractController@reviewCustomerContract')->name('contract.review');
     Route::post('pending-contract/verify-ctos', 'Contract\ContractController@contractVerifyCTOS')->name('verify.ctos');
 
     Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
     Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
+    Route::post('pending-contract/detail/{contract_id/decision', 'Contract\ContractController@customerContractDecision')->name('contract.decision');
     
 });

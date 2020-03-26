@@ -29,6 +29,11 @@
 
                         @if(Auth::user()->branchind === 0)
                             <li class="customer">
+                                <a href="{{ url('/apply') }}">
+                                    Application Form
+                                </a>
+                            </li>
+                            <li class="customer">
                                 <a href="{{ url('/contract') }}">
                                     Contract List
                                 </a>
