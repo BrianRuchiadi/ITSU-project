@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Hashids\Hashids;
 use Carbon\Carbon;
@@ -66,6 +67,13 @@ class CustomerController extends Controller
             'applicant_type' => 'required|in:individual_applicant,self_employed',
             'file_inclusion' => 'required|string|in:include,exclude',
         ]);
+
+        // START : Validate Email Exists
+        $userEmailValidation = User::where('email', $request->email_of_applicant)->exists();
+        $customerMasterEmailValidation = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->exists();
+
+        $sendEmail = ($userEmailValidation || $customerMasterEmailValidation) ? 'no' : 'yes';
+        // END : Validate Email Exists
 
         // START : File Validation 
         $hasFileValidation = ($request->file_inclusion == 'include') ? true : false;
@@ -167,6 +175,7 @@ class CustomerController extends Controller
                     'Cust_AltState' => $request->state,
                     'Cust_AltCountry' => $request->country,
                     'Cust_Phone1' => $request->contact_one_of_applicant,
+                    'Cust_Phone2' => $request->contact_two_of_applicant,
                     'Cust_Email' => $request->email_of_applicant,
                     'Cust_NRIC' => $request->ic_number,
                     'CC_ID' => $custCcIdSeqNumberNew,
@@ -192,6 +201,7 @@ class CustomerController extends Controller
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
                             'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -216,6 +226,7 @@ class CustomerController extends Controller
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
                             'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -279,7 +290,7 @@ class CustomerController extends Controller
                 'CNH_TNCInd' => $request->tandcitsu,
                 'CNH_CTOSInd' => $request->tandcctos,
                 'CNH_SmsTag' => $request->contact_one_sms_tag,
-                'CNH_EmailVerify' => (Auth::user()->branchind === 4) ? 1 : 0,
+                'CNH_EmailVerify' => ( $sendEmail == 'yes') ? 0 : 1,
                 'CNH_WarehouseID' => $irsSalesBranch->SB_DefaultWarehouse,
                 'CNH_Status' => 'Pending',
                 'usr_created' => Auth::user()->id
@@ -439,8 +450,27 @@ class CustomerController extends Controller
                 'cndeliveryorder_id' => $contractMasterDtl->cndeliveryorder_id,
                 'usr_created' => Auth::user()->id
             ]);
+
+            if ($sendEmail == 'yes') {
+                $hashids = new Hashids(config('app.salt'), 5);
+                $contractIdEncode = $hashids->encode($contractMaster->id);
+
+                $data = [
+                    'title' => 'Email verification for ITSU Kubikt',
+                    'content' => 'Click link to verify email for contract application. ',
+                    'link' => env('APP_URL') . '/contract/email/verify?id=' . $contractIdEncode,
+                    'warning' => ''
+                ];
+                Mail::send('page.auth.email', $data, function($message) use ($request) {
+                    $message->to($request['email_of_applicant'], $request['name_of_applicant'])->subject('Hy, ' . $request['name_of_applicant']);
+                });
+
+                Session::flash('showSuccessMessage', 'Successfully submitted application form, Email has been sent to verify contract email');
+            } else {
+                Session::flash('showSuccessMessage', 'Successfully submitted application form');
+            }
+
             DB::commit();
-            Session::flash('showSuccessMessage', 'Successfully submitted application form');
 
             return [
                 'status' => 'success'
