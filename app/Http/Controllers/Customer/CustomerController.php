@@ -16,7 +16,6 @@ use DB;
 
 use App\Models\IrsSalesBranch;
 use App\Models\IrsItemMaster;
-use App\Models\IrsItemUom;
 use App\Models\CustomerMaster;
 use App\Models\CustomerUserMap;
 use App\Models\ContractMaster;
@@ -24,6 +23,7 @@ use App\Models\ContractMasterDtl;
 use App\Models\SystemParamDetail;
 use App\Models\ContractMasterAttachment;
 use App\Models\ContractMasterLog;
+use App\Models\IrsItemRentalOpt;
 
 use App\Models\IrsCity;
 use App\Models\IrsState;
@@ -237,9 +237,10 @@ class CustomerController extends Controller
             $irsItemMaster = IrsItemMaster::where('IM_ID', $request->product)
                 ->select(['IM_Description', 'IM_Type', 'IM_BaseUOMID'])
                 ->first();
-            $irsItemUom = IrsItemUom::where('IU_ItemID', $request->product)
-                ->select(['IU_SalesPrice2'])
-                ->first();
+
+            $irsItemRental = IrsItemRentalOpt::where('IR_ItemID', $request->product)
+                ->where('IR_OptionKey', $request->no_of_installment_month)
+                ->select(['IR_UnitPrice'])->first();
 
             // START : get CNH_DocNo
             $cnrtlDocSeqNumber = SystemParamDetail::where('sysparam_cd', 'CNRTLDOCSEQ')->select(['param_val'])->first();
@@ -266,15 +267,15 @@ class CustomerController extends Controller
                 'CNH_SalesAgent1' => $request->seller_one,
                 'CNH_SalesAgent2' => $request->seller_two,
                 'CNH_TotInstPeriod' => $request->no_of_installment_month,
-                'CNH_Total' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_Tax' => 0,
-                'CNH_Taxable_Amt' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_Taxable_Amt' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_InstallAddress1' => $request->address_one,
                 'CNH_InstallPostCode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
                 'CNH_InstallState' => $request->state,
                 'CNH_InstallCountry' => $request->country,
-                'CNH_NetTotal' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_NetTotal' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_TNCInd' => $request->tandcitsu,
                 'CNH_CTOSInd' => $request->tandcctos,
                 'CNH_SmsTag' => $request->contact_one_sms_tag,
@@ -285,15 +286,15 @@ class CustomerController extends Controller
             ]);
 
             $cndQty = 1;
-            $cndUnitPrice = $irsItemUom->IU_SalesPrice2;
+            $cndUnitPrice = $irsItemRental->IR_UnitPrice;
             $cndSubTotal = $cndQty * $cndUnitPrice;
 
             $cndTaxAmt = 0;
-            $cndTaxableAmt = $cndQty * $irsItemUom->IU_SalesPrice2;
+            $cndTaxableAmt = $cndQty * $irsItemRental->IR_UnitPrice;
 
             $cndTotal = $cndSubTotal + $cndTaxableAmt;
 
-            $contractMasterDtl =ContractMasterDtl::create([
+            $contractMasterDtl = ContractMasterDtl::create([
                 'contractmast_id' => $contractMaster->id,
                 'CND_ItemID' => $request->product,
                 'CND_Description' => $irsItemMaster->IM_Description,

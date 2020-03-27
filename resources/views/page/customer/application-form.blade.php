@@ -18,7 +18,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Product</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="item-options" id="product" name="product" required>
+                        <select class="form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required>
                         </select>
                     @error('product')
                         <div class="form-alert alert-danger">
@@ -27,12 +27,11 @@
                     @enderror
                     </div>
                 </div>
-               
-        
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                     <div class="col-sm-8">
-                    <input type="number" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
+                    <select class="form-control" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required>
+                    </select>   
                     @error('no_of_installment_month')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -40,7 +39,12 @@
                     @enderror
                     </div>
                 </div>
-
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Unit Price</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="unit-price" name="unit_price" readonly>
+                    </div>
+                </div>
                 <div class="form-group row" style="margin-bottom: 0px;">
                     <div class="col-sm-4">
                         <label class="col-form-label">Applicant Type</label>
@@ -471,7 +475,8 @@
             let form = document.getElementById('form');
             // START : product installment 
             let itemOptions = document.getElementById('item-options');
-            let noOfInstallmentMonth = document.getElementById('no-of-installment-month');
+            let monthOptions = document.getElementById('month-options');
+            let unitPrice = document.getElementById('unit-price');
             // END : product installment
 
             // START : personal information
@@ -560,7 +565,7 @@
                 sellerTwo.disabled = true;
             }
 
-            noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
+            monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
             nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
             icNumber.value = '{{ session()->get('ic_number') }}';           
             contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
@@ -606,8 +611,8 @@
         }
 
         function submitFinalForm() {
-            smsTagSubmitButton.classList.add('disabled');
-            smsTagSubmitButton.disabled = true;
+            // smsTagSubmitButton.classList.add('disabled');
+            // smsTagSubmitButton.disabled = true;
             fetch('{{ url('') }}' + `/api/apply`, {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -654,6 +659,16 @@
             while (cityOptions.hasChildNodes()) {  
                 cityOptions.removeChild(cityOptions.firstChild);
             }
+        }
+
+        function removeMonthOptions() {
+            while (monthOptions.hasChildNodes()) {  
+                monthOptions.removeChild(monthOptions.firstChild);
+            }
+        }
+
+        function removeUnitPrice() {
+            unitPrice.value = '';
         }
 
         function fillApplicantName() {
@@ -882,6 +897,7 @@
                     console.log(['err', error]);
                 });
         }
+
         function getItems() {
             fetch('{{ url('') }}' + `/api/items`, {
                 method: 'GET', // or 'PUT'
@@ -911,7 +927,70 @@
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         itemOptions.value = '{{ session()->get('product') }}';
+                        this.populateMonthOptions(itemOptions)
                     @endif
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateMonthOptions(option) {
+            fetch('{{ url('') }}' + `/api/items/rental?item_id=` + option.value, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // monthOptions
+                    this.removeMonthOptions();
+                    this.removeUnitPrice();
+
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    monthOptions.appendChild(option);
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.IR_OptionKey);
+                        option.appendChild(document.createTextNode(each.IR_OptionDesc));
+
+                        monthOptions.appendChild(option);
+                    }
+                    
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
+                        this.populateUnitPrice(itemOptions, monthOptions);
+                    @endif
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateUnitPrice(product, option) {
+            fetch('{{ url('') }}' + `/api/items/rental/price?item_id=` + product.value + `&option_key=` + option.value, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // unitPrice
+                    this.removeUnitPrice();
+                    unitPrice.value = res.data.IR_UnitPrice;
                 })
                 .catch((error) => {
                     console.log(['err', err]);

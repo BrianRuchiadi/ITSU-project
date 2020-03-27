@@ -37,7 +37,7 @@ class UserController extends Controller
         }
 
         return [
-            'staff' => $staff,
+            'staff' => $staff ?? null,
             'data' => User::whereNull('deleted_at')->
                         where('branchind', 0)->
                         get(),
