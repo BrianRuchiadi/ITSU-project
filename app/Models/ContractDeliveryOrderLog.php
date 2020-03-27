@@ -9,7 +9,7 @@ class ContractDeliveryOrderLog extends Model
 {
     use SoftDeletes;
     
-    public $table = 'contractorderdeliverylog';
+    public $table = 'contractdeliveryorderlog';
     protected $fillable = [
         'action',
         'trx_type',
@@ -69,8 +69,7 @@ class ContractDeliveryOrderLog extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at',
-
+        'deleted_at'
     ];
     public $timestamps = false;
 }

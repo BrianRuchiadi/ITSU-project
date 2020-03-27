@@ -50,6 +50,7 @@ class ContractController extends Controller
                 contM.`CNH_DocNo`,
                 custM.`Cust_Name`,
                 itemM.`IM_Description`,
+                contMdtl.`id` AS 'contractmasterdtl_id',
                 contMdtl.`CND_Qty`,
                 contMdtl.`CND_UnitPrice`,
                 contMdtl.`CND_SubTotal`,

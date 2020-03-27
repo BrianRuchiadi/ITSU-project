@@ -92,7 +92,7 @@ class RegisterController extends Controller
                     'warning' => 'Link will expired in 1 day'
                 ];
                 Mail::send('page.auth.email', $data, function($message) use ($request) {
-                    $message->to($request['email_address'], $request['name'])->subject('Hy, ' . $request['name']);
+                    $message->to($request['email_address'], $request['name'])->subject('Hi, ' . $request['name']);
                 });
                 
                 Session::flash('flash_notification', [

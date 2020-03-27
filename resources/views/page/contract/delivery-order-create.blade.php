@@ -12,6 +12,7 @@
         <button class="btn btn-danger" onclick="updateState('invalid')" id="btn-cancel">Cancel</button>
     </h1>
    <form method="POST" action="{{ url('/api/delivery-order/create') }}">
+        {{ csrf_field() }}
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">* Contract No</label>
             <div class="col-sm-8 input-group">
@@ -64,6 +65,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Item Name</th>
                         <th>Qty</th>
                         <th>Unit Price</th>
@@ -74,6 +76,7 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><input type="checkbox" class="form-control" name="item" id="item-id"></td>
                         <td id="item-name"></td>
                         <td id="item-qty"></td>
                         <td id="item-unit-price"></td>
@@ -116,6 +119,7 @@
         let elDeliveryAddressOne = document.getElementById('delivery-address-1');
         let elDeliveryAddressTwo = document.getElementById('delivery-address-2');
         let elCustomerName = document.getElementById('customer-name');
+        let elItemId = document.getElementById('item-id');
         let elItemName = document.getElementById('item-name');
         let elItemQty = document.getElementById('item-qty');
         let elItemUnitPrice = document.getElementById('item-unit-price');
@@ -176,6 +180,8 @@
             elDeliveryAddressOne.value = '';
             elDeliveryAddressTwo.value = '';
 
+            elItemId.checked = false;
+            elItemId.value = '';
             elItemName.innerText = '';
             elItemQty.innerText = '';
             elItemUnitPrice.innerText = '';
@@ -190,6 +196,7 @@
             elCustomerName.value = contract.Cust_Name;
             elDeliveryAddressOne.value = contract.CNH_InstallAddress1;
             elDeliveryAddressTwo.value = contract.CNH_InstallAddress2;
+            elItemId.value = contract.contractmasterdtl_id;
 
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;

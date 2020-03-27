@@ -23,6 +23,9 @@ return [
     'twilio_auth_token' => env('TWILIO_AUTH_TOKEN', ''),
     'twilio_verify_sid' => env('TWILIO_VERIFY_SID', ''),
 
+    'pos_web_link' => env('POS_WEB_LINK', ''),
+    'pos_app_key' => env('POS_APP_KEY', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

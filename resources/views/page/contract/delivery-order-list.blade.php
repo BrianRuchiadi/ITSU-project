@@ -5,9 +5,15 @@
 @endsection
 
 @section('content')
-
-<div>
-   Delivery Order List
+<div class="header">
+   <h1>
+      Delivery Order List
+   </h1>
 </div>
+
+<button class="btn btn-sm btn-primary">
+   <i class="fas fa-plus"></i>
+   Create Delivery Order
+</button>
 
 @endsection

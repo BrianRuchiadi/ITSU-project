@@ -8,6 +8,11 @@ h1.title button {
   right: 0px;
 }
 
+.header {
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+}
+
 form {
   border-top: 2px solid black;
   padding-top: 10px;
