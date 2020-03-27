@@ -1,0 +1,14 @@
+form {
+  border-top: 2px solid black;
+  padding-top: 10px;
+}
+
+form .item-section {
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+form .item-section h2 {
+  padding-left: 10px;
+}
+

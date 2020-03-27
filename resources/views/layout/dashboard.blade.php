@@ -73,7 +73,11 @@
                                 Pending Contract
                             </a>
                         </li>
-                        <li class="contract">YYY</li>
+                        <li class="contract">
+                            <a href="{{ url('/delivery-order') }}">
+                                Delivery Order
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </nav>
