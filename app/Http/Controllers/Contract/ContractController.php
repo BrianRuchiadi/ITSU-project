@@ -43,6 +43,41 @@ class ContractController extends Controller
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
 
+    public function getContractDetailByCnhDocNo(Request $request) {
+        $sql = "
+            SELECT 
+                contM.`id`,
+                contM.`CNH_DocNo`,
+                custM.`Cust_Name`,
+                itemM.`IM_Description`,
+                contMdtl.`CND_Qty`,
+                contMdtl.`CND_UnitPrice`,
+                contMdtl.`CND_SubTotal`,
+                contM.`CNH_NetTotal` AS 'grand_total',
+                contM.`CNH_Status`,
+                contM.`CNH_InstallAddress1`,
+                contM.`CNH_InstallAddress2`
+            FROM
+                `contractmaster` contM,
+                `customermaster` custM,
+                `contractmasterdtl` contMdtl,
+                `irs_itemmaster` itemM
+            WHERE 1
+                AND contM.`CNH_DocNo` = '{$request->contract_no}'
+                AND contM.`CNH_Status` = 'Approve'
+                AND contM.`do_complete_ind` = 0
+                AND custM.`id` = contM.`CNH_CustomerID`
+                AND contMdtl.`contractmast_id` = contM.`id`
+                AND contMdtl.`CND_ItemID` = itemM.`IM_ID`
+        ";
+
+        $contractMaster = DB::select($sql);
+
+        return [
+            'data' => $contractMaster
+        ];
+    }
+
     public function showSearchResult(Request $request) {
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')

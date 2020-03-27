@@ -1,3 +1,13 @@
+h1.title {
+    position: relative;
+
+    button {
+        position: absolute;
+        top: 10px;
+        right: 0px;
+    }
+}
+
 form {
     border-top: 2px solid black;
     padding-top: 10px;
@@ -9,6 +19,14 @@ form {
         h2 {
             padding-left: 10px;
         }
+    }
+
+    i:hover {
+        cursor: pointer;
+    }
+
+    .submit {
+        margin-top: 20px;
     }
 }
 

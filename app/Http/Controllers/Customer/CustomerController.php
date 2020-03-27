@@ -308,6 +308,7 @@ class CustomerController extends Controller
                 'CND_ItemSeq' => 1,
                 'CND_WarehouseID' => $irsSalesBranch->SB_DefaultWarehouse,
                 'CND_BinLocationID' => $irsSalesBranch->SB_DefaultBinLocation,
+                'cndeliveryorder_id' => null,
                 'usr_created' => Auth::user()->id
             ]);
 
