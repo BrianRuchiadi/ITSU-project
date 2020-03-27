@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
 use Twilio\Rest\Client;
+use App\Models\ContractMaster;
+use Hashids\Hashids;
 
 use Auth;
 
-class SmsController extends Controller
+class ConfirmationController extends Controller
 {
 
     function __construct()
@@ -61,5 +63,14 @@ class SmsController extends Controller
         return [
             'status' => $verification->status
         ];
+    }
+
+    public function contractEmailVerification(Request $request) {
+
+        $hashids = new Hashids(config('app.salt'), 5);
+        $decodedContractMasterId = $hashids->decode($request['id']);
+        ContractMaster::where('id', $decodedContractMasterId)->update(['CNH_EmailVerify' => 1]);
+        
+        return view('page.utilities.email-verify-success');
     }
 }

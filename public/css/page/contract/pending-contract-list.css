@@ -1,0 +1,10 @@
+.verified {
+  background-color: #28a745;
+  color: white;
+}
+
+.not_verified {
+  background-color: #dc3545;
+  color: white;
+}
+

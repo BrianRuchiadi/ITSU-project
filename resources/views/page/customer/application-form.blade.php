@@ -611,8 +611,8 @@
         }
 
         function submitFinalForm() {
-            // smsTagSubmitButton.classList.add('disabled');
-            // smsTagSubmitButton.disabled = true;
+            smsTagSubmitButton.classList.add('disabled');
+            smsTagSubmitButton.disabled = true;
             fetch('{{ url('') }}' + `/api/apply`, {
                 method: 'POST', // or 'PUT'
                 headers: {

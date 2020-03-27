@@ -68,7 +68,7 @@ class ResetPasswordController extends Controller
         $hashedId = $hashids->encode($user->id);
 
         $urlLink = URL::temporarySignedRoute(
-            'auth.reset.verify', now()->addMinutes(1), ['id' => $hashedId]
+            'auth.reset.verify', now()->addMinutes(60), ['id' => $hashedId]
         );
 
         $data = [

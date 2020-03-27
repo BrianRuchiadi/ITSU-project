@@ -27,6 +27,10 @@ Route::post('reset-password', 'Auth\ResetPasswordController@sendEmailLink')->nam
 Route::get('reset-password/verify', 'Auth\ResetPasswordController@showVerifiedReset')->middleware('signed');
 Route::post('reset-password/verify', 'Auth\ResetPasswordController@verifyReset')->name('auth.reset.verify');
 
+// Contract Email Verify
+Route::get('contract/email/verify', 'PageController@showContractEmailVerifying');
+Route::post('contract/email/verify', 'Utilities\ConfirmationController@contractEmailVerification')->name('contract.email.verify');
+
 Route::group(['middleware' => 'auth'], function() {
     Route::get('home', 'PageController@index');
 
@@ -50,8 +54,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
 
     // SMS APIs
-    Route::post('api/sms/send','Utilities\SmsController@sendSms');
-    Route::post('api/sms/verify','Utilities\SmsController@verifySms');
+    Route::post('api/sms/send','Utilities\ConfirmationController@sendSms');
+    Route::post('api/sms/verify','Utilities\ConfirmationController@verifySms');
 
     // Customer Contract List
     Route::get('contract', 'Customer\CustomerController@showCustomerContractList');

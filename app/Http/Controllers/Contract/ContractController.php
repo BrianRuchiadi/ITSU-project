@@ -34,6 +34,7 @@ class ContractController extends Controller
                             'contractmaster.CNH_PostingDate',
                             'contractmaster.CNH_DocNo',
                             'contractmaster.CTOS_verify',
+                            'contractmaster.CNH_EmailVerify',
                             'customermaster.Cust_NAME',
                         ])
                         ->paginate(30);
@@ -95,6 +96,7 @@ class ContractController extends Controller
                         'contractmaster.CNH_PostingDate',
                         'contractmaster.CNH_DocNo',
                         'contractmaster.CTOS_verify',
+                        'contractmaster.CNH_EmailVerify',
                         'customermaster.Cust_NAME',
                     ])->paginate(30);
 

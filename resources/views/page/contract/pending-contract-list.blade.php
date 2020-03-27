@@ -74,6 +74,7 @@
           <th class="center">Name</th>
           <th class="center">Contract Number</th>
           <th class="center">CTOS</th>
+          <th class="center">Email</th>
           <th class="center">Verify CTOS</th>
           <th class="center">Review</th>
         </tr>
@@ -84,7 +85,9 @@
             <td class="center">{{ $contract->CNH_PostingDate }}</td>
             <td class="center">{{ $contract->Cust_NAME }}</td>
             <td class="center">{{ $contract->CNH_DocNo }}</td>
-            <td class="center">{{ ($contract->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}</td>     
+            <td class="center {{ $contract->CTOS_verify == 1 ?' verified' : 'not_verified' }}">{{ ($contract->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}</td>     
+            <td class="center {{ $contract->CNH_EmailVerify == 1 ?' verified' : 'not_verified' }}">
+            {{ ($contract->CNH_EmailVerify == 1) ? 'Verified' : 'Not Verified' }}</td>     
 
             @if ($contract->CTOS_verify == 0)
             <td class="center"><button type="button" class="btn btn-sm btn-primary" onclick="verifyCTOS({{ $contract->id }})">Verify CTOS</button></td> 
