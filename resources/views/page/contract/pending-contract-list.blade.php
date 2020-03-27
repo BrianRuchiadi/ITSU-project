@@ -8,7 +8,7 @@
 <div class="col-md-12">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Contract List</h3>
+      <h1 class="panel-title">Contract List</h1>
     </div>
     
     @if ($user->branchind == 0)

@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
     Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
     Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
+    Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
+    Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');
+
 
     // SMS APIs
     Route::post('api/sms/send','Utilities\ConfirmationController@sendSms');
@@ -73,6 +76,5 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('delivery-order', 'Contract\DeliveryController@showDeliveryOrder');
     Route::get('delivery-order/create', 'Contract\DeliveryController@showCreateDeliveryOrder');
-    Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
     
 });

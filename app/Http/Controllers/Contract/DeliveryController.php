@@ -234,7 +234,7 @@ class DeliveryController extends Controller
                     break;
                 default:
                     $contractDeliveryOrder->update([
-                        'pos_api_ind' => 1,
+                        'pos_api_ind' => 0,
                         'usr_updated' => Auth::user()->id
                     ]);
                     break;
@@ -301,9 +301,45 @@ class DeliveryController extends Controller
             DB::rollback();
             return $e->getMessage();
         }
-
-        return 1;
     }
 
-    // public function
+    public function resubmitDeliveryOrder(Request $request, ContractDeliveryOrder $contractDeliveryOrder) {
+        $client = new Client(['http_errors' => false]); 
+        $response = $client->post(config('app.pos_web_link') . "api/delivery/{$contractDeliveryOrder->id}", [
+            'form_params' => [
+                'secret' => config('app.pos_app_key')
+            ]
+        ]);
+
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+            case 200: 
+                $contractDeliveryOrder->update([
+                    'pos_api_ind' => 1,
+                    'usr_updated' => Auth::user()->id
+                ]);
+
+                Session::flash('showSuccessMessage', 'Successfully update POS API');
+                return [
+                    'status' => 'success',
+                    'data' => $contractDeliveryOrder
+                ];
+                break;
+            default:
+                $contractDeliveryOrder->update([
+                    'pos_api_ind' => 0,
+                    'usr_updated' => Auth::user()->id
+                ]);
+
+                Session::flash('showErrorMessage', 'Failure to update POS API');
+                return [
+                    'status' => 'failed',
+                    'data' => $contractDeliveryOrder
+                ];
+                break;
+        }
+
+        
+    }
 }

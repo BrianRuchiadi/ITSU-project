@@ -13,6 +13,5 @@
     "/css/page/customer/contract-details.css": "/css/page/customer/contract-details.css",
     "/css/page/contract/pending-contract-list.css": "/css/page/contract/pending-contract-list.css",
     "/css/page/contract/pending-contract-details.css": "/css/page/contract/pending-contract-details.css",
-    "/css/page/contract/delivery-order.css": "/css/page/contract/delivery-order.css",
-    "/css/page/utilities/email-verify.css": "/css/page/utilities/email-verify.css"
+    "/css/page/contract/delivery-order.css": "/css/page/contract/delivery-order.css"
 }
