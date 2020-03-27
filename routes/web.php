@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/api/users', 'Utilities\UserController@getUsers');
     Route::get('/api/check/user', 'Utilities\UserController@checkUser');
     Route::get('/api/items', 'Utilities\ItemController@getItems');
+    Route::get('/api/items/rental', 'Utilities\ItemController@getRentalMonthOptions');
+    Route::get('/api/items/rental/price', 'Utilities\ItemController@getRentalMonthOptionsPrice');
     Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
     Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
     Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');

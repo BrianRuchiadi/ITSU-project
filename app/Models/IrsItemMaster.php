@@ -61,7 +61,9 @@ class IrsItemMaster extends Model
         'IM_Point05',
         'IM_Point06',
         'IM_RedemptionItem_YN',
-        'IM_RedemptionPoint'
+        'IM_RedemptionPoint',
+        'IM_Complete',
+        'rental_ind'
     ];
 
     protected $hidden = [
