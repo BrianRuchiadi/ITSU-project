@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('pending-contract', 'Contract\ContractController@showPendingContractList');
     Route::post('pending-contract/verify-ctos', 'Contract\ContractController@contractVerifyCTOS')->name('verify.ctos');
 
+    Route::get('approved-contract/search/cnh-doc', 'Contract\ContractController@getContractDetailByCnhDocNo');
+
     Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
     Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
     Route::post('pending-contract/detail/{contract_id/decision', 'Contract\ContractController@customerContractDecision')->name('contract.decision');
