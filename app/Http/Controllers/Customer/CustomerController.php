@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Hashids\Hashids;
 use Carbon\Carbon;
@@ -456,10 +457,14 @@ class CustomerController extends Controller
                 $hashids = new Hashids(config('app.salt'), 5);
                 $contractIdEncode = $hashids->encode($contractMaster->id);
 
+                $urlLink = URL::signedRoute(
+                    'contract.email.verify', ['id' => $contractIdEncode]
+                );
+
                 $data = [
                     'title' => 'Email verification for ITSU Kubikt',
                     'content' => 'Click link to verify email for contract application. ',
-                    'link' => env('APP_URL') . '/contract/email/verify?id=' . $contractIdEncode,
+                    'link' => $urlLink,
                     'warning' => ''
                 ];
                 Mail::send('page.auth.email', $data, function($message) use ($request) {

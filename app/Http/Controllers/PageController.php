@@ -27,4 +27,9 @@ class PageController extends Controller
     { 
         return view('page.auth.change-password');
     }
+
+    public function showContractEmailVerifying(Request $request) 
+    {
+        return view('page.utilities.email-verify')->with('id', $request['id']);
+    }
 }

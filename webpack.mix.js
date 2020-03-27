@@ -30,5 +30,6 @@ mix.sass('resources/sass/page/contract/pending-contract-list.scss', 'public/css/
 mix.sass('resources/sass/page/contract/pending-contract-details.scss', 'public/css/page/contract');
 mix.sass('resources/sass/page/contract/delivery-order.scss', 'public/css/page/contract');
 
+mix.sass('resources/sass/page/utilities/email-verify.scss', 'public/css/page/utilities');
 
 mix.copyDirectory('resources/assets/pictures', 'public/assets/pictures');
