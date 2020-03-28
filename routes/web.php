@@ -78,4 +78,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('delivery-order/create', 'Contract\DeliveryController@showCreateDeliveryOrder');
     
     Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
+    Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');
 });
