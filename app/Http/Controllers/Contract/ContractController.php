@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\IrsItemMaster;
 use App\Models\CustomerMaster;
@@ -183,8 +184,17 @@ class ContractController extends Controller
     }
 
     public function customerContractDecision(Request $request) {
-
+        
         if ($request->Option == 'Approve') {
+            $validator = Validator::make($request->all(), [
+                'start_date' => 'required|after_or_equal:today',
+                'commision_date' => 'required|after_or_equal:start_date',
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+            
             ContractMaster::where('id', $request->contract_id)->update([
                 'CNH_Status' => 'Approve',
                 'CNH_EffectiveDay' => $request->effective_day,

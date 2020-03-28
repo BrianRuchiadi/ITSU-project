@@ -169,7 +169,12 @@
                 <span class="input-group-text col-sm-4">Contract Start Date</span>
                 <div class="col-sm-8">
                   <input type="date" name="start_date" class="form-control"
-                  placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" readonly>
+                  placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" onchange="updateEndDate(start_date, cnh_tot_inst_period)" required>
+                  @error('start_date')
+                      <div class="form-alert alert-danger">
+                          <strong>{{ $message }}</strong>
+                      </div>
+                  @enderror 
                 </div>
               </div>
             </div>
@@ -177,7 +182,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contract End Date</span>
                 <div class="col-sm-8">
-                  <input type="date" name="end_date" class="form-control"
+                  <input type="date" name="end_date" class="form-control" id="end_date"
                   placeholder="{{ $contractDetails->end_date }}" value="{{ $contractDetails->end_date }}" readonly>
                 </div>
               </div>
@@ -200,6 +205,11 @@
                 <div class="col-sm-8">
                   <input type="date" name="commision_date" class="form-control"
                   placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" required>
+                  @error('commision_date')
+                    <div class="form-alert alert-danger">
+                      <strong>{{ $message }}</strong>
+                    </div>
+                  @enderror 
                 </div>
               </div>
             </div>
@@ -301,4 +311,17 @@
 @section('scripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  function updateEndDate(start_date, add_months) {
+    let EndDate = document.getElementById('end_date');
+
+    month = parseInt(add_months.value);
+    date = new Date(start_date.value);
+
+    end_date = new Date(date.setMonth(date.getMonth() + month));
+    EndDate.value = end_date.toISOString().slice(0,10);
+    console.log(EndDate.value);
+    }
+
+</script>
 @endsection
