@@ -45,12 +45,16 @@ class GenerateInvoice extends Command
     */
     public function handle()
     {
-        $selectedDay = 1; // 16 or 1
-        $this->info('searching for approved contract that effective day is ' . $selectedDay . ' ....');
-
         $todayDateString = Carbon::now()->toDateString();
+        $day = Carbon::now()->day;
+
+        $this->info('today date is : ' . $todayDateString);
+
+        $selectedDay = ($day < 16) ? 1 : 16;
+        $this->info('searching for approved contracts which effective day is ' . $selectedDay . ' ....');
+
         $approvedContracts = ContractMaster::where('CNH_Status', 'Approve')
-            ->where('CNH_EffectiveDay', 1)
+            ->where('CNH_EffectiveDay', $selectedDay)
             ->where('CNH_StartDate', '<', $todayDateString)
             ->where('CNH_EndDate', '>', $todayDateString)
             ->whereNull('deleted_at')
@@ -60,10 +64,30 @@ class GenerateInvoice extends Command
             $this->info('no contract found that match the requirements');
             return; 
         }
-        // DB::commit();
 
         $this->info('found : ' . $approvedContracts->count() . ' contracts!' );
         $this->info(' ');
+
+        $this->info('checking if the contract invoice is already generated for this month');
+        $this->info('......');
+
+        $approvedContractsIds = $approvedContracts->pluck('id');
+
+        foreach ($approvedContractsIds as $cid) {
+            $contract = ContractMaster::where('id', $cid)->first();
+            $contractStartDate = Carbon::parse($contract->CNH_StartDate);
+            $contractBillingTillThisMonth = $contractStartDate->diffInMonths($todayDateString);
+
+            $latestInvoice = ContractInvoice::where('contractmast_id', $cid)->orderBy('CSIH_BillingPeriod', 'desc')->first();
+            
+            if ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) {
+                $this->error('This month invoice is already generated!');
+                $this->error('Command Terminated Unsuccessfully!');
+                return;
+            }
+        }
+
+        // return;
         DB::beginTransaction();
 
         try {
@@ -207,7 +231,7 @@ class GenerateInvoice extends Command
             $this->info('Command Finished Successfully!');
         } catch (Exception $e) {
             DB::rollback();
-            $this->info('Command Terminated Unsuccessfully!');
+            $this->error('Command Terminated Unsuccessfully!');
             return $e->getMessage();
         }
 
