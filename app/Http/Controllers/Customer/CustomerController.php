@@ -292,6 +292,7 @@ class CustomerController extends Controller
                 'CNH_CTOSInd' => $request->tandcctos,
                 'CNH_SmsTag' => $request->contact_one_sms_tag,
                 'CNH_EmailVerify' => ( $sendEmail == 'yes') ? 0 : 1,
+                'do_complete_ind' => 0,
                 'CNH_WarehouseID' => $irsSalesBranch->SB_DefaultWarehouse,
                 'CNH_Status' => 'Pending',
                 'usr_created' => Auth::user()->id

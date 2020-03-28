@@ -70,6 +70,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th class="center">No</th>
           <th class="center">Date</th>
           <th class="center">Name</th>
           <th class="center">Contract Number</th>
@@ -80,8 +81,9 @@
         </tr>
       </thead>
       <tbody>
-      @foreach ($contracts as $contract)
+      @foreach ($contracts as $key => $contract)
         <tr>
+            <td class="center">{{ $contracts->firstItem() + $key }}</td>
             <td class="center">{{ $contract->CNH_PostingDate }}</td>
             <td class="center">{{ $contract->Cust_NAME }}</td>
             <td class="center">{{ $contract->CNH_DocNo }}</td>
@@ -100,7 +102,7 @@
       @endforeach
       @if(count($contracts) == 0)
       <tr>
-        <td colspan="7" class="center">No Contract Found</td>
+        <td colspan="8" class="center">No Contract Found</td>
       </tr>
       @endif
       

@@ -27,7 +27,7 @@ class DeliveryController extends Controller
 {
 
     public function showDeliveryOrder(Request $request) {
-        $contractDeliveryOrders = ContractDeliveryOrder::whereNull('deleted_at')->get();
+        $contractDeliveryOrders = ContractDeliveryOrder::whereNull('deleted_at')->paginate(30);
 
         return view('page.contract.delivery-order-list', [
             'contract_delivery_orders' => $contractDeliveryOrders
@@ -104,7 +104,7 @@ class DeliveryController extends Controller
             ]);
 
             $contractDeliveryOrderDtl = ContractDeliveryOrderDtl::create([
-                'contractdelivryorder_id' => $contractDeliveryOrder->id,
+                'contractdeliveryorder_id' => $contractDeliveryOrder->id,
                 'CDOD_ItemID' => $contractMasterDetail->CND_ItemID,
                 'CDOD_Description' => $contractMasterDetail->CND_Description,
                 'CDOD_ItemUOMID' => $contractMasterDetail->CND_ItemUOMID,
@@ -275,7 +275,7 @@ class DeliveryController extends Controller
                 'CDOH_NetTotal' => $contractDeliveryOrder->CDOH_NetTotal,
                 'CDOH_SalesAgent1' => $contractDeliveryOrder->CDOH_SalesAgent1,
                 'CDOH_SalesAgent2' => $contractDeliveryOrder->CDOH_SalesAgent2,
-                'contractdeliveryorder_id' => $contractDeliveryOrderDtl->id,
+                'contractdeliveryorderdtl_id' => $contractDeliveryOrderDtl->id,
                 'CDOD_ItemID' => $contractDeliveryOrderDtl->CDOD_ItemID,
                 'CDOD_Description' => $contractDeliveryOrderDtl->CDOD_Description,
                 'CDOD_ItemUOMID' => $contractDeliveryOrderDtl->CDOD_ItemUOMID,

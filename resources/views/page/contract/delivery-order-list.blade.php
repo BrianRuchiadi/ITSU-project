@@ -10,11 +10,9 @@
       Delivery Order List
    </h1>
 </div>
-
-<button class="btn btn-sm btn-primary">
-   <i class="fas fa-plus"></i>
-   Create Delivery Order
-</button>
+<a href="{{ url('/delivery-order/create') }}" class="btn btn-primary">
+   <i class="fas fa-plus"></i>Create Delivery Order
+</a>
 
 <table class="table table-striped">
    <thead>
@@ -29,7 +27,7 @@
    <tbody>
       @foreach ($contract_delivery_orders as $key => $cdOrder)
       <tr>
-         <td>{{ $key + 1 }}</td>
+         <td>{{ $contract_delivery_orders->firstItem() + $key }}</td>
          <td>{{ $cdOrder->CDOH_DocNo }}</td>
          <td>{{ $cdOrder->CDOH_DocDate }}</td>
          <td>
@@ -48,6 +46,7 @@
       @endforeach
    </tbody>
 </table>
+{{ $contract_delivery_orders->links() }}
 
 @endsection
 
