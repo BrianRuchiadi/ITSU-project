@@ -320,7 +320,6 @@
 
     end_date = new Date(date.setMonth(date.getMonth() + month));
     EndDate.value = end_date.toISOString().slice(0,10);
-    console.log(EndDate.value);
     }
 
 </script>
