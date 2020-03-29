@@ -180,7 +180,7 @@ class ContractController extends Controller
 
         $status = 'Pending';
         if ($request->print == 1) {
-            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment', 'status'));
+            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'status'));
         } else {
             return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
         }

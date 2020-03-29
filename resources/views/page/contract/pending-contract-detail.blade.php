@@ -11,8 +11,8 @@
           <a href="{{ url('/pending-contract') }}" class="btn btn-primary">
             <i class="fas fa-chevron-left"></i> Back
           </a>
-        <a href="{{ url('/pending-contract/detail/' . $contractDetails->id . '?print=1') }} " class="btn btn-primary" target="_blank">
-          <i class="fas fa-print"></i> Print
+        <a href="{{ url('/pending-contract/detail/' . $contractDetails->id . '?print=1') }}" class="btn btn-primary" target="_blank">
+          <i class="fas fa-print"></i> Print / <i class="fas fa-file-pdf"></i> Export
         </a>
         </span>
         <h2 class="center">
