@@ -11,12 +11,15 @@
           <a href="{{ url('/pending-contract') }}" class="btn btn-primary">
             <i class="fas fa-chevron-left"></i> Back
           </a>
+        <a href="{{ url('/pending-contract/detail/' . $contractDetails->id . '?print=1') }} " class="btn btn-primary" target="_blank">
+          <i class="fas fa-print"></i> Print
+        </a>
         </span>
         <h2 class="center">
           Contract Details For | {{ $contractDetails->CNH_DocNo }}
         </h2>
 
-        <form class="form-horizontal" method="POST" action="{{ route('contract.decision', $contractDetails->id) }}" enctype="multipart/form-data" >
+        <form class="form-horizontal" method="POST" onsubmit="return validate()" action="{{ route('contract.decision', $contractDetails->id) }}" enctype="multipart/form-data" >
           {{ csrf_field() }}
             <input type="hidden" name="Option" value="Approve">
             <input type="hidden" name="contract_id" value="{{ $contractDetails->id }}">
@@ -157,7 +160,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contract Effective Date (1st / 16th)</span>
                 <div class="col-sm-2">
-                  <select class="form-control" id="effective_day" name="effective_day" required>
+                  <select class="form-control" id="effective_day" name="effective_day" id="effective_day" required>
                     <option value="1">1</option>
                     <option value="16">16</option>  
                   </select>
@@ -168,7 +171,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contract Start Date</span>
                 <div class="col-sm-8">
-                  <input type="date" name="start_date" class="form-control"
+                  <input type="date" name="start_date" class="form-control" id="start_date"
                   placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" onchange="updateEndDate(start_date, cnh_tot_inst_period)" required>
                   @error('start_date')
                       <div class="form-alert alert-danger">
@@ -345,6 +348,20 @@
     end_date = new Date(date.setMonth(date.getMonth() + month));
     EndDate.value = end_date.toISOString().slice(0,10);
     }
+
+  function validate() {
+    let effectiveDay = document.getElementById('effective_day');
+    let startDate = document.getElementById('start_date');
+
+    date = new Date(startDate.value);
+    if (date.getDate() == effectiveDay.options[effectiveDay.selectedIndex].value) {
+      if (confirm("effective day is the same as start date, are you sure to proceed")) {
+        
+      } else {
+        return false;
+      }
+    }
+  }
 
 </script>
 @endsection

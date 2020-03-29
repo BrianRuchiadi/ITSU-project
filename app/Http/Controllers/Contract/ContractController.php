@@ -110,7 +110,7 @@ class ContractController extends Controller
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
     
-    public function showCustomerContractDetail($contractId) {
+    public function showCustomerContractDetail(Request $request, $contractId) {
         $contractDetails = DB::table('customermaster')
                             ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
                             ->join('contractmasterdtl', 'contractmaster.id', '=', 'contractmasterdtl.contractmast_id')
@@ -124,6 +124,12 @@ class ContractController extends Controller
                                 'contractmaster.CTOS_verify',
                                 'contractmaster.CNH_NameRef',
                                 'contractmaster.CNH_ContactRef',
+                                'contractmaster.CNH_EffectiveDay',
+                                'contractmaster.CNH_StartDate',
+                                'contractmaster.CNH_EndDate',
+                                'contractmaster.CNH_ApproveDate',
+                                'contractmaster.CNH_CommissionMonth',
+                                'contractmaster.CNH_CommissionStartDate',
                                 'contractmasterdtl.CND_ItemID',
                                 'customermaster.Cust_NAME',
                                 'customermaster.Cust_NRIC',
@@ -172,7 +178,12 @@ class ContractController extends Controller
 
         $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->first();
 
-        return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
+        $status = 'Pending';
+        if ($request->print == 1) {
+            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment', 'status'));
+        } else {
+            return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
+        }
     }
 
     public function contractVerifyCTOS(Request $request) {
@@ -291,6 +302,6 @@ class ContractController extends Controller
 
         Session::flash('showSuccessMessage', "Successfully {$request->Option} Contract ( {$contract->CNH_DocNo} )");
 
-        return $this->showPendingContractList();
+        return redirect('pending-contract');
     }
 }

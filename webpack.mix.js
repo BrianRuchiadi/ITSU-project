@@ -33,4 +33,6 @@ mix.sass('resources/sass/page/contract/invoice.scss', 'public/css/page/contract'
 
 mix.sass('resources/sass/page/utilities/email-verify.scss', 'public/css/page/utilities');
 
+mix.sass('resources/sass/page/print/print-contract.scss', 'public/css/page/print');
+
 mix.copyDirectory('resources/assets/pictures', 'public/assets/pictures');
