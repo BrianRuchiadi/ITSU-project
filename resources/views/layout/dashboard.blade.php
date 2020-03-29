@@ -69,6 +69,11 @@
 
                     @if(Auth::user()->branchind === 0)
                         <li class="contract">
+                            <a href="{{ url('/invoices') }}">
+                                Invoice List
+                            </a>
+                        </li>
+                        <li class="contract">
                             <a href="{{ url('/pending-contract') }}">
                                 Pending Contract
                             </a>

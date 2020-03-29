@@ -47,10 +47,16 @@ class GenerateInvoice extends Command
     {
         $todayDateString = Carbon::now()->toDateString();
         $day = Carbon::now()->day;
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
 
         $this->info('today date is : ' . $todayDateString);
 
         $selectedDay = ($day < 16) ? 1 : 16;
+        // any date, always force it to either 1 or 16
+        $todayDateString = "{$year}-" . str_pad($month, 2, '0',STR_PAD_LEFT) . "-" . str_pad($selectedDay, 2, '0',STR_PAD_LEFT);
+
+        $this->info('we will create for : ' . $todayDateString);
         $this->info('searching for approved contracts which effective day is ' . $selectedDay . ' ....');
 
         $approvedContracts = ContractMaster::where('CNH_Status', 'Approve')
@@ -75,19 +81,27 @@ class GenerateInvoice extends Command
 
         foreach ($approvedContractsIds as $cid) {
             $contract = ContractMaster::where('id', $cid)->first();
+
             $contractStartDate = Carbon::parse($contract->CNH_StartDate);
+            $contractStartDay = Carbon::parse($contract->CNH_StartDate)->day;
             $contractBillingTillThisMonth = $contractStartDate->diffInMonths($todayDateString);
 
+            // add another month to contractBillingTillThisMonth due to special condition
+            if ($selectedDay == 16 && $contractStartDay < 16) {
+                $contractBillingTillThisMonth+= 1;
+            }
+
             $latestInvoice = ContractInvoice::where('contractmast_id', $cid)->orderBy('CSIH_BillingPeriod', 'desc')->first();
-            
-            if ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) {
-                $this->error('This month invoice is already generated!');
-                $this->error('Command Terminated Unsuccessfully!');
-                return;
+            // check latest invoice
+            if ($latestInvoice) {
+                if ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) {
+                    $this->error('This month invoice is already generated!');
+                    $this->error('Command Terminated Unsuccessfully!');
+                    return;
+                }
             }
         }
-
-        // return;
+        $this->info('please proceed with creation....');
         DB::beginTransaction();
 
         try {
