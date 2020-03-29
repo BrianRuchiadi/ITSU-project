@@ -8,7 +8,7 @@
 <div class="content">
     <div class="register-panel">
         <h2 class="center">
-            <i class="fas fa-chevron-left force-left" onclick="backToLogin()"></i>
+            <i class="fas fa-chevron-left force-left btn" onclick="backToLogin()"></i>
             <i class="fas fa-user-plus"></i>Register
         </h2>
 

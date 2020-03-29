@@ -283,8 +283,8 @@
                     <i class="fas fa-caret-down"></i>
                 </h3>
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">One Photocopy Of I/C</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">One Photocopy Of I/C</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_icno">
                         @error('file_individual_icno')
                         <div class="form-alert alert-danger">
@@ -296,8 +296,8 @@
                 </div>
 
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_income">
                         @error('file_individual_income')
                         <div class="form-alert alert-danger">
@@ -308,8 +308,8 @@
                 </div>
 
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">Updated Bank Statement Or Savings Passbook</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">Updated Bank Statement Or Savings Passbook</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_bankstatement">
                         @error('file_individual_bankstatement')
                         <div class="form-alert alert-danger">
@@ -327,11 +327,11 @@
                 </h3>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Form J and Business Registration Form<br/>
                         (Borang A and D)
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_form">
                         @error('file_company_form')
                         <div class="form-alert alert-danger">
@@ -342,10 +342,10 @@
                 </div>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Photocopied I/C Of Proprietor / Partners / Directors
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_icno">
                         @error('file_company_icno')
                         <div class="form-alert alert-danger">
@@ -356,10 +356,10 @@
                 </div>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Updated 3 Month Bank Statement
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_bankstatement">
                         @error('file_company_bankstatement')
                         <div class="form-alert alert-danger">

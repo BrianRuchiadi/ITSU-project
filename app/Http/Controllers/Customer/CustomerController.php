@@ -82,15 +82,15 @@ class CustomerController extends Controller
         if ($hasFileValidation) {
             if ($request->applicant_type == 'individual_applicant') {
                 $validatorFile = Validator::make($request->all(), [
-                    'file_individual_icno' => 'file|required',
-                    'file_individual_income' => 'file|required',
-                    'file_individual_bankstatement' => 'file|required',
+                    'file_individual_icno' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_individual_income' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_individual_bankstatement' => 'file|required|mimes:jpeg,png,jpg,pdf',
                 ]);
             } else if ($request->applicant_type == 'self_employed') {
                 $validatorFile = Validator::make($request->all(), [
-                    'file_company_form' => 'file|required',
-                    'file_company_icno' => 'file|required',
-                    'file_company_bankstatement' => 'file|required',
+                    'file_company_form' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_company_icno' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_company_bankstatement' => 'file|required|mimes:jpeg,png,jpg,pdf',
                 ]);
             }
 
