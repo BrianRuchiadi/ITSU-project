@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<a class="btn btn-primary" href="{{url('invoices')}}">
+<a class="btn btn-primary" href="{{url('/contract/invoices')}}">
     <i class="fas fa-chevron-left"></i>
     Back To Invoices By Date
 </a>
@@ -32,7 +32,7 @@
             <td>{{ $value->Cust_Phone1 }}</td>
             <td>{{ $value->Cust_Email }}</td>
             <td>{{ $value->CSIH_BillingPeriod }} / {{ $value->CNH_TotInstPeriod }}</td>
-            <td><a class="btn btn-sm btn-primary" href="{{ url('/invoices/' . $value->id)}}">View Detail</a></td>
+            <td><a class="btn btn-sm btn-primary" href="{{ url('/contract/invoices/' . $value->id)}}">View Detail</a></td>
         </tr>
         @endforeach
     </thead>

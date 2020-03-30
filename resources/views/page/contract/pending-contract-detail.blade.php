@@ -8,10 +8,10 @@
 <div class="content">
     <div class="contract-details-panel">
         <span>
-          <a href="{{ url('/pending-contract') }}" class="btn btn-primary">
+          <a href="{{ url('/contract/pending-contract') }}" class="btn btn-primary">
             <i class="fas fa-chevron-left"></i> Back
           </a>
-        <a href="{{ url('/pending-contract/detail/' . $contractDetails->id . '?print=1') }}" class="btn btn-primary" target="_blank">
+        <a href="{{ url('/contract/pending-contract/detail/' . $contractDetails->id . '?print=1') }}" class="btn btn-primary" target="_blank">
           <i class="fas fa-print"></i> Print / <i class="fas fa-file-pdf"></i> Export
         </a>
         </span>
@@ -19,7 +19,7 @@
           Contract Details For | {{ $contractDetails->CNH_DocNo }}
         </h2>
 
-        <form class="form-horizontal" method="POST" onsubmit="return validate()" action="{{ route('contract.decision', $contractDetails->id) }}" enctype="multipart/form-data" >
+        <form class="form-horizontal" method="POST" onsubmit="return validate()" action="{{ route('pending.contract.decision', $contractDetails->id) }}" enctype="multipart/form-data" >
           {{ csrf_field() }}
             <input type="hidden" name="Option" value="Approve">
             <input type="hidden" name="contract_id" value="{{ $contractDetails->id }}">
@@ -311,7 +311,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal" method="POST" action="{{ route('contract.decision', $contractDetails->id) }}" enctype="multipart/form-data">
+            <form class="form-horizontal" method="POST" action="{{ route('pending.contract.decision', $contractDetails->id) }}" enctype="multipart/form-data">
               {{ csrf_field() }}
             <input type="hidden" name="Option" value="Reject">
             <input type="hidden" name="contract_id" value="{{ $contractDetails->id }}">

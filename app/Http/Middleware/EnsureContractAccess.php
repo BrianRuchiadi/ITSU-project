@@ -10,10 +10,10 @@ class EnsureContractAccess
 {
     public function handle($request, Closure $next, $contract)
     {
-        if (Auth::user()->acc_contract_module === $contract) {
+        if (Auth::user()->acc_contract_module == $contract) {
             return $next($request);
         }
 
-        return response(['errors' => 'Unauthenticated'], 401);
+        abort(401);
     }
 }

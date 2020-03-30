@@ -33,7 +33,7 @@ class InvoiceController extends Controller
 
     public function showInvoicesListByDate(Request $request) {
         if (!$request->generated_date) {
-            return redirect('/invoices');
+            return redirect('/contract/invoices');
         }
         $sql = "
             SELECT

@@ -60,7 +60,7 @@
         </div>
         <div class="input-group col-2">
             <div class="input-group-prepend">
-              <a href="{{ url('/pending-contract') }}" class="btn btn-primary">Clear </a>
+              <a href="{{ url('/contract/pending-contract') }}" class="btn btn-primary">Clear </a>
             </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
             <td class="center"><button type="button" class="btn btn-sm btn-primary" onclick="verifyCTOS({{ $contract->id }})">Verify CTOS</button></td> 
             <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary disabled" disabled>View Details</a></td>
             @else
-            <td class="center"><button type="button" class="btn btn-sm btn-primary" onclick="verifyCTOS({{ $contract->id }})" disabled>Verify CTOS</button></td>
+            <td class="center"><button type="button" class="btn btn-sm btn-primary disabled" onclick="verifyCTOS({{ $contract->id }})" disabled>Verify CTOS</button></td>
             <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary">View Details</a></td>
             @endif
         </tr>
@@ -116,7 +116,7 @@
 @section('scripts')
 <script type="text/javascript">
       function verifyCTOS(contractId) {
-          fetch('{{ url('') }}' + `/pending-contract/verify-ctos`, {
+          fetch('{{ url('') }}' + `/contract/pending-contract/verify-ctos`, {
               method: 'POST', // or 'PUT'
               headers: {
                   'Content-Type': 'application/json',

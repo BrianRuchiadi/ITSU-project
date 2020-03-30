@@ -296,7 +296,7 @@ class DeliveryController extends Controller
             
             DB::commit();
             Session::flash('showSuccessMessage', "Successfully Create Delivery Order For {$params['contract_no']}");
-            return redirect('delivery-order');
+            return redirect('/contract/delivery-order');
         } catch (Exception $e) {
             DB::rollback();
             return $e->getMessage();

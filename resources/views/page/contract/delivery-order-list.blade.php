@@ -10,7 +10,7 @@
       Delivery Order List
    </h1>
 </div>
-<a href="{{ url('/delivery-order/create') }}" class="btn btn-primary">
+<a href="{{ url('/contract/delivery-order/create') }}" class="btn btn-primary">
    <i class="fas fa-plus"></i>Create Delivery Order
 </a>
 
@@ -55,7 +55,7 @@
    function resubmitPosApi(element, id) {
       element.disabled = true;
 
-      fetch('{{ url('') }}' + `/api/delivery-order/${id}/resubmit`, {
+      fetch('{{ url('') }}' + `/contract/api/delivery-order/${id}/resubmit`, {
          method: 'POST', // or 'PUT'
          headers: {
             'Content-Type': 'application/json',

@@ -6,7 +6,7 @@
 
 @section('content')
     <h2 class="center">Application Form</h2>
-    <form method="POST" action="{{ url('/api/apply') }}" enctype="multipart/form-data" id="form">
+    <form method="POST" action="{{ url('/customer/api/apply') }}" enctype="multipart/form-data" id="form">
         {{ csrf_field() }}
 
         @if (!Session::has('displaySMSTag'))
@@ -613,7 +613,7 @@
         function submitFinalForm() {
             smsTagSubmitButton.classList.add('disabled');
             smsTagSubmitButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/apply`, {
+            fetch('{{ url('') }}' + `/customer/api/apply`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -686,7 +686,7 @@
         function sendSmsTag() {
             smsTagSendButton.classList.add('disabled');
             smsTagSendButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/sms/send`, {
+            fetch('{{ url('') }}' + `/customer/api/sms/send`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -725,7 +725,7 @@
         function verifySmsTag() {
             smsTagVerifyButton.classList.add('disabled'); // disable verify button
             smsTagVerifyButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/sms/verify`, {
+            fetch('{{ url('') }}' + `/customer/api/sms/verify`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -759,7 +759,7 @@
         }
 
         function getUsers() {
-            fetch('{{ url('') }}' + `/api/users?ref=` + localStorage.getItem('referrerCode'), {
+            fetch('{{ url('') }}' + `/customer/api/users?ref=` + localStorage.getItem('referrerCode'), {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -829,7 +829,7 @@
         }
 
         function checkUser() {
-            fetch('{{ url('') }}' + `/api/check/user`, {
+            fetch('{{ url('') }}' + `/customer/api/check/user`, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -899,7 +899,7 @@
         }
 
         function getItems() {
-            fetch('{{ url('') }}' + `/api/items`, {
+            fetch('{{ url('') }}' + `/customer/api/items`, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -936,7 +936,7 @@
         }
 
         function populateMonthOptions(option) {
-            fetch('{{ url('') }}' + `/api/items/rental?item_id=` + option.value, {
+            fetch('{{ url('') }}' + `/customer/api/items/rental?item_id=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -977,7 +977,7 @@
         }
 
         function populateUnitPrice(product, option) {
-            fetch('{{ url('') }}' + `/api/items/rental/price?item_id=` + product.value + `&option_key=` + option.value, {
+            fetch('{{ url('') }}' + `/customer/api/items/rental/price?item_id=` + product.value + `&option_key=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -1000,7 +1000,7 @@
         function populateStates(option) {
             // text : option.options[option.selectedIndex].innerHTML,
             // value : option.value
-            fetch('{{ url('') }}' + `/api/country/states?co_id=` + option.value, {
+            fetch('{{ url('') }}' + `/customer/api/country/states?co_id=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -1042,7 +1042,7 @@
         }
 
         function populateCities(option) {
-            fetch('{{ url('') }}' + `/api/state/cities?st_id=` + option.value , {
+            fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -1082,7 +1082,7 @@
         }
 
         function getCountryOptions() {
-            fetch("{{ url('/api/countries') }}", {
+            fetch("{{ url('/customer/api/countries') }}", {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',

@@ -11,6 +11,9 @@
 |
 */
 // Authentication Routes...
+Route::get('', function () {
+    return redirect('login');
+});
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
@@ -32,6 +35,9 @@ Route::get('contract/email/verify', 'PageController@showContractEmailVerifying')
 Route::post('contract/email/verify', 'Utilities\ConfirmationController@contractEmailVerification')->name('contract.email.verify');
 
 Route::group(['middleware' => 'auth'], function() {
+    
+    Route::get('home', 'PageController@index');
+    
     Route::get('change-password', 'PageController@showChangePasswordForm');
     Route::post('change-password', 'Auth\ChangePasswordController@changePassword')->name('auth.change.password');
 });
@@ -42,10 +48,9 @@ Route::group([
     Route::prefix('customer')->group(function () {
         
         // Route
-        Route::get('home', 'PageController@index');
         Route::get('apply', 'PageController@showApplicationForm');
         Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
-        Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
+        Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('customer.contract.detail');
 
         // API
         Route::get('/api/users', 'Utilities\UserController@getUsers');
@@ -67,7 +72,7 @@ Route::group([
         ], function () {
             // Route
             Route::get('link/referral', 'PageController@showReferralLink');
-            Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('contract.search');
+            Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('customer.contract.search');
             
             // API
             Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
@@ -86,7 +91,7 @@ Route::group([
         
         Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
         Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
-        Route::post('pending-contract/detail/{contract_id}', 'Contract\ContractController@customerContractDecision')->name('contract.decision');
+        Route::post('pending-contract/detail/{contract_id}', 'Contract\ContractController@customerContractDecision')->name('pending.contract.decision');
     
         Route::get('approved-contract/search/cnh-doc', 'Contract\ContractController@getContractDetailByCnhDocNo');
         
@@ -96,7 +101,6 @@ Route::group([
         Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
         Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');
         
-
         // API
         Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
         Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');

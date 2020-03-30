@@ -10,10 +10,10 @@ class EnsureCustomerStaffAccess
 {
     public function handle($request, Closure $next, $customer)
     {
-        if (Auth::user()->branchind === $customer) {
+        if (Auth::user()->branchind == $customer) {
             return $next($request);
         }
 
-        return response(['errors' => 'Unauthenticated'], 401);
+        abort(401);
     }
 }

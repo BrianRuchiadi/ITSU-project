@@ -102,10 +102,6 @@ class ContractController extends Controller
                     ])->paginate(30);
 
         $user = Auth::user();
-        foreach ($contracts as $contract) {
-            $contract->start_date = Carbon::today()->toDateString();
-            $contract->end_date = Carbon::today()->addMonths($contract->CNH_TotInstPeriod)->toDateString();
-        }
 
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
@@ -302,6 +298,6 @@ class ContractController extends Controller
 
         Session::flash('showSuccessMessage', "Successfully {$request->Option} Contract ( {$contract->CNH_DocNo} )");
 
-        return redirect('pending-contract');
+        return redirect('/contract/pending-contract');
     }
 }

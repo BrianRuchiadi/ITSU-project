@@ -29,17 +29,17 @@
 
                         @if(Auth::user()->branchind === 0)
                             <li class="customer">
-                                <a href="{{ url('/apply') }}">
+                                <a href="{{ url('/customer/apply') }}">
                                     Application Form
                                 </a>
                             </li>
                             <li class="customer">
-                                <a href="{{ url('/contract') }}">
+                                <a href="{{ url('/customer/contract') }}">
                                     Contract List
                                 </a>
                             </li>
                             <li class="customer">
-                                <a href="{{ url('/link/referral')}}">
+                                <a href="{{ url('/customer/link/referral')}}">
                                     Referral Link
                                 </a>
                             </li>
@@ -47,12 +47,12 @@
 
                         @if(Auth::user()->branchind === 4)
                             <li class="customer">
-                                <a href="{{ url('/apply') }}">
+                                <a href="{{ url('/customer/apply') }}">
                                     Application Form
                                 </a>
                             </li>
                             <li class="customer">
-                                <a href="{{ url('/contract') }}">
+                                <a href="{{ url('/customer/contract') }}">
                                     Contract List
                                 </a>
                             </li>
@@ -69,17 +69,17 @@
 
                     @if(Auth::user()->branchind === 0)
                         <li class="contract">
-                            <a href="{{ url('/invoices') }}">
+                            <a href="{{ url('/contract/invoices') }}">
                                 Invoice List
                             </a>
                         </li>
                         <li class="contract">
-                            <a href="{{ url('/pending-contract') }}">
+                            <a href="{{ url('/contract/pending-contract') }}">
                                 Pending Contract
                             </a>
                         </li>
                         <li class="contract">
-                            <a href="{{ url('/delivery-order') }}">
+                            <a href="{{ url('/contract/delivery-order') }}">
                                 Delivery Order
                             </a>
                         </li>

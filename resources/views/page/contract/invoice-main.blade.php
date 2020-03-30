@@ -27,7 +27,7 @@
             <td>{{ $value->CSIH_PostingDate }}</td>
             <td>{{ $value->total_contract }}</td>
             <td>
-                <a class="btn btn-primary" href="{{ url('/invoices/list?generated_date=' . $value->CSIH_PostingDate) }}">View Invoices</a>
+                <a class="btn btn-primary" href="{{ url('/contract/invoices/list?generated_date=' . $value->CSIH_PostingDate) }}">View Invoices</a>
             </td> 
         </tr>   
         @endforeach

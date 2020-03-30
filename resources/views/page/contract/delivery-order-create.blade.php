@@ -9,9 +9,13 @@
 <div>
     <h1 class="title">
         Create Delivery Order
+        <a class="btn btn-primary" href="{{url('/contract/delivery-order')}}">
+            <i class="fas fa-chevron-left"></i>
+            Back To Delivery Order List
+        </a>
         <button class="btn btn-danger" onclick="updateState('invalid')" id="btn-cancel">Cancel</button>
     </h1>
-   <form method="POST" action="{{ url('/api/delivery-order/create') }}">
+   <form method="POST" action="{{ url('/contract/api/delivery-order/create') }}">
         {{ csrf_field() }}
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">* Contract No</label>
@@ -147,7 +151,7 @@
         }
 
         function querySearch() {
-            fetch("{{ url('/approved-contract/search/cnh-doc') }}" + `?contract_no=${elContractNo.value}`, {
+            fetch("{{ url('/contract/approved-contract/search/cnh-doc') }}" + `?contract_no=${elContractNo.value}`, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',

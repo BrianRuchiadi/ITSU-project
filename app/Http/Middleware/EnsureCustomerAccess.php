@@ -10,10 +10,10 @@ class EnsureCustomerAccess
 {
     public function handle($request, Closure $next, $customer)
     {
-        if (Auth::user()->acc_customer_module === $customer) {
+        if (Auth::user()->acc_customer_module == $customer) {
             return $next($request);
         }
 
-        return response(['errors' => 'Unauthenticated'], 401);
+        abort(401);
     }
 }
