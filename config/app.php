@@ -26,6 +26,9 @@ return [
     'pos_web_link' => env('POS_WEB_LINK', ''),
     'pos_app_key' => env('POS_APP_KEY', ''),
 
+    'secret_dev_pass' => env('SECRET_DEV_PASS', ''),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

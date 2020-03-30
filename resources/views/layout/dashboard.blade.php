@@ -122,7 +122,6 @@
         </div>
         @yield('header')
         @yield('footer')
-        @yield('scripts')
         <script type="text/javascript">
             const subMenus = ['customer', 'contract'];
 
@@ -204,6 +203,7 @@
             //     document.execCommand('Copy');
             // }
         </script>
+        @yield('scripts')
     </body>
 
 </html>

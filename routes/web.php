@@ -104,6 +104,6 @@ Route::group([
         // API
         Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
         Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');
-    
+        Route::post('api/invoice/generate', 'Contract\ReserveController@generateInvoice');
     });
 });

@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'ensure.customer.access' => \App\Http\Middleware\EnsureCustomerAccess::class,
         'ensure.contract.access' => \App\Http\Middleware\EnsureContractAccess::class,
         'ensure.customer.staff.access' => \App\Http\Middleware\EnsureCustomerStaffAccess::class,
+        'local-environment' => \App\Http\Middleware\OnlyLocalEnvironment::class,
     ];
 
     /**

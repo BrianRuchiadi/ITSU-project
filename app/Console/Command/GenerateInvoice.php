@@ -50,6 +50,7 @@ class GenerateInvoice extends Command
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
 
+        $this->info('');
         $this->info('today date is : ' . $todayDateString);
 
         $selectedDay = ($day < 16) ? 1 : 16;
