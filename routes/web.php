@@ -32,51 +32,74 @@ Route::get('contract/email/verify', 'PageController@showContractEmailVerifying')
 Route::post('contract/email/verify', 'Utilities\ConfirmationController@contractEmailVerification')->name('contract.email.verify');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('home', 'PageController@index');
-
-    // Change Password Routes
     Route::get('change-password', 'PageController@showChangePasswordForm');
     Route::post('change-password', 'Auth\ChangePasswordController@changePassword')->name('auth.change.password');
+});
 
-    Route::get('link/referral', 'PageController@showReferralLink');
-    Route::get('apply', 'PageController@showApplicationForm');
+Route::group([
+    'middleware' => ['ensure.customer.access:1', 'auth'],
+], function () {
+    Route::prefix('customer')->group(function () {
+        
+        // Route
+        Route::get('home', 'PageController@index');
+        Route::get('apply', 'PageController@showApplicationForm');
+        Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
+        Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
 
-    // APIs
-    Route::get('/api/users', 'Utilities\UserController@getUsers');
-    Route::get('/api/check/user', 'Utilities\UserController@checkUser');
-    Route::get('/api/items', 'Utilities\ItemController@getItems');
-    Route::get('/api/items/rental', 'Utilities\ItemController@getRentalMonthOptions');
-    Route::get('/api/items/rental/price', 'Utilities\ItemController@getRentalMonthOptionsPrice');
-    Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
-    Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
-    Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
-    Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
-    Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
-    Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
-    Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');
+        // API
+        Route::get('/api/users', 'Utilities\UserController@getUsers');
+        Route::get('/api/check/user', 'Utilities\UserController@checkUser');
+        Route::get('/api/items', 'Utilities\ItemController@getItems');
+        Route::get('/api/items/rental', 'Utilities\ItemController@getRentalMonthOptions');
+        Route::get('/api/items/rental/price', 'Utilities\ItemController@getRentalMonthOptionsPrice');
+        Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
+        Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
+        Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
+        Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
+        
+        // SMS APIs
+        Route::post('/api/sms/send','Utilities\ConfirmationController@sendSms');
+        Route::post('/api/sms/verify','Utilities\ConfirmationController@verifySms');
 
+        Route::group([
+            'middleware' => ['ensure.customer.staff.access:0'],
+        ], function () {
+            // Route
+            Route::get('link/referral', 'PageController@showReferralLink');
+            Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('contract.search');
+            
+            // API
+            Route::get('/api/link/referral', 'Customer\CustomerController@getReferralLink');
+        });
+    });
+});
 
-    // SMS APIs
-    Route::post('api/sms/send','Utilities\ConfirmationController@sendSms');
-    Route::post('api/sms/verify','Utilities\ConfirmationController@verifySms');
-
-    // Customer Contract List
-    Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
-    Route::get('contract/search', 'Customer\CustomerController@showSearchResult')->name('contract.search');
-    Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('contract.detail');
+Route::group([
+    'middleware' => ['ensure.contract.access:1', 'auth'],
+], function () {
+    Route::prefix('contract')->group(function () {
+        
+        // Route
+        Route::get('pending-contract', 'Contract\ContractController@showPendingContractList');
+        Route::post('pending-contract/verify-ctos', 'Contract\ContractController@contractVerifyCTOS')->name('verify.ctos');
+        
+        Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
+        Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
+        Route::post('pending-contract/detail/{contract_id}', 'Contract\ContractController@customerContractDecision')->name('contract.decision');
     
-    Route::get('pending-contract', 'Contract\ContractController@showPendingContractList');
-    Route::post('pending-contract/verify-ctos', 'Contract\ContractController@contractVerifyCTOS')->name('verify.ctos');
+        Route::get('approved-contract/search/cnh-doc', 'Contract\ContractController@getContractDetailByCnhDocNo');
+        
+        Route::get('delivery-order', 'Contract\DeliveryController@showDeliveryOrder');
+        Route::get('delivery-order/create', 'Contract\DeliveryController@showCreateDeliveryOrder');
+        
+        Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
+        Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');
+        
 
-    Route::get('approved-contract/search/cnh-doc', 'Contract\ContractController@getContractDetailByCnhDocNo');
-
-    Route::get('pending-contract/search', 'Contract\ContractController@showSearchResult')->name('pending.contract.search');
-    Route::get('pending-contract/detail/{contract_id}', 'Contract\ContractController@showCustomerContractDetail')->name('pending.contract.detail');
-    Route::post('pending-contract/detail/{contract_id}', 'Contract\ContractController@customerContractDecision')->name('contract.decision');
-
-    Route::get('delivery-order', 'Contract\DeliveryController@showDeliveryOrder');
-    Route::get('delivery-order/create', 'Contract\DeliveryController@showCreateDeliveryOrder');
+        // API
+        Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
+        Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');
     
-    Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
-    Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');
+    });
 });
