@@ -132,8 +132,12 @@
 .container header .side-nav ul.main li .li-header {
   background-color: #E79C1A;
   padding: 6px;
-  padding-left: 8px;
+  padding-left: 10px;
   position: relative;
+}
+
+.container header .side-nav ul.main li .li-header i:not(.fa-caret-down) {
+  padding-right: 5px;
 }
 
 .container header .side-nav ul.main li .li-header i.fa-caret-down {

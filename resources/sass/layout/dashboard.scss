@@ -121,8 +121,11 @@
                     .li-header { 
                         background-color: #E79C1A; 
                         padding: 6px;
-                        padding-left: 8px;
+                        padding-left: 10px;
                         position: relative;
+                        i:not(.fa-caret-down) {
+                            padding-right: 5px;
+                        }
                         i.fa-caret-down {
                             position: absolute;
                             right: 10px;
