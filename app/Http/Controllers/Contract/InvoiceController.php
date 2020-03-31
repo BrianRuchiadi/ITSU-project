@@ -95,9 +95,9 @@ class InvoiceController extends Controller
                 AND cont_inv.`id` = {$invoice->id}
                 AND cont_mas.`CNH_CustomerID` = cust_mas.`id`
                 AND cont_inv.`CSIH_ContractDocNo` = cont_mas.`CNH_DocNo`
-                AND cont_inv.`CSIH_InstallCity` = irs_city.`id`
-                AND cont_inv.`CSIH_InstallState` = irs_state.`id`
-                AND cont_inv.`CSIH_InstallCountry` = irs_country.`id`
+                AND cont_inv.`CSIH_InstallCity` = irs_city.`CI_ID`
+                AND cont_inv.`CSIH_InstallState` = irs_state.`ST_ID`
+                AND cont_inv.`CSIH_InstallCountry` = irs_country.`CO_ID`
         ";
 
         $invoiceDetail = DB::select($sql)[0];
