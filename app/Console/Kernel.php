@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Mail;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Command\GenerateInvoice::class
     ];
 
     /**
@@ -24,8 +26,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('invoice:generate')->cron('0 0 0 1,16 * *');
+
+        // $schedule->call(function () {
+        //     $data = [
+        //         'title' => 'Test One Minute Spam Mail',
+        //         'content' => 'Spam main test. ',
+        //         'link' => 'http://www.google.com/',
+        //         'warning' => 'Link will expired in 1 day'
+        //     ];
+        //     Mail::send('page.auth.email', $data, function($message) {
+        //         $message->to('crossoverandscore@gmail.com', 'brian ruchiadi')->subject('Hi, ' . 'brian ruchiadi');
+        //     });
+        // })->everyMinute();
     }
 
     /**

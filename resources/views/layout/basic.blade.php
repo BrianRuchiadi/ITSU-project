@@ -7,7 +7,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>ITSU Contract Management</title>
+        <title>ITSU Contract Management v{{ env('VERSION') }} </title>
         @yield('styles')
 
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">

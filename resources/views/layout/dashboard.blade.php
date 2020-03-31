@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>ITSU Contract Management</title>
+        <title>ITSU Contract Management v{{ env('VERSION') }}</title>
         @yield('styles')
 
         <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet"> -->
@@ -29,12 +29,17 @@
 
                         @if(Auth::user()->branchind === 0)
                             <li class="customer">
-                                <a href="{{ url('/contract') }}">
+                                <a href="{{ url('/customer/apply') }}">
+                                    Application Form
+                                </a>
+                            </li>
+                            <li class="customer">
+                                <a href="{{ url('/customer/contract') }}">
                                     Contract List
                                 </a>
                             </li>
                             <li class="customer">
-                                <a href="{{ url('/link/referral')}}">
+                                <a href="{{ url('/customer/link/referral')}}">
                                     Referral Link
                                 </a>
                             </li>
@@ -42,12 +47,12 @@
 
                         @if(Auth::user()->branchind === 4)
                             <li class="customer">
-                                <a href="{{ url('/apply') }}">
+                                <a href="{{ url('/customer/apply') }}">
                                     Application Form
                                 </a>
                             </li>
                             <li class="customer">
-                                <a href="{{ url('/contract') }}">
+                                <a href="{{ url('/customer/contract') }}">
                                     Contract List
                                 </a>
                             </li>
@@ -63,8 +68,21 @@
                     @endif
 
                     @if(Auth::user()->branchind === 0)
-                        <li class="contract">XXX</li>
-                        <li class="contract">YYY</li>
+                        <li class="contract">
+                            <a href="{{ url('/contract/invoices') }}">
+                                Invoice List
+                            </a>
+                        </li>
+                        <li class="contract">
+                            <a href="{{ url('/contract/pending-contract') }}">
+                                Pending Contract
+                            </a>
+                        </li>
+                        <li class="contract">
+                            <a href="{{ url('/contract/delivery-order') }}">
+                                Delivery Order
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </nav>
@@ -104,7 +122,6 @@
         </div>
         @yield('header')
         @yield('footer')
-        @yield('scripts')
         <script type="text/javascript">
             const subMenus = ['customer', 'contract'];
 
@@ -186,6 +203,7 @@
             //     document.execCommand('Copy');
             // }
         </script>
+        @yield('scripts')
     </body>
 
 </html>

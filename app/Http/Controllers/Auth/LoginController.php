@@ -67,13 +67,13 @@ class LoginController extends Controller
 
         switch ($user->branchind) {
             case 0: // staff (ALLOW)
+            case 3: // custom staff (ALLOW)
             case 4: // customer (ALLOW) (Need to handle referrer link)
                 Auth::loginUsingId($user->id, true);
                 return redirect($this->redirectTo);
 
             case 1: // branch
             case 2: // admin
-            case 3: // custom staff
                 return back()->withErrors('You are not authorized to view this page');
         }
       }

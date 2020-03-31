@@ -1,0 +1,27 @@
+body {
+  background-color: #DAD6D6;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+
+.email-verify-panel {
+  width: 80%;
+  max-width: 400px;
+  margin: 80px auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.email-verify-panel h2 {
+  width: 90%;
+  margin: 5px auto;
+}
+
+.email-verify-panel h2 i {
+  padding-right: 5px;
+}
+

@@ -6,7 +6,7 @@
 
 @section('content')
     <h2 class="center">Application Form</h2>
-    <form method="POST" action="{{ url('/api/apply') }}" enctype="multipart/form-data" id="form">
+    <form method="POST" action="{{ url('/customer/api/apply') }}" enctype="multipart/form-data" id="form">
         {{ csrf_field() }}
 
         @if (!Session::has('displaySMSTag'))
@@ -18,7 +18,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Product</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="item-options" id="product" name="product" required>
+                        <select class="form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required>
                         </select>
                     @error('product')
                         <div class="form-alert alert-danger">
@@ -27,12 +27,11 @@
                     @enderror
                     </div>
                 </div>
-               
-        
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">No Of Installment Month</label>
                     <div class="col-sm-8">
-                    <input type="number" class="form-control" placeholder="No Of Installment Month" id="no-of-installment-month" name="no_of_installment_month" required>
+                    <select class="form-control" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required>
+                    </select>   
                     @error('no_of_installment_month')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -40,7 +39,12 @@
                     @enderror
                     </div>
                 </div>
-
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Unit Price</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="unit-price" name="unit_price" readonly>
+                    </div>
+                </div>
                 <div class="form-group row" style="margin-bottom: 0px;">
                     <div class="col-sm-4">
                         <label class="col-form-label">Applicant Type</label>
@@ -106,7 +110,7 @@
                         <strong>(Will be used for SMS Tag) </strong>
                     </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                    <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
                     @error('contact_one_of_applicant')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -279,8 +283,8 @@
                     <i class="fas fa-caret-down"></i>
                 </h3>
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">One Photocopy Of I/C</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">One Photocopy Of I/C</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_icno">
                         @error('file_individual_icno')
                         <div class="form-alert alert-danger">
@@ -292,8 +296,8 @@
                 </div>
 
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_income">
                         @error('file_individual_income')
                         <div class="form-alert alert-danger">
@@ -304,8 +308,8 @@
                 </div>
 
                 <div class="form-group row employed-requirement">
-                    <label class="col-sm-8 col-form-label">Updated Bank Statement Or Savings Passbook</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">Updated Bank Statement Or Savings Passbook</label>
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_individual_bankstatement">
                         @error('file_individual_bankstatement')
                         <div class="form-alert alert-danger">
@@ -323,11 +327,11 @@
                 </h3>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Form J and Business Registration Form<br/>
                         (Borang A and D)
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_form">
                         @error('file_company_form')
                         <div class="form-alert alert-danger">
@@ -338,10 +342,10 @@
                 </div>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Photocopied I/C Of Proprietor / Partners / Directors
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_icno">
                         @error('file_company_icno')
                         <div class="form-alert alert-danger">
@@ -352,10 +356,10 @@
                 </div>
 
                 <div class="form-group row self-employed-requirement">
-                    <label class="col-sm-8 col-form-label">
+                    <label class="col-sm-6 col-form-label">
                         Updated 3 Month Bank Statement
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <input type="file" class="form-control" name="file_company_bankstatement">
                         @error('file_company_bankstatement')
                         <div class="form-alert alert-danger">
@@ -471,7 +475,8 @@
             let form = document.getElementById('form');
             // START : product installment 
             let itemOptions = document.getElementById('item-options');
-            let noOfInstallmentMonth = document.getElementById('no-of-installment-month');
+            let monthOptions = document.getElementById('month-options');
+            let unitPrice = document.getElementById('unit-price');
             // END : product installment
 
             // START : personal information
@@ -518,6 +523,7 @@
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
+                this.checkUser();
                 sellerOne.disabled = true;
                 sellerTwo.disabled = true;
             }
@@ -554,11 +560,12 @@
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
+                this.checkUser();
                 sellerOne.disabled = true;
                 sellerTwo.disabled = true;
             }
 
-            noOfInstallmentMonth.value = '{{ session()->get('no_of_installment_month') }}';
+            monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
             nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
             icNumber.value = '{{ session()->get('ic_number') }}';           
             contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
@@ -606,7 +613,7 @@
         function submitFinalForm() {
             smsTagSubmitButton.classList.add('disabled');
             smsTagSubmitButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/apply`, {
+            fetch('{{ url('') }}' + `/customer/api/apply`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -642,16 +649,14 @@
             }
         }
 
-        function removeStates() {
-            while (stateOptions.hasChildNodes()) {  
-                stateOptions.removeChild(stateOptions.firstChild);
+        function removeOptions(option) {
+            while (option.hasChildNodes()) {
+                option.removeChild(option.firstChild);
             }
         }
 
-        function removeCities() {
-            while (cityOptions.hasChildNodes()) {  
-                cityOptions.removeChild(cityOptions.firstChild);
-            }
+        function removeUnitPrice() {
+            unitPrice.value = '';
         }
 
         function fillApplicantName() {
@@ -669,7 +674,7 @@
         function sendSmsTag() {
             smsTagSendButton.classList.add('disabled');
             smsTagSendButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/sms/send`, {
+            fetch('{{ url('') }}' + `/customer/api/sms/send`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -708,7 +713,7 @@
         function verifySmsTag() {
             smsTagVerifyButton.classList.add('disabled'); // disable verify button
             smsTagVerifyButton.disabled = true;
-            fetch('{{ url('') }}' + `/api/sms/verify`, {
+            fetch('{{ url('') }}' + `/customer/api/sms/verify`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -742,7 +747,7 @@
         }
 
         function getUsers() {
-            fetch('{{ url('') }}' + `/api/users?ref=` + localStorage.getItem('referrerCode'), {
+            fetch('{{ url('') }}' + `/customer/api/users?ref=` + localStorage.getItem('referrerCode'), {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -789,14 +794,91 @@
                     if (res.decoded_referrer_id) {
                         sellerOne.value = res.decoded_referrer_id;
                         sellerOne.setAttribute("disabled", true);
+                        sellerTwo.setAttribute("disabled", true);
 
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", "seller_one");
                         input.setAttribute("value", res.decoded_referrer_id);
-
+                        
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", "");
+                        
                         //append to form element that you want .
                         form.appendChild(input);
+                        form.appendChild(input2);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+                });
+        }
+
+        function checkUser() {
+            fetch('{{ url('') }}' + `/customer/api/check/user`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    this.clearItems(sellerOne);
+                    this.clearItems(sellerTwo);
+                    let optionOne = document.createElement('option');
+                    optionOne.setAttribute('value', "");
+                    optionOne.appendChild(document.createTextNode(''));
+
+                    sellerOne.appendChild(optionOne);
+
+                    let optionTwo = document.createElement('option');
+                    optionTwo.setAttribute('value', "");
+                    optionTwo.appendChild(document.createTextNode(''));
+
+                    sellerTwo.appendChild(optionTwo);
+
+                    for (let each of res.data) {
+                        let optionOne = document.createElement('option');
+                        optionOne.setAttribute('value', each.id);
+                        optionOne.appendChild(document.createTextNode(each.name));
+
+                        sellerOne.appendChild(optionOne);
+
+                        let optionTwo = document.createElement('option');
+                        optionTwo.setAttribute('value', each.id);
+                        optionTwo.appendChild(document.createTextNode(each.name));
+
+                        sellerTwo.appendChild(optionTwo);
+                    }
+
+                    @if (Session::has('errorFormValidation'))
+                        sellerOne.value = '{{ session()->get('seller_one') }}';
+                        sellerTwo.value = '{{ session()->get('seller_two') }}';
+                    @endif
+                    
+                    if (res.staff) {
+                        sellerOne.value = res.staff;
+                        sellerOne.setAttribute("disabled", true);
+                        sellerTwo.setAttribute("disabled", true);
+
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "seller_one");
+                        input.setAttribute("value", res.staff);
+                        
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", "");
+                        
+                        //append to form element that you want .
+                        form.appendChild(input);
+                        form.appendChild(input2);
                     }
                 })
                 .catch((error) => {
@@ -805,7 +887,7 @@
         }
 
         function getItems() {
-            fetch('{{ url('') }}' + `/api/items`, {
+            fetch('{{ url('') }}' + `/customer/api/items`, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -833,7 +915,70 @@
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         itemOptions.value = '{{ session()->get('product') }}';
+                        this.populateMonthOptions(itemOptions)
                     @endif
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateMonthOptions(option) {
+            fetch('{{ url('') }}' + `/customer/api/items/rental?item_id=` + option.value, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // monthOptions
+                    this.removeOptions(monthOptions);
+                    this.removeUnitPrice();
+
+                    let option = document.createElement('option');
+                    option.setAttribute('value', 0);
+                    option.appendChild(document.createTextNode(''));
+
+                    monthOptions.appendChild(option);
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.IR_OptionKey);
+                        option.appendChild(document.createTextNode(each.IR_OptionDesc));
+
+                        monthOptions.appendChild(option);
+                    }
+                    
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
+                        this.populateUnitPrice(itemOptions, monthOptions);
+                    @endif
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateUnitPrice(product, option) {
+            fetch('{{ url('') }}' + `/customer/api/items/rental/price?item_id=` + product.value + `&option_key=` + option.value, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // unitPrice
+                    this.removeUnitPrice();
+                    unitPrice.value = res.data.IR_UnitPrice;
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -843,7 +988,7 @@
         function populateStates(option) {
             // text : option.options[option.selectedIndex].innerHTML,
             // value : option.value
-            fetch('{{ url('') }}' + `/api/country/${option.value}/states`, {
+            fetch('{{ url('') }}' + `/customer/api/country/states?co_id=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -855,7 +1000,8 @@
                 })
                 .then((res) => {
                     // stateOptions
-                    this.removeStates();
+                    this.removeOptions(cityOptions);
+                    this.removeOptions(stateOptions);
 
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
@@ -884,7 +1030,7 @@
         }
 
         function populateCities(option) {
-            fetch('{{ url('') }}' + `/api/state/${option.value}/cities`, {
+            fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -896,7 +1042,7 @@
                 })
                 .then((res) => {
                     // cityOptions
-                    this.removeCities();
+                    this.removeOptions(cityOptions);
 
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
@@ -924,7 +1070,7 @@
         }
 
         function getCountryOptions() {
-            fetch("{{ url('/api/countries') }}", {
+            fetch("{{ url('/customer/api/countries') }}", {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',

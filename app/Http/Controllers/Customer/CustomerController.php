@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Hashids\Hashids;
 use Carbon\Carbon;
@@ -16,7 +18,6 @@ use DB;
 
 use App\Models\IrsSalesBranch;
 use App\Models\IrsItemMaster;
-use App\Models\IrsItemUom;
 use App\Models\CustomerMaster;
 use App\Models\CustomerUserMap;
 use App\Models\ContractMaster;
@@ -24,6 +25,7 @@ use App\Models\ContractMasterDtl;
 use App\Models\SystemParamDetail;
 use App\Models\ContractMasterAttachment;
 use App\Models\ContractMasterLog;
+use App\Models\IrsItemRentalOpt;
 
 use App\Models\IrsCity;
 use App\Models\IrsState;
@@ -67,21 +69,28 @@ class CustomerController extends Controller
             'file_inclusion' => 'required|string|in:include,exclude',
         ]);
 
+        // START : Validate Email Exists
+        $userEmailValidation = User::where('email', $request->email_of_applicant)->exists();
+        $customerMasterEmailValidation = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->exists();
+
+        $sendEmail = ($userEmailValidation || $customerMasterEmailValidation) ? 'no' : 'yes';
+        // END : Validate Email Exists
+
         // START : File Validation 
         $hasFileValidation = ($request->file_inclusion == 'include') ? true : false;
 
         if ($hasFileValidation) {
             if ($request->applicant_type == 'individual_applicant') {
                 $validatorFile = Validator::make($request->all(), [
-                    'file_individual_icno' => 'file|required',
-                    'file_individual_income' => 'file|required',
-                    'file_individual_bankstatement' => 'file|required',
+                    'file_individual_icno' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_individual_income' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_individual_bankstatement' => 'file|required|mimes:jpeg,png,jpg,pdf',
                 ]);
             } else if ($request->applicant_type == 'self_employed') {
                 $validatorFile = Validator::make($request->all(), [
-                    'file_company_form' => 'file|required',
-                    'file_company_icno' => 'file|required',
-                    'file_company_bankstatement' => 'file|required',
+                    'file_company_form' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_company_icno' => 'file|required|mimes:jpeg,png,jpg,pdf',
+                    'file_company_bankstatement' => 'file|required|mimes:jpeg,png,jpg,pdf',
                 ]);
             }
 
@@ -167,6 +176,7 @@ class CustomerController extends Controller
                     'Cust_AltState' => $request->state,
                     'Cust_AltCountry' => $request->country,
                     'Cust_Phone1' => $request->contact_one_of_applicant,
+                    'Cust_Phone2' => $request->contact_two_of_applicant,
                     'Cust_Email' => $request->email_of_applicant,
                     'Cust_NRIC' => $request->ic_number,
                     'CC_ID' => $custCcIdSeqNumberNew,
@@ -192,6 +202,7 @@ class CustomerController extends Controller
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
                             'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -216,6 +227,7 @@ class CustomerController extends Controller
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
                             'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -237,9 +249,10 @@ class CustomerController extends Controller
             $irsItemMaster = IrsItemMaster::where('IM_ID', $request->product)
                 ->select(['IM_Description', 'IM_Type', 'IM_BaseUOMID'])
                 ->first();
-            $irsItemUom = IrsItemUom::where('IU_ItemID', $request->product)
-                ->select(['IU_SalesPrice2'])
-                ->first();
+
+            $irsItemRental = IrsItemRentalOpt::where('IR_ItemID', $request->product)
+                ->where('IR_OptionKey', $request->no_of_installment_month)
+                ->select(['IR_UnitPrice'])->first();
 
             // START : get CNH_DocNo
             $cnrtlDocSeqNumber = SystemParamDetail::where('sysparam_cd', 'CNRTLDOCSEQ')->select(['param_val'])->first();
@@ -266,34 +279,35 @@ class CustomerController extends Controller
                 'CNH_SalesAgent1' => $request->seller_one,
                 'CNH_SalesAgent2' => $request->seller_two,
                 'CNH_TotInstPeriod' => $request->no_of_installment_month,
-                'CNH_Total' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_Tax' => 0,
-                'CNH_Taxable_Amt' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_Taxable_Amt' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_InstallAddress1' => $request->address_one,
                 'CNH_InstallPostCode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
                 'CNH_InstallState' => $request->state,
                 'CNH_InstallCountry' => $request->country,
-                'CNH_NetTotal' => 1 * $irsItemUom->IU_SalesPrice2,
+                'CNH_NetTotal' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_TNCInd' => $request->tandcitsu,
                 'CNH_CTOSInd' => $request->tandcctos,
                 'CNH_SmsTag' => $request->contact_one_sms_tag,
-                'CNH_EmailVerify' => (Auth::user()->branchind === 4) ? 1 : 0,
+                'CNH_EmailVerify' => ( $sendEmail == 'yes') ? 0 : 1,
+                'do_complete_ind' => 0,
                 'CNH_WarehouseID' => $irsSalesBranch->SB_DefaultWarehouse,
                 'CNH_Status' => 'Pending',
                 'usr_created' => Auth::user()->id
             ]);
 
             $cndQty = 1;
-            $cndUnitPrice = $irsItemUom->IU_SalesPrice2;
+            $cndUnitPrice = $irsItemRental->IR_UnitPrice;
             $cndSubTotal = $cndQty * $cndUnitPrice;
 
             $cndTaxAmt = 0;
-            $cndTaxableAmt = $cndQty * $irsItemUom->IU_SalesPrice2;
+            $cndTaxableAmt = $cndQty * $irsItemRental->IR_UnitPrice;
 
             $cndTotal = $cndSubTotal + $cndTaxableAmt;
 
-            $contractMasterDtl =ContractMasterDtl::create([
+            $contractMasterDtl = ContractMasterDtl::create([
                 'contractmast_id' => $contractMaster->id,
                 'CND_ItemID' => $request->product,
                 'CND_Description' => $irsItemMaster->IM_Description,
@@ -308,6 +322,7 @@ class CustomerController extends Controller
                 'CND_ItemSeq' => 1,
                 'CND_WarehouseID' => $irsSalesBranch->SB_DefaultWarehouse,
                 'CND_BinLocationID' => $irsSalesBranch->SB_DefaultBinLocation,
+                'cndeliveryorder_id' => null,
                 'usr_created' => Auth::user()->id
             ]);
 
@@ -438,8 +453,31 @@ class CustomerController extends Controller
                 'cndeliveryorder_id' => $contractMasterDtl->cndeliveryorder_id,
                 'usr_created' => Auth::user()->id
             ]);
+
+            if ($sendEmail == 'yes') {
+                $hashids = new Hashids(config('app.salt'), 5);
+                $contractIdEncode = $hashids->encode($contractMaster->id);
+
+                $urlLink = URL::signedRoute(
+                    'contract.email.verify', ['id' => $contractIdEncode]
+                );
+
+                $data = [
+                    'title' => 'Email verification for ITSU Kubikt',
+                    'content' => 'Click link to verify email for contract application. ',
+                    'link' => $urlLink,
+                    'warning' => ''
+                ];
+                Mail::send('page.auth.email', $data, function($message) use ($request) {
+                    $message->to($request['email_of_applicant'], $request['name_of_applicant'])->subject('Hy, ' . $request['name_of_applicant']);
+                });
+
+                Session::flash('showSuccessMessage', 'Successfully submitted application form, Email has been sent to verify contract email');
+            } else {
+                Session::flash('showSuccessMessage', 'Successfully submitted application form');
+            }
+
             DB::commit();
-            Session::flash('showSuccessMessage', 'Successfully submitted application form');
 
             return [
                 'status' => 'success'
@@ -636,13 +674,25 @@ class CustomerController extends Controller
         if (Auth::user()->branchind == 0) {
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->paginate(30);
+                           ->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         } else if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
             $contracts = DB::table('customermaster')
                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->whereIn('CNH_CustomerID', $userMapCustomer)->paginate(30);
+                           ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         }
 
         $user = Auth::user();
@@ -651,13 +701,20 @@ class CustomerController extends Controller
 
     public function showSearchResult(Request $request) {    
         $contracts = DB::table('customermaster')
-                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                       ->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%')
-                       ->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%')
-                       ->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%')
-                       ->where('customermaster.Cust_Phone2', 'like', '%' . $request->tel_no . '%')
-                       ->where('contractmaster.CNH_DocNo', 'like', '%' . $request->contract_no . '%')
-                       ->paginate(30);
+                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID');
+
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
+
+        $contracts = $contracts->select([
+            'contractmaster.id',
+            'contractmaster.CNH_PostingDate',
+            'contractmaster.CNH_DocNo',
+            'customermaster.Cust_NAME',
+            'contractmaster.CNH_Status'
+        ])->paginate(30);
 
         $user = Auth::user();
 

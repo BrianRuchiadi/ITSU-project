@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="input-group mb-3">
-    <input type="text" class="form-control" value="https://www.local.itsu.com/register" placeholder="referral link" id="referralLink">
+    <input type="text" class="form-control" value="{{ env('APP_URL') }}/register" placeholder="referral link" id="referralLink">
     <div class="input-group-append" onclick="copyTextToClipboard('referralLink')">
       <span class="input-group-text">
         <i class="fas fa-clipboard"></i>
@@ -37,7 +37,7 @@
         }
 
         function getReferralLink() {
-            fetch("{{ url('/api/link/referral') }}", {
+            fetch("{{ url('/customer/api/link/referral') }}", {
                 method: 'GET', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',

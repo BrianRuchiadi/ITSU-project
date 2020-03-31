@@ -7,7 +7,10 @@
 @section('content')
 <div class="content">
     <div class="reset-password-panel">
-        <h2>Reset Password</h2>
+        <h2>
+            <i class="fas fa-chevron-left force-left btn" onclick="backToLogin()"></i>
+            Reset Password
+        </h2>
         <form class="form-horizontal" action="{{ route('auth.reset-password') }}" method="POST" enctype="multipart/form-data" id="reset-password-form">
             {{ csrf_field() }}
             <div class="form-group">
@@ -41,4 +44,11 @@
     </div>
     
 </div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+    function backToLogin() {
+        window.location = "{{ url('login') }}";
+    }
+</script>
 @endsection

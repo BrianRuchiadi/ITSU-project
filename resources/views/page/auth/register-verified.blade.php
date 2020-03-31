@@ -9,7 +9,7 @@
     <div class="verified-panel">
         <form method="POST" action="{{ route('auth.register.verify') }}">
             {{ csrf_field() }}
-            <h3>Click this button to complete account register</h3>
+            <h3 class="center">Click this button to complete account register</h3>
             <input type="hidden" class="form-control" placeholder="Hidden Id" name="id" value="{{ $id }}">
             @if(session()->has('message'))
                 <div class="alert alert-danger">
