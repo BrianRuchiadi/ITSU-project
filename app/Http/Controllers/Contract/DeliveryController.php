@@ -38,7 +38,7 @@ class DeliveryController extends Controller
         ]);
     }
 
-    public function showDeliveryOrderDetail(Request $request, $contractId) {
+    public function showDeliveryOrderDetail(Request $request, $contractDeliveryOrderId) {
         $companyAddress = DB::table('irs_company')
                             ->join('irs_city', 'irs_company.CO_MainCity', '=', 'irs_city.CI_ID')
                             ->join('irs_state', 'irs_company.CO_MainState', '=', 'irs_state.ST_ID')
@@ -62,11 +62,11 @@ class DeliveryController extends Controller
                                 'irs_state.ST_Description',
                                 'irs_country.CO_Description'
                             ])->first();
-        
+
         $deliveryOrder = DB::table('contractdeliveryorder')
                             ->join('contractdeliveryorderdtl', 'contractdeliveryorder.id', '=' , 'contractdeliveryorderdtl.contractdeliveryorder_id')
                             ->join('customermaster', 'contractdeliveryorder.CDOH_CustomerID', '=', 'customermaster.id')
-                            ->where('contractdeliveryorder.contractmast_id', $contractId)
+                            ->where('contractdeliveryorder.id', $contractDeliveryOrderId)
                             ->select([
                                 'contractdeliveryorder.id',
                                 'contractdeliveryorder.CDOH_DocNo',
@@ -87,12 +87,12 @@ class DeliveryController extends Controller
                                 'contractdeliveryorderdtl.CDOD_Description',
                                 'contractdeliveryorderdtl.CDOD_Qty',
                                 'contractdeliveryorderdtl.CDOD_SerialNo',
-                                'customermaster.Cust_NAME',
+                                'customermaster.Cust_NAME'
                             ])->first();
 
         $deliveryOrder->City_Description = IrsCity::where('CI_ID', $deliveryOrder->CDOH_City)->pluck('CI_Description')->first();
-        $deliveryOrder->State_Description = IrsState::where('ST_ID', $deliveryOrder->CDOH_City)->pluck('ST_Description')->first();
-        $deliveryOrder->Country_Description = IrsCountry::where('CO_ID', $deliveryOrder->CDOH_City)->pluck('CO_Description')->first();
+        $deliveryOrder->State_Description = IrsState::where('ST_ID', $deliveryOrder->CDOH_State)->pluck('ST_Description')->first();
+        $deliveryOrder->Country_Description = IrsCountry::where('CO_ID', $deliveryOrder->CDOH_Country)->pluck('CO_Description')->first();
 
         $deliveryOrder->InstallCity_Description = IrsCity::where('CI_ID', $deliveryOrder->CDOH_InstallCity)->pluck('CI_Description')->first();
         $deliveryOrder->InstallState_Description = IrsState::where('ST_ID', $deliveryOrder->CDOH_InstallState)->pluck('ST_Description')->first();

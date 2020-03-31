@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Customer Adress</label>
+            <label class="col-sm-4 col-form-label">Customer Address</label>
             <div class="col-sm-8">
                 <textarea class="form-control" id="customer-address" disabled>
                 </textarea>
