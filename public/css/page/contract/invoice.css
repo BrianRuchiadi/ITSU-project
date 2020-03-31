@@ -24,3 +24,10 @@ a.btn {
   white-space: pre-wrap;
 }
 
+@media print {
+@page {
+    size: A4 portrait;
+    margin: 10mm auto;
+}
+}
+
