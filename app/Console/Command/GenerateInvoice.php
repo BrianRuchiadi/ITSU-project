@@ -221,7 +221,7 @@ class GenerateInvoice extends Command
                     'CSIH_PrevBalTotal' => $contractInvoice->CSIH_PrevBalTotal,
                     'CSIH_SalesAgent1' => $contractInvoice->CSIH_SalesAgent1,
                     'CSIH_SalesAgent2' => $contractInvoice->CSIH_SalesAgent2,
-                    'contractinvoice_id' => $contractInvoiceDtl->id,
+                    'contractinvoicedtl_id' => $contractInvoiceDtl->id,
                     'CSID_ItemID' => $contractInvoiceDtl->CSID_ItemID,
                     'CSID_Description' => $contractInvoiceDtl->CSID_Description,
                     'CSID_ItemUOMID' => $contractInvoiceDtl->CSID_ItemUOMID,
