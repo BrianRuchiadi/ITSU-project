@@ -7,14 +7,16 @@
 @section('content')
 <div class="content">
     <div class="contract-details-panel">
-        <span>
-          <a href="{{ url('/contract/pending-contract') }}" class="btn btn-primary">
+        <div class="py-2">
+          <a href="{{ url('/contract/pending-contract') }}" class="btn btn-secondary">
             <i class="fas fa-chevron-left"></i> Back
           </a>
-        <a href="{{ url('/contract/pending-contract/detail/' . $contractDetails->id . '?print=1') }}" class="btn btn-primary" target="_blank">
-          <i class="fas fa-print"></i> Print / <i class="fas fa-file-pdf"></i> Export
-        </a>
-        </span>
+        </div>
+        <div>
+          <a href="{{ url('/contract/pending-contract/detail/' . $contractDetails->id . '?print=1') }}" class="btn btn-primary" target="_blank">
+            <i class="fas fa-print"></i> Print / <i class="fas fa-file-pdf"></i> Export
+          </a>
+        </div>
         <h2 class="center">
           Contract Details For | {{ $contractDetails->CNH_DocNo }}
         </h2>
