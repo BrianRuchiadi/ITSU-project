@@ -5,16 +5,18 @@
 @endsection
 
 @section('content')
-<a class="btn btn-primary" href="{{url('/contract/invoices/list?generated_date=' . $selectedDate)}}">
+<a class="btn btn-secondary" href="{{url('/contract/invoices/list?generated_date=' . $selectedDate)}}">
     <i class="fas fa-chevron-left"></i>
     Back To Invoices List
 </a>
-<button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-invoice')">
-    <i class="fas fa-print"></i> Print
-</button>
-<button type="button" class="btn btn-primary d-print-none" onclick="createPDF('header', {{ $invoiceDetail->id }})">
-    <i class="fas fa-file-pdf"></i> Export To PDF
-</button>
+<div class="py-2">
+    <button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-invoice')">
+        <i class="fas fa-print"></i> Print
+    </button>
+    <button type="button" class="btn btn-primary d-print-none" onclick="createPDF('header', {{ $invoiceDetail->id }})">
+        <i class="fas fa-file-pdf"></i> Export To PDF
+    </button>
+</div>
 <div id="print-area-invoice">
     <div class="header d-print-none">
         <h1>Invoices : {{ $invoiceDetail->CSIH_DocNo }}</h1>

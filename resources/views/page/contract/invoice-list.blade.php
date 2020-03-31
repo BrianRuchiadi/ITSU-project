@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<a class="btn btn-primary" href="{{url('/contract/invoices')}}">
+<a class="btn btn-secondary" href="{{url('/contract/invoices')}}">
     <i class="fas fa-chevron-left"></i>
     Back To Invoices By Date
 </a>
