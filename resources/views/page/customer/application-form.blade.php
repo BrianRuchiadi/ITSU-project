@@ -649,21 +649,9 @@
             }
         }
 
-        function removeStates() {
-            while (stateOptions.hasChildNodes()) {  
-                stateOptions.removeChild(stateOptions.firstChild);
-            }
-        }
-
-        function removeCities() {
-            while (cityOptions.hasChildNodes()) {  
-                cityOptions.removeChild(cityOptions.firstChild);
-            }
-        }
-
-        function removeMonthOptions() {
-            while (monthOptions.hasChildNodes()) {  
-                monthOptions.removeChild(monthOptions.firstChild);
+        function removeOptions(option) {
+            while (option.hasChildNodes()) {
+                option.removeChild(option.firstChild);
             }
         }
 
@@ -948,7 +936,7 @@
                 })
                 .then((res) => {
                     // monthOptions
-                    this.removeMonthOptions();
+                    this.removeOptions(monthOptions);
                     this.removeUnitPrice();
 
                     let option = document.createElement('option');
@@ -1012,8 +1000,8 @@
                 })
                 .then((res) => {
                     // stateOptions
-                    this.removeCities();
-                    this.removeStates();
+                    this.removeOptions(cityOptions);
+                    this.removeOptions(stateOptions);
 
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);
@@ -1054,7 +1042,7 @@
                 })
                 .then((res) => {
                     // cityOptions
-                    this.removeCities();
+                    this.removeOptions(cityOptions);
 
                     let option = document.createElement('option');
                     option.setAttribute('value', 0);

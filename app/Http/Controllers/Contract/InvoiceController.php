@@ -53,6 +53,7 @@ class InvoiceController extends Controller
     public function showInvoiceDetail(Request $request, ContractInvoice $invoice) {
         $sql = "
             SELECT
+                cont_inv.`id`,
                 cont_inv.`CSIH_DocNo`,
                 cont_inv.`CSIH_BillingPeriod`,
                 cont_inv.`CSIH_InstallAddress1`,
