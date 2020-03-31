@@ -100,6 +100,7 @@ Route::group([
         
         Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
         Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');
+        Route::get('invoices/{invoice}', 'Contract\InvoiceController@showInvoiceDetail');
         
         // API
         Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
