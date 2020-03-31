@@ -56,6 +56,7 @@
         @endforeach
     </thead>
 </table>
+{{ $contractInvoicesDate->links() }}
 @endsection
 
 @section('scripts')

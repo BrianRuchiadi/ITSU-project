@@ -13,16 +13,11 @@ class InvoiceController extends Controller
 {
     public function showInvoicesByGeneratedDate(Request $request) {
         $todayDate = Carbon::now()->toDateString();
-        $sql = "
-            SELECT 
-                COUNT(`id`) As 'total_contract',
-                `CSIH_PostingDate`
-            FROM `contractinvoice`
-            WHERE 1
-            GROUP BY CSIH_PostingDate
-        ";
 
-        $contractInvoicesDate = DB::select($sql);    
+        $contractInvoicesDate = DB::table('contractinvoice')
+                                ->select(DB::raw('count(*) as total_contract, CSIH_PostingDate'))
+                                ->groupBy('CSIH_PostingDate')
+                                ->paginate(30);
 
         return view('page.contract.invoice-main', [
             'todayDate' => $todayDate,
@@ -34,25 +29,20 @@ class InvoiceController extends Controller
         if (!$request->generated_date) {
             return redirect('/contract/invoices');
         }
-        $sql = "
-            SELECT
-                cont_inv.`id`,
-                cont_inv.`CSIH_BillingPeriod`,
-                cont_inv.`CSIH_ContractDocNo`,
-                cont_mas.`CNH_TotInstPeriod`,
-                cust_mas.`Cust_NAME`,
-                cust_mas.`Cust_Phone1`,
-                cust_mas.`Cust_Email`
-            FROM
-                `contractinvoice` cont_inv,
-                `contractmaster` cont_mas,
-                `customermaster` cust_mas
-            WHERE 1
-                AND cont_inv.`CSIH_ContractDocNo` = cont_mas.`CNH_DocNo`
-                AND cont_mas.`CNH_CustomerID` = cust_mas.`id`
-                AND cont_inv.`CSIH_PostingDate` = '{$request->generated_date}'
-        ";
-        $contractInvoices = DB::select($sql);
+        
+        $contractInvoices = DB::table('contractinvoice')
+                            ->join('contractmaster', 'contractinvoice.CSIH_ContractDocNo', '=', 'contractmaster.CNH_DocNo')
+                            ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
+                            ->where('contractinvoice.CSIH_PostingDate', '=', $request->generated_date)
+                            ->select([
+                                'contractinvoice.id',
+                                'contractinvoice.CSIH_BillingPeriod',
+                                'contractinvoice.CSIH_ContractDocNo',
+                                'contractmaster.CNH_TotInstPeriod',
+                                'customermaster.Cust_NAME',
+                                'customermaster.Cust_Phone1',
+                                'customermaster.Cust_Email'
+                            ])->paginate(30);
 
         return view('page.contract.invoice-list', [
             'selectedDate' => $request->generated_date,

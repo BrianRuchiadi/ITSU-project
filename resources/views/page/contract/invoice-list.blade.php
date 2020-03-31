@@ -37,4 +37,5 @@
         @endforeach
     </thead>
 </table>
+{{ $contractInvoices->links() }}
 @endsection
