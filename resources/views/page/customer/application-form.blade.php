@@ -285,7 +285,7 @@
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-6 col-form-label">One Photocopy Of I/C</label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_individual_icno">
+                        <input type="file" class="form-control" id="file-individual-icno" name="file_individual_icno">
                         @error('file_individual_icno')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -298,7 +298,7 @@
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-6 col-form-label">Photocopy Of 3 Months Proof Of Income</label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_individual_income">
+                        <input type="file" class="form-control" id="file-individual-income" name="file_individual_income">
                         @error('file_individual_income')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -310,7 +310,7 @@
                 <div class="form-group row employed-requirement">
                     <label class="col-sm-6 col-form-label">Updated Bank Statement Or Savings Passbook</label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_individual_bankstatement">
+                        <input type="file" class="form-control" id="file-individual-bankstatement" name="file_individual_bankstatement">
                         @error('file_individual_bankstatement')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -332,7 +332,7 @@
                         (Borang A and D)
                     </label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_company_form">
+                        <input type="file" class="form-control" id="file-company-form" name="file_company_form">
                         @error('file_company_form')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -346,7 +346,7 @@
                         Photocopied I/C Of Proprietor / Partners / Directors
                     </label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_company_icno">
+                        <input type="file" class="form-control" id="file-company-icno" name="file_company_icno">
                         @error('file_company_icno')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -360,7 +360,7 @@
                         Updated 3 Month Bank Statement
                     </label>
                     <div class="col-sm-6">
-                        <input type="file" class="form-control" name="file_company_bankstatement">
+                        <input type="file" class="form-control" id="file-company-bankstatement" name="file_company_bankstatement">
                         @error('file_company_bankstatement')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
@@ -505,6 +505,14 @@
             // START : File and requirements note
             let individualApplicantRequirement = document.getElementById('individual-applicant-requirement');
             let selfEmployedRequirement = document.getElementById('self-employed-requirement');
+
+            let individualApplicantIC = document.getElementById('file-individual-icno');
+            let individualApplicantIncome = document.getElementById('file-individual-income');
+            let individualApplicantBankStatement = document.getElementById('file-individual-bankstatement');
+
+            let selfEmployedForm = document.getElementById('file-company-form');
+            let selfEmployedIC = document.getElementById('file-company-icno');
+            let selfEmployedBankStatement = document.getElementById('file-company-bankstatement');
 
             let individualApplicantNotes = document.getElementById('individual-applicant-notes');
             let selfEmployedNotes = document.getElementById('self-employed-notes');
@@ -900,8 +908,8 @@
                 .then((res) => {
                     this.clearItems(itemOptions);
                     let option = document.createElement('option');
-                    option.setAttribute('value', 0);
-                    option.appendChild(document.createTextNode(''));
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select Product --'));
 
                     itemOptions.appendChild(option);
 
@@ -940,8 +948,8 @@
                     this.removeUnitPrice();
 
                     let option = document.createElement('option');
-                    option.setAttribute('value', 0);
-                    option.appendChild(document.createTextNode(''));
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select Rental Month Options --'));
 
                     monthOptions.appendChild(option);
                     for (let each of res.data) {
@@ -1004,8 +1012,8 @@
                     this.removeOptions(stateOptions);
 
                     let option = document.createElement('option');
-                    option.setAttribute('value', 0);
-                    option.appendChild(document.createTextNode(''));
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select State --'));
 
                     stateOptions.appendChild(option);
 
@@ -1045,8 +1053,8 @@
                     this.removeOptions(cityOptions);
 
                     let option = document.createElement('option');
-                    option.setAttribute('value', 0);
-                    option.appendChild(document.createTextNode(''));
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select City --'));
 
                     cityOptions.appendChild(option);
 
@@ -1084,8 +1092,8 @@
                     // countryOptions
                     this.clearItems(countryOptions);
                     let option = document.createElement('option');
-                    option.setAttribute('value', 0);
-                    option.appendChild(document.createTextNode(''));
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select Country --'));
 
                     countryOptions.appendChild(option);
 
@@ -1121,9 +1129,23 @@
             if (type === 'individual_applicant') {
                 individualApplicantRequirement.classList.remove('hide');
                 individualApplicantNotes.classList.remove('hide');
+
+                individualApplicantIC.required = true;
+                individualApplicantIncome.required = true;
+                individualApplicantBankStatement.required = true;
+                selfEmployedForm.required = false;
+                selfEmployedIC.required = false;
+                selfEmployedBankStatement.required = false;
             } else if (type === 'self_employed') {
                 selfEmployedRequirement.classList.remove('hide');
                 selfEmployedNotes.classList.remove('hide');
+
+                selfEmployedForm.required = true;
+                selfEmployedIC.required = true;
+                selfEmployedBankStatement.required = true;
+                individualApplicantIC.required = false;
+                individualApplicantIncome.required = false;
+                individualApplicantBankStatement.required = false;
             }
         }
 
