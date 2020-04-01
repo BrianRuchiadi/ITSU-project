@@ -422,7 +422,7 @@
                     
                 </div>
                 <div class="col-sm-3" style="margin: auto;">
-                    <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-block btn-primary" onclick="unhideRequirement()">Submit</button>
                 </div>
             </div>        
             @endif
@@ -1154,6 +1154,16 @@
             selfEmployedRequirement.classList.add('hide');
             individualApplicantNotes.classList.add('hide');
             selfEmployedNotes.classList.add('hide');
+        }
+        
+        function unhideRequirement() {
+            let elements0 = document.getElementsByClassName('product-installment');
+            let elements1 = document.getElementsByClassName('personal-information');
+            let elements2 = document.getElementsByClassName('referral-information');
+            
+            for (el of elements0) { el.classList.remove('hide') };
+            for (el of elements1) { el.classList.remove('hide') };
+            for (el of elements2) { el.classList.remove('hide') };
         }
     </script>
 @endsection
