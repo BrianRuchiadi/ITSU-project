@@ -124,7 +124,7 @@
                   </div>
                   <div class="col-sm">
                     <button type="button" class="btn btn-danger" onclick="formReset()">
-                        Cancel
+                        Clear
                     </button>
                   </div>
                 </div>
