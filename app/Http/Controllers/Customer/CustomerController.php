@@ -397,7 +397,7 @@ class CustomerController extends Controller
                 'contractmast_id' => $contractMaster->id,
                 'branchid' => $contractMaster->branchid,
                 'CNH_DocNo' => $contractMaster->CNH_DocNo,
-                'CNH_CustomerID' => $contractMaster->CNH_Customer_ID,
+                'CNH_CustomerID' => $contractMaster->CNH_CustomerID,
                 'CNH_Note' => $contractMaster->CNH_Note,
                 'CNH_PostingDate' => $contractMaster->CNH_PostingDate,
                 'CNH_DocDate' => $contractMaster->CNH_DocDate,
