@@ -695,7 +695,7 @@
                 .then((response) => { return response.json() })
                 .then((res) => {
                     this.changeSmsState('SMS Sent');
-                    smsTimerCountdown = 600;
+                    smsTimerCountdown = 120;
                     smsTimeInterval = setInterval(function () {
                         smsTimerCountdown--;
                         let secs = smsTimerCountdown % 60;
