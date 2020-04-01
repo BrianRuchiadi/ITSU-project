@@ -12,7 +12,7 @@
       <h3 class="panel-title">Contract List</h3>
     </div>
     
-    @if ($user->branchind == 0)
+    @if ($user->branchind != 4)
     <form class="form-horizontal" action="{{ route('customer.contract.search') }}" method="GET">
       {{ csrf_field() }}
       <div class="form-group row">
@@ -98,7 +98,7 @@
       
       </tbody>
     </table>
-      {{ $contracts->links() }}
+      {{ (count($contracts) == 0) ? '' : $contracts->links() }}
   </div>
 </div>
 @endsection

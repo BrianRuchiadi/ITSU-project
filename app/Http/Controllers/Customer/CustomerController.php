@@ -673,17 +673,8 @@ class CustomerController extends Controller
     }
 
     public function showCustomerContractList() {
-        if (Auth::user()->branchind == 0) {
-            $contracts = DB::table('customermaster')
-                           ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->select([
-                            'contractmaster.id',
-                            'contractmaster.CNH_PostingDate',
-                            'contractmaster.CNH_DocNo',
-                            'customermaster.Cust_NAME',
-                            'contractmaster.CNH_Status'
-                        ])->paginate(30);
-        } else if (Auth::user()->branchind == 4) {
+        
+        if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
             $contracts = DB::table('customermaster')
@@ -695,6 +686,8 @@ class CustomerController extends Controller
                             'customermaster.Cust_NAME',
                             'contractmaster.CNH_Status'
                         ])->paginate(30);
+        } else {
+            $contracts = [];
         }
 
         $user = Auth::user();
