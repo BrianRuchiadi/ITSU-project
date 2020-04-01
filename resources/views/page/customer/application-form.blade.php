@@ -1160,10 +1160,21 @@
             let elements0 = document.getElementsByClassName('product-installment');
             let elements1 = document.getElementsByClassName('personal-information');
             let elements2 = document.getElementsByClassName('referral-information');
+            let elements3 = document.getElementsByClassName('self-employed-requirement');
+            let elements4 = document.getElementsByClassName('employed-requirement');
             
             for (el of elements0) { el.classList.remove('hide') };
             for (el of elements1) { el.classList.remove('hide') };
             for (el of elements2) { el.classList.remove('hide') };
+            
+            if (radioSelfEmployed.checked == true) {
+                for (el of elements3) { el.classList.remove('hide') };
+            } else if (radioIndividualApplicant.checked == true) {
+                for (el of elements4) { el.classList.remove('hide') };
+            } else {
+                for (el of elements3) { el.classList.remove('hide') };
+                for (el of elements4) { el.classList.remove('hide') };
+            }
         }
     </script>
 @endsection
