@@ -159,9 +159,11 @@ class CustomerController extends Controller
                 SystemParamDetail::where('sysparam_cd', 'CUSTCCIDSEQ')
                     ->update(['param_val' => $custCcIdSeqNumberNew]);
 
+                $custAcctCdPadded = str_pad((string)$custAcctCdSeqNumberNew, 6, "0", STR_PAD_LEFT);
+
                 $customerMaster = CustomerMaster::create([
                     'Cust_ID' =>  $custIdSeqNumberNew,
-                    'Cust_AccountCode' => $custAcctCdSeqNumberNew,
+                    'Cust_AccountCode' => $custAcctCdPadded,
                     'Cust_NAME' => $request->name_of_applicant,
                     'Cust_MainAddress1' => $request->address_one,
                     'Cust_MainAddress2' => $request->address_two,
