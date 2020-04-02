@@ -219,7 +219,7 @@ class DeliveryController extends Controller
             }
 
             $client = new Client(['http_errors' => false]); 
-            $response = $client->post(config('app.pos_web_link') . "api/delivery/{$contractDeliveryOrder->id}", [
+            $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
                 'form_params' => [
                     'secret' => config('app.pos_app_key')
                 ]
@@ -307,7 +307,7 @@ class DeliveryController extends Controller
 
     public function resubmitDeliveryOrder(Request $request, ContractDeliveryOrder $contractDeliveryOrder) {
         $client = new Client(['http_errors' => false]); 
-        $response = $client->post(config('app.pos_web_link') . "api/delivery/{$contractDeliveryOrder->id}", [
+        $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
             'form_params' => [
                 'secret' => config('app.pos_app_key')
             ]

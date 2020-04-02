@@ -39,7 +39,7 @@
          </td>
          <td>
             @if($cdOrder->pos_api_ind == 0)
-            <button class="btn btn-sm btn-primary" onclick="resubmitPosApi(this, {{ $cdOrder->id}})">Re - submit</button>
+            <button class="btn btn-sm btn-primary" onclick="resubmitPosApi(this, {{ $cdOrder->id }})">Re - submit</button>
             @endif
          </td>
       </tr>
