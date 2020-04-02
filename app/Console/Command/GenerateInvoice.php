@@ -138,14 +138,14 @@ class GenerateInvoice extends Command
                 $this->info('previous total balance :' . $totalPrevBal);
 
                 $contractInvoice = ContractInvoice::create([
-                    'branch_id' => $approvedContracts[$c]->branch_id,
+                    'branchid' => $approvedContracts[$c]->branchid,
                     'CSIH_DocNo' => $generatedDocNo,
                     'CSIH_CustomerID' => $approvedContracts[$c]->CNH_CustomerID,
                     'contractmast_id' => $approvedContracts[$c]->id,
                     'CSIH_ContractDocNo' => $approvedContracts[$c]->CNH_DocNo,
                     'CSIH_Note' => $approvedContracts[$c]->CNH_Note,
-                    'CSIH_PostingDate' => $todayDateString,
-                    'CSIH_DocDate' => $todayDateString,
+                    'CSIH_PostingDate' => Carbon::now(),
+                    'CSIH_DocDate' => Carbon::now(),
                     'CSIH_Address1' => $customerMaster->Cust_MainAddress1,
                     'CSIH_Address2' => $customerMaster->Cust_MainAddress2,
                     'CSIH_Address3' => $customerMaster->Cust_MainAddress3,
@@ -195,7 +195,7 @@ class GenerateInvoice extends Command
                 $contractInvoiceLog = ContractInvoiceLog::create([
                     'action' => 'ADD',
                     'trx_type' => 'SI',
-                    'subtrx_type' => null,
+                    'subtrx_type' => '',
                     'branchid' => $contractInvoice->branchid,
                     'CSIH_DocNo' => $contractInvoice->CSIH_DocNo,
                     'CSIH_CustomerID' => $contractInvoice->CSIH_CustomerID,
@@ -212,6 +212,14 @@ class GenerateInvoice extends Command
                     'CSIH_City' => $contractInvoice->CSIH_City,
                     'CSIH_State' => $contractInvoice->CSIH_State,
                     'CSIH_Country' => $contractInvoice->CSIH_Country,
+                    'CSIH_InstallAddress1' => $contractInvoice->CSIH_InstallAddress1,
+                    'CSIH_InstallAddress2' => $contractInvoice->CSIH_InstallAddress2,
+                    'CSIH_InstallAddress3' => $contractInvoice->CSIH_InstallAddress3,
+                    'CSIH_InstallAddress4' => $contractInvoice->CSIH_InstallAddress4,
+                    'CSIH_InstallPostcode' => $contractInvoice->CSIH_InstallPostcode,
+                    'CSIH_InstallCity' => $contractInvoice->CSIH_InstallCity,
+                    'CSIH_InstallState' => $contractInvoice->CSIH_InstallState,
+                    'CSIH_InstallCountry' => $contractInvoice->CSIH_InstallCountry,
                     'CSIH_BillingPeriod' => $contractInvoice->CSIH_BillingPeriod,
                     'CSIH_Total' => $contractInvoice->CSIH_Total,
                     'CSIH_Tax' => $contractInvoice->CSIH_Tax,
@@ -235,6 +243,7 @@ class GenerateInvoice extends Command
                     'CSID_SerialNo' => $contractInvoiceDtl->CSID_SerialNo,
                     'CSID_ItemSeq' => $contractInvoiceDtl->CSID_ItemSeq,
                     'cn_Item_Seq' => $contractInvoiceDtl->cn_Item_Seq,
+                    'status' => '',
                     'usr_created' => null
                 ]);
 

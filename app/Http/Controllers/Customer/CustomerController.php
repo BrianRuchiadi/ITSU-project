@@ -283,7 +283,7 @@ class CustomerController extends Controller
                 'CNH_TotInstPeriod' => $request->no_of_installment_month,
                 'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_Tax' => 0,
-                'CNH_Taxable_Amt' => 1 * $irsItemRental->IR_UnitPrice,
+                'CNH_TaxableAmt' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_InstallAddress1' => $request->address_one,
                 'CNH_InstallPostCode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
@@ -305,9 +305,8 @@ class CustomerController extends Controller
             $cndSubTotal = $cndQty * $cndUnitPrice;
 
             $cndTaxAmt = 0;
-            $cndTaxableAmt = $cndQty * $irsItemRental->IR_UnitPrice;
 
-            $cndTotal = $cndSubTotal + $cndTaxableAmt;
+            $cndTotal = $cndSubTotal + $cndTaxAmt;
 
             $contractMasterDtl = ContractMasterDtl::create([
                 'contractmast_id' => $contractMaster->id,
