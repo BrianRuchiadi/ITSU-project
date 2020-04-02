@@ -109,6 +109,8 @@ class DeliveryController extends Controller
                 'CDOD_Description' => $contractMasterDetail->CND_Description,
                 'CDOD_ItemUOMID' => $contractMasterDetail->CND_ItemUOMID,
                 'CDOD_ItemTypeID' => $contractMasterDetail->CND_ItemTypeID,
+                'CDOD_WarehouseID' => $contractMasterDetail->CND_WarehouseID,
+                'CDOD_BinLocationID' => $contractMasterDetail->CND_BinLocationID,
                 'CDOD_Qty' => $contractMasterDetail->CND_Qty,
                 'CDOD_UnitPrice' => $contractMasterDetail->CND_UnitPrice,
                 'CDOD_SubTotal' => $contractMasterDetail->CND_SubTotal,
@@ -116,7 +118,7 @@ class DeliveryController extends Controller
                 'CDOD_TaxableAmt' => $contractMasterDetail->CND_TaxableAmt,
                 'CDOD_Total' => $contractMasterDetail->CND_Total,
                 'CDOD_SerialNo' => $params['serial_no'],
-                'CDOD_ItemSeq' => 1,
+                'CDOD_Item_Seq' => 1,
                 'cn_Item_Seq' => $contractMasterDetail->CND_ItemSeq,
                 'usr_created' => Auth::user()->id
             ]);
