@@ -95,7 +95,7 @@ class DeliveryController extends Controller
                 'CDOH_InstallCountry' => $contractMaster->CNH_InstallCountry,
                 'CDOH_WarehouseID' => $contractMaster->CNH_WarehouseID,
                 'CDOH_Total' => $contractMaster->CNH_Total,
-                'CDOH_Tax' => $contractMaster->CNH_Tax,
+                'CDOH_TaxAmt' => $contractMaster->CNH_Tax,
                 'CDOH_TaxableAmt' => $contractMaster->CNH_TaxableAmt,
                 'CDOH_NetTotal' => $contractMaster->CNH_NetTotal,
                 'CDOH_SalesAgent1' => $contractMaster->CNH_SalesAgent1,
@@ -272,7 +272,7 @@ class DeliveryController extends Controller
                 'CDOH_InstallCountry' => $contractDeliveryOrder->CDOH_InstallCountry,
                 'CDOH_WarehouseID' => $contractDeliveryOrder->CDOH_WarehouseID,
                 'CDOH_Total' => $contractDeliveryOrder->CDOH_Total,
-                'CDOH_Tax' => $contractDeliveryOrder->CDOH_Tax,
+                'CDOH_TaxAmt' => $contractDeliveryOrder->CDOH_TaxAmt,
                 'CDOH_TaxableAmt' => $contractDeliveryOrder->CDOH_TaxableAmt,
                 'CDOH_NetTotal' => $contractDeliveryOrder->CDOH_NetTotal,
                 'CDOH_SalesAgent1' => $contractDeliveryOrder->CDOH_SalesAgent1,
@@ -291,7 +291,7 @@ class DeliveryController extends Controller
                 'CDOD_TaxableAmt' => $contractDeliveryOrderDtl->CDOD_TaxableAmt,
                 'CDOD_Total' => $contractDeliveryOrderDtl->CDOD_Total,
                 'CDOD_SerialNo' => $contractDeliveryOrderDtl->CDOD_SerialNo,
-                'CDOD_ItemSeq' => $contractDeliveryOrderDtl->CDOD_ItemSeq,
+                'CDOD_Item_Seq' => $contractDeliveryOrderDtl->CDOD_Item_Seq,
                 'cn_Item_Seq' => $contractDeliveryOrderDtl->cn_Item_Seq,
                 'usr_created' => Auth::user()->id
             ]);
