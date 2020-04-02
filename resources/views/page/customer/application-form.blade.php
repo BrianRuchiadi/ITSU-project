@@ -799,7 +799,19 @@
                         sellerTwo.value = '{{ session()->get('seller_two') }}';
                     @endif
                     
-                    if (res.decoded_referrer_id) {
+                    if (res.staff) {
+                        sellerOne.value = res.staff;
+                        sellerOne.setAttribute("disabled", true);
+                        sellerTwo.setAttribute("disabled", true);
+
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "seller_one");
+                        input.setAttribute("value", res.staff);
+                        
+                        //append to form element that you want .
+                        form.appendChild(input);
+                    } else if (res.decoded_referrer_id) {
                         sellerOne.value = res.decoded_referrer_id;
                         sellerOne.setAttribute("disabled", true);
                         sellerTwo.setAttribute("disabled", true);
@@ -808,16 +820,17 @@
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", "seller_one");
                         input.setAttribute("value", res.decoded_referrer_id);
+
+                        //append to form element that you want .
+                        form.appendChild(input);
+                    }
                         
-                        let input2 = document.createElement("input");
+                    let input2 = document.createElement("input");
                         input2.setAttribute("type", "hidden");
                         input2.setAttribute("name", "seller_two");
                         input2.setAttribute("value", "");
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
+
                         form.appendChild(input2);
-                    }
                 })
                 .catch((error) => {
                     console.log(['err', error]);

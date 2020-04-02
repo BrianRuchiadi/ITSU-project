@@ -23,6 +23,7 @@ class UserController extends Controller
         }
 
         return [
+            'staff' => $staff ?? null,
             'decoded_referrer_id' => $decoded,
             'data' => User::whereNull('deleted_at')->
                         where('branchind', 0)->
