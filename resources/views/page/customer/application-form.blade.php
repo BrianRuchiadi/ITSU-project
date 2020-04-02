@@ -638,6 +638,9 @@
                 })
                 .catch((error) => {
                     console.log(['err', error]);
+                    showAlert('There is something wrong in the server! Please contact admin', 'alert-danger');
+                    smsTagSubmitButton.classList.remove('disabled');
+                    smsTagSubmitButton.disabled = false;
                 });
         }
 
