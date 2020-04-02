@@ -16,10 +16,11 @@ class UserController extends Controller
         if ($request->ref) {
             $hashIds = new Hashids(config('app.salt'), 5);
             $decoded = $hashIds->decode($request->ref)[0];
-        }
 
-        if (Auth::user()->branchind == 0) {
-            $staff = Auth::user()->id;
+            // if user is staff, then always use their own id
+            if (Auth::user()->branchind == 0) {
+                $decoded = Auth::user()->id;
+            }
         }
 
         return [

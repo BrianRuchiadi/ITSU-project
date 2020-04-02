@@ -632,6 +632,7 @@
                 .then((response) => { return response.json(); })
                 .then((res) => { 
                     if (res.status === 'success') {
+                        localStorage.removeItem('referrerCode');
                         location.reload();
                     }
                 })
