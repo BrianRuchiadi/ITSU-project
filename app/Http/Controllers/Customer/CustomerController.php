@@ -285,7 +285,7 @@ class CustomerController extends Controller
                 'CNH_Tax' => 0,
                 'CNH_TaxableAmt' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_InstallAddress1' => $request->address_one,
-                'CNH_InstallPostCode' => $request->postcode,
+                'CNH_InstallPostcode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
                 'CNH_InstallState' => $request->state,
                 'CNH_InstallCountry' => $request->country,
