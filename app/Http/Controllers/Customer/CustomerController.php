@@ -305,6 +305,7 @@ class CustomerController extends Controller
             $cndSubTotal = $cndQty * $cndUnitPrice;
 
             $cndTaxAmt = 0;
+            $cndTaxableAmt = $cndQty * $irsItemRental->IR_UnitPrice;
 
             $cndTotal = $cndSubTotal + $cndTaxAmt;
 
