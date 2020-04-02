@@ -193,7 +193,7 @@ class GenerateInvoice extends Command
                     'CSID_Total' => $contractMasterDtl->CND_Total,
                     'CSID_SerialNo' => $contractMasterDtl->CND_SerialNo,
                     'CSID_ItemSeq' => $contractMasterDtl->CND_ItemSeq,
-                    'cn_item_Seq' => $contractMasterDtl->CND_ItemSeq
+                    'cn_Item_Seq' => $contractMasterDtl->CND_ItemSeq
                 ]);
 
                 $contractInvoiceLog = ContractInvoiceLog::create([
