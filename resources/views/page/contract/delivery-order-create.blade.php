@@ -144,6 +144,7 @@
 
             if (status == 'invalid') {
                 btnSubmit.disabled = true;
+                elContractNo.value = '';
                 this.emptyContract();
             } else if (status == 'valid') {
                 btnSubmit.disabled = false;
