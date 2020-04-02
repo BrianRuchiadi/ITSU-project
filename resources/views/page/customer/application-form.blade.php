@@ -715,6 +715,11 @@
                     }, 1000);
                 })
                 .catch((error) => {
+                    smsTagSendButton.classList.remove('disabled');
+                    smsTagSendButton.disabled = false;
+                    smsTagSendButton.innerText = "Send SMS Tag";
+
+                    showAlert('Invalid phone number, please include country code!', 'alert-danger');
                     console.log(['error', error]);
                 });
         }

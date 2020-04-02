@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Address</label>
+            <label class="col-sm-4 col-form-label">Delivery Address 1</label>
             <div class="col-sm-8">
                 <textarea class="form-control" id="delivery-address-1" disabled>
                 </textarea>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Address</label>
+            <label class="col-sm-4 col-form-label">Delivery Address 2</label>
             <div class="col-sm-8">
                 <textarea class="form-control" id="delivery-address-2" disabled>
                 </textarea>

@@ -232,7 +232,7 @@ class ContractController extends Controller
         $cnsoLogSeqNumberNew = $cnsoLogSeqNumber->param_val + 1;
 
         SystemParamDetail::where('sysparam_cd', 'CNSOLOGSEQ')
-            ->update(['param_val' => $cnsoLogSeqNumber]);
+            ->update(['param_val' => $cnsoLogSeqNumberNew]);
         $contractDtl = ContractMasterDtl::where('contractmast_id', $contract->id)->first();
 
         ContractMasterLog::create([
