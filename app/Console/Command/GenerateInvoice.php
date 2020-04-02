@@ -78,28 +78,27 @@ class GenerateInvoice extends Command
         $this->info('checking if the contract invoice is already generated for this month');
         $this->info('......');
 
-        $approvedContractsIds = $approvedContracts->pluck('id');
-
-        foreach ($approvedContractsIds as $cid) {
-            $contract = ContractMaster::where('id', $cid)->first();
-
+        foreach ($approvedContracts as &$contract) {
             $contractStartDate = Carbon::parse($contract->CNH_StartDate);
             $contractStartDay = Carbon::parse($contract->CNH_StartDate)->day;
             $contractBillingTillThisMonth = $contractStartDate->diffInMonths($todayDateString);
-
+            $contractBillingTillThisTheEnd = $contractStartDate->diffInMonths(Carbon::parse($contract->CNH_EndDate));
+            $this->info('this end' . $contractBillingTillThisTheEnd);
             // add another month to contractBillingTillThisMonth due to special condition
-            if ($selectedDay == 16 && $contractStartDay < 16) {
+            if ($contractBillingTillThisMonth == 0) {
                 $contractBillingTillThisMonth+= 1;
             }
 
-            $latestInvoice = ContractInvoice::where('contractmast_id', $cid)->orderBy('CSIH_BillingPeriod', 'desc')->first();
+            $latestInvoice = ContractInvoice::where('contractmast_id', $contract->id)->orderBy('CSIH_BillingPeriod', 'desc')->first();
             // check latest invoice
             if ($latestInvoice) {
-                if ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) {
-                    $this->error('This month invoice is already generated!');
+                if ($latestInvoice->CSIH_BillingPeriod > $contractBillingTillThisMonth) {
+                    $this->error('We have invalid data in database for contract : ' . $contract->CNH_DocNo);
                     $this->error('Command Terminated Unsuccessfully!');
                     return;
                 }
+
+                $contract->already_generated = ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) ? true : false;
             }
         }
         $this->info('please proceed with creation....');
@@ -109,6 +108,11 @@ class GenerateInvoice extends Command
             for ($c = 0; $c < $approvedContracts->count(); $c++) {
                 $iterationNo = $c + 1;
                 $this->info('START : iteration no : ' . $iterationNo);
+
+                if ($approvedContracts[$c]->already_generated) {
+                    $this->info('This contract invoice have ALREADY generated for this month successfully, skip insert');
+                    continue;
+                }
             
                 $cnsiDocSeq = SystemParamDetail::where('sysparam_cd', 'CNSIDOCSEQ')->select(['param_val'])->first();
                 $cnsiDocSeqNew = $cnsiDocSeq->param_val + 1;
