@@ -227,30 +227,6 @@ class DeliveryController extends Controller
                 ]);
             }
 
-            $client = new Client(['http_errors' => false]); 
-            $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
-                'form_params' => [
-                    'secret' => config('app.pos_app_key')
-                ]
-            ]);
-
-            $statusCode = $response->getStatusCode();
-
-            switch ($statusCode) {
-                case 200: 
-                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
-                        'pos_api_ind' => 1,
-                        'usr_updated' => Auth::user()->id
-                    ]);
-                    break;
-                default:
-                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
-                        'pos_api_ind' => 0,
-                        'usr_updated' => Auth::user()->id
-                    ]);
-                    break;
-            }
-
             $contractDeliveryOrderLog = ContractDeliveryOrderLog::create([
                 'action' => 'ADD',
                 'trx_type' => 'DO',
@@ -306,6 +282,31 @@ class DeliveryController extends Controller
             ]);
             
             DB::commit();
+
+            $client = new Client(['http_errors' => false]); 
+            $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
+                'form_params' => [
+                    'secret' => config('app.pos_app_key')
+                ]
+            ]);
+
+            $statusCode = $response->getStatusCode();
+
+            switch ($statusCode) {
+                case 200: 
+                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
+                        'pos_api_ind' => 1,
+                        'usr_updated' => Auth::user()->id
+                    ]);
+                    break;
+                default:
+                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
+                        'pos_api_ind' => 0,
+                        'usr_updated' => Auth::user()->id
+                    ]);
+                    break;
+            }
+
             Session::flash('showSuccessMessage', "Successfully Create Delivery Order For {$params['contract_no']} . POS API Status : {$statusCode}");
             return redirect('/contract/delivery-order');
         } catch (Exception $e) {
