@@ -42,8 +42,17 @@ class DeliveryController extends Controller
         // validation
         $validator = Validator::make($request->all(), [
             'contract_no' => 'required|string|exists:contractmaster,CNH_DocNo',
-            'serial_no' => 'required|string|min:1'
+            'serial_no' => 'required|string|min:1',
+
+            'delivery_date' => 'required|date',
+            'delivery_address_1' => 'required|string|min:5',
+            'delivery_address_2' => 'nullable|string|min:5',
+            'delivery_postcode' => 'required|string|min:4|max:10',
+            'delivery_country' => 'required|exists:irs_country,CO_ID',
+            'delivery_state' => 'required|exists:irs_state,ST_ID',
+            'delivery_city' => 'required|exists:irs_city,CI_ID',
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
@@ -76,7 +85,7 @@ class DeliveryController extends Controller
                 'CDOH_ContractDocNo' => $contractMaster->CNH_DocNo,
                 'CDOH_Note' => $contractMaster->CNH_Note,
                 'CDOH_PostingDate' => Carbon::now(),
-                'CDOH_DocDate' => Carbon::now(),
+                'CDOH_DocDate' => $request->delivery_date,
                 'CDOH_Address1' => $customerMaster->Cust_MainAddress1,
                 'CDOH_Address2' => $customerMaster->Cust_MainAddress2,
                 'CDOH_Address3' => $customerMaster->Cust_MainAddress3,
@@ -85,17 +94,17 @@ class DeliveryController extends Controller
                 'CDOH_City' => $customerMaster->Cust_MainCity,
                 'CDOH_State' => $customerMaster->Cust_MainState,
                 'CDOH_Country' => $customerMaster->Cust_MainCountry,
-                'CDOH_InstallAddress1' => $contractMaster->CNH_InstallAddress1,
-                'CDOH_InstallAddress2' => $contractMaster->CNH_InstallAddress2,
-                'CDOH_InstallAddress3' => $contractMaster->CNH_InstallAddress3,
-                'CDOH_InstallAddress4' => $contractMaster->CNH_InstallAddress4,
-                'CDOH_InstallPostcode' => $contractMaster->CNH_InstallPostcode,
-                'CDOH_InstallCity' => $contractMaster->CNH_InstallCity,
-                'CDOH_InstallState' => $contractMaster->CNH_InstallState,
-                'CDOH_InstallCountry' => $contractMaster->CNH_InstallCountry,
+                'CDOH_InstallAddress1' => $request->delivery_address_1,
+                'CDOH_InstallAddress2' => $request->delivery_address_2,
+                'CDOH_InstallAddress3' => null,
+                'CDOH_InstallAddress4' => null,
+                'CDOH_InstallPostcode' => $request->delivery_postcode,
+                'CDOH_InstallCity' => $request->delivery_city,
+                'CDOH_InstallState' => $request->delivery_state,
+                'CDOH_InstallCountry' => $request->delivery_country,
                 'CDOH_WarehouseID' => $contractMaster->CNH_WarehouseID,
                 'CDOH_Total' => $contractMaster->CNH_Total,
-                'CDOH_Tax' => $contractMaster->CNH_Tax,
+                'CDOH_TaxAmt' => $contractMaster->CNH_Tax,
                 'CDOH_TaxableAmt' => $contractMaster->CNH_TaxableAmt,
                 'CDOH_NetTotal' => $contractMaster->CNH_NetTotal,
                 'CDOH_SalesAgent1' => $contractMaster->CNH_SalesAgent1,
@@ -109,6 +118,8 @@ class DeliveryController extends Controller
                 'CDOD_Description' => $contractMasterDetail->CND_Description,
                 'CDOD_ItemUOMID' => $contractMasterDetail->CND_ItemUOMID,
                 'CDOD_ItemTypeID' => $contractMasterDetail->CND_ItemTypeID,
+                'CDOD_WarehouseID' => $contractMasterDetail->CND_WarehouseID,
+                'CDOD_BinLocationID' => $contractMasterDetail->CND_BinLocationID,
                 'CDOD_Qty' => $contractMasterDetail->CND_Qty,
                 'CDOD_UnitPrice' => $contractMasterDetail->CND_UnitPrice,
                 'CDOD_SubTotal' => $contractMasterDetail->CND_SubTotal,
@@ -116,7 +127,7 @@ class DeliveryController extends Controller
                 'CDOD_TaxableAmt' => $contractMasterDetail->CND_TaxableAmt,
                 'CDOD_Total' => $contractMasterDetail->CND_Total,
                 'CDOD_SerialNo' => $params['serial_no'],
-                'CDOD_ItemSeq' => 1,
+                'CDOD_Item_Seq' => 1,
                 'cn_Item_Seq' => $contractMasterDetail->CND_ItemSeq,
                 'usr_created' => Auth::user()->id
             ]);
@@ -217,7 +228,7 @@ class DeliveryController extends Controller
             }
 
             $client = new Client(['http_errors' => false]); 
-            $response = $client->post(config('app.pos_web_link') . "api/delivery/{$contractDeliveryOrder->id}", [
+            $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
                 'form_params' => [
                     'secret' => config('app.pos_app_key')
                 ]
@@ -270,7 +281,7 @@ class DeliveryController extends Controller
                 'CDOH_InstallCountry' => $contractDeliveryOrder->CDOH_InstallCountry,
                 'CDOH_WarehouseID' => $contractDeliveryOrder->CDOH_WarehouseID,
                 'CDOH_Total' => $contractDeliveryOrder->CDOH_Total,
-                'CDOH_Tax' => $contractDeliveryOrder->CDOH_Tax,
+                'CDOH_TaxAmt' => $contractDeliveryOrder->CDOH_TaxAmt,
                 'CDOH_TaxableAmt' => $contractDeliveryOrder->CDOH_TaxableAmt,
                 'CDOH_NetTotal' => $contractDeliveryOrder->CDOH_NetTotal,
                 'CDOH_SalesAgent1' => $contractDeliveryOrder->CDOH_SalesAgent1,
@@ -289,7 +300,7 @@ class DeliveryController extends Controller
                 'CDOD_TaxableAmt' => $contractDeliveryOrderDtl->CDOD_TaxableAmt,
                 'CDOD_Total' => $contractDeliveryOrderDtl->CDOD_Total,
                 'CDOD_SerialNo' => $contractDeliveryOrderDtl->CDOD_SerialNo,
-                'CDOD_ItemSeq' => $contractDeliveryOrderDtl->CDOD_ItemSeq,
+                'CDOD_Item_Seq' => $contractDeliveryOrderDtl->CDOD_Item_Seq,
                 'cn_Item_Seq' => $contractDeliveryOrderDtl->cn_Item_Seq,
                 'usr_created' => Auth::user()->id
             ]);
@@ -305,7 +316,7 @@ class DeliveryController extends Controller
 
     public function resubmitDeliveryOrder(Request $request, ContractDeliveryOrder $contractDeliveryOrder) {
         $client = new Client(['http_errors' => false]); 
-        $response = $client->post(config('app.pos_web_link') . "api/delivery/{$contractDeliveryOrder->id}", [
+        $response = $client->post(config('app.pos_web_link') . "api/deliveryorder/{$contractDeliveryOrder->id}", [
             'form_params' => [
                 'secret' => config('app.pos_app_key')
             ]
@@ -323,19 +334,24 @@ class DeliveryController extends Controller
                 Session::flash('showSuccessMessage', 'Successfully update POS API');
                 return [
                     'status' => 'success',
-                    'data' => $contractDeliveryOrder
+                    'data' => $contractDeliveryOrder,
+                    'successMessage' => 'Successfully updated POS API'
                 ];
                 break;
+
+            case 400 :
+            case 401 :
             default:
                 $contractDeliveryOrder->update([
                     'pos_api_ind' => 0,
                     'usr_updated' => Auth::user()->id
                 ]);
 
-                Session::flash('showErrorMessage', 'Failure to update POS API');
+                $errorMessage = ($statusCode == 400) ? 'invalid parameter' : 'invalid secret';
                 return [
                     'status' => 'failed',
-                    'data' => $contractDeliveryOrder
+                    'data' => $contractDeliveryOrder,
+                    'errorMessage' => $errorMessage
                 ];
                 break;
         }

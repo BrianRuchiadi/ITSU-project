@@ -22,7 +22,7 @@
                         <i class="fas fa-phone"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Telephone No" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
+                    <input type="text" class="form-control" placeholder="+60123456789" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
                 </div>
                 @error('telephoneno')
                     <div class="alert alert-danger">
@@ -123,8 +123,8 @@
                     </button>
                   </div>
                   <div class="col-sm">
-                    <button type="button" class="btn btn-danger">
-                        Cancel
+                    <button type="button" class="btn btn-danger" onclick="formReset()">
+                        Clear
                     </button>
                   </div>
                 </div>
@@ -179,7 +179,10 @@
 
         //append to form element that you want .
         document.getElementById("register-form").appendChild(input);
+    }
 
+    function formReset() {
+        document.getElementById('register-form').reset();
     }
 </script>
 @endsection

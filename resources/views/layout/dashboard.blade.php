@@ -135,6 +135,10 @@
             @if (Session::has('showSuccessMessage'))
                 this.showAlert('{{ Session::get('showSuccessMessage') }}');
             @endif
+
+            @if (Auth::user()->branchind == 0)
+                localStorage.removeItem('referrerCode');
+            @endif
         
             function displayUserSubMenu() {
                 elementUserSubmenu.classList.toggle("show");
@@ -189,6 +193,7 @@
                     }
                     })
                     .then((response) => {
+                        localStorage.removeItem('referrerCode');
                         if (response.redirected) { window.location = response.url; }
                     })
                     .catch((error) => {

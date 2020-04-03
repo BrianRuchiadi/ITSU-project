@@ -59,8 +59,8 @@ class CustomerController extends Controller
             'city' => 'required|exists:irs_city,CI_ID',
             'state' => 'required|exists:irs_state,ST_ID',
             'country' =>  'required|exists:irs_country,CO_ID',
-            'name_of_reference' => 'string|min:3|max:50',
-            'contact_of_reference' => 'string|min:8|max:20',
+            'name_of_reference' => 'nullable|string|min:3|max:50',
+            'contact_of_reference' => 'nullable|string|min:8|max:20',
             'seller_one' => 'exists:users,id|nullable|different:seller_two',
             'seller_two' => 'exists:users,id|nullable',
             'tandcitsu' => 'required|in:1',
@@ -159,9 +159,11 @@ class CustomerController extends Controller
                 SystemParamDetail::where('sysparam_cd', 'CUSTCCIDSEQ')
                     ->update(['param_val' => $custCcIdSeqNumberNew]);
 
+                $custAcctCdPadded = str_pad((string)$custAcctCdSeqNumberNew, 6, "0", STR_PAD_LEFT);
+
                 $customerMaster = CustomerMaster::create([
                     'Cust_ID' =>  $custIdSeqNumberNew,
-                    'Cust_AccountCode' => $custAcctCdSeqNumberNew,
+                    'Cust_AccountCode' => $custAcctCdPadded,
                     'Cust_NAME' => $request->name_of_applicant,
                     'Cust_MainAddress1' => $request->address_one,
                     'Cust_MainAddress2' => $request->address_two,
@@ -281,9 +283,9 @@ class CustomerController extends Controller
                 'CNH_TotInstPeriod' => $request->no_of_installment_month,
                 'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_Tax' => 0,
-                'CNH_Taxable_Amt' => 1 * $irsItemRental->IR_UnitPrice,
+                'CNH_TaxableAmt' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_InstallAddress1' => $request->address_one,
-                'CNH_InstallPostCode' => $request->postcode,
+                'CNH_InstallPostcode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
                 'CNH_InstallState' => $request->state,
                 'CNH_InstallCountry' => $request->country,
@@ -305,14 +307,14 @@ class CustomerController extends Controller
             $cndTaxAmt = 0;
             $cndTaxableAmt = $cndQty * $irsItemRental->IR_UnitPrice;
 
-            $cndTotal = $cndSubTotal + $cndTaxableAmt;
+            $cndTotal = $cndSubTotal + $cndTaxAmt;
 
             $contractMasterDtl = ContractMasterDtl::create([
                 'contractmast_id' => $contractMaster->id,
                 'CND_ItemID' => $request->product,
                 'CND_Description' => $irsItemMaster->IM_Description,
-                'CND_ItemUOMID' => $irsItemMaster->IM_Type,
-                'CND_ItemTypeID' => $irsItemMaster->IM_BaseUOMID,
+                'CND_ItemUOMID' => $irsItemMaster->IM_BaseUOMID,
+                'CND_ItemTypeID' => $irsItemMaster->IM_Type,
                 'CND_Qty' => $cndQty,
                 'CND_UnitPrice' => $cndUnitPrice,
                 'CND_SubTotal' => $cndSubTotal,
@@ -397,7 +399,7 @@ class CustomerController extends Controller
                 'contractmast_id' => $contractMaster->id,
                 'branchid' => $contractMaster->branchid,
                 'CNH_DocNo' => $contractMaster->CNH_DocNo,
-                'CNH_CustomerID' => $contractMaster->CNH_Customer_ID,
+                'CNH_CustomerID' => $contractMaster->CNH_CustomerID,
                 'CNH_Note' => $contractMaster->CNH_Note,
                 'CNH_PostingDate' => $contractMaster->CNH_PostingDate,
                 'CNH_DocDate' => $contractMaster->CNH_DocDate,
@@ -671,17 +673,8 @@ class CustomerController extends Controller
     }
 
     public function showCustomerContractList() {
-        if (Auth::user()->branchind == 0) {
-            $contracts = DB::table('customermaster')
-                           ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->select([
-                            'contractmaster.id',
-                            'contractmaster.CNH_PostingDate',
-                            'contractmaster.CNH_DocNo',
-                            'customermaster.Cust_NAME',
-                            'contractmaster.CNH_Status'
-                        ])->paginate(30);
-        } else if (Auth::user()->branchind == 4) {
+        
+        if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
             $contracts = DB::table('customermaster')
@@ -693,6 +686,8 @@ class CustomerController extends Controller
                             'customermaster.Cust_NAME',
                             'contractmaster.CNH_Status'
                         ])->paginate(30);
+        } else {
+            $contracts = [];
         }
 
         $user = Auth::user();

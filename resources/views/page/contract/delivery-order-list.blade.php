@@ -39,7 +39,7 @@
          </td>
          <td>
             @if($cdOrder->pos_api_ind == 0)
-            <button class="btn btn-sm btn-primary" onclick="resubmitPosApi(this, {{ $cdOrder->id}})">Re - submit</button>
+            <button class="btn btn-sm btn-primary" onclick="resubmitPosApi(this, {{ $cdOrder->id }})">Re - submit</button>
             @endif
          </td>
       </tr>
@@ -68,7 +68,7 @@
             if (res.status === 'success') {
                location.reload();
             } else {
-               this.showAlert('{{ Session::get('showErrorMessage')}}', 'alert-danger');
+               this.showAlert(res.errorMessage, 'alert-danger');
             }
          })
          .catch((error) => {

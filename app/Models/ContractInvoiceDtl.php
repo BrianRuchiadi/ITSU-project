@@ -24,7 +24,7 @@ class ContractInvoiceDtl extends Model
         'CSID_Total',
         'CSID_SerialNo',
         'CSID_ItemSeq',
-        'cn_item_Seq',
+        'cn_Item_Seq',
         'usr_created',
         'usr_updated',
         'usr_deleted'

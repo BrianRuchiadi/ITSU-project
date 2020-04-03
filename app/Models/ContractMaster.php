@@ -30,7 +30,7 @@ class ContractMaster extends Model
         'CNH_InstallAddress2',
         'CNH_InstallAddress3',
         'CNH_InstallAddress4',
-        'CNH_InstallPostCode',
+        'CNH_InstallPostcode',
         'CNH_InstallCity',
         'CNH_InstallState',
         'CNH_InstallCountry',

@@ -78,28 +78,27 @@ class GenerateInvoice extends Command
         $this->info('checking if the contract invoice is already generated for this month');
         $this->info('......');
 
-        $approvedContractsIds = $approvedContracts->pluck('id');
-
-        foreach ($approvedContractsIds as $cid) {
-            $contract = ContractMaster::where('id', $cid)->first();
-
+        foreach ($approvedContracts as &$contract) {
             $contractStartDate = Carbon::parse($contract->CNH_StartDate);
             $contractStartDay = Carbon::parse($contract->CNH_StartDate)->day;
             $contractBillingTillThisMonth = $contractStartDate->diffInMonths($todayDateString);
-
+            $contractBillingTillThisTheEnd = $contractStartDate->diffInMonths(Carbon::parse($contract->CNH_EndDate));
+            $this->info('this end' . $contractBillingTillThisTheEnd);
             // add another month to contractBillingTillThisMonth due to special condition
-            if ($selectedDay == 16 && $contractStartDay < 16) {
+            if ($contractBillingTillThisMonth == 0) {
                 $contractBillingTillThisMonth+= 1;
             }
 
-            $latestInvoice = ContractInvoice::where('contractmast_id', $cid)->orderBy('CSIH_BillingPeriod', 'desc')->first();
+            $latestInvoice = ContractInvoice::where('contractmast_id', $contract->id)->orderBy('CSIH_BillingPeriod', 'desc')->first();
             // check latest invoice
             if ($latestInvoice) {
-                if ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) {
-                    $this->error('This month invoice is already generated!');
+                if ($latestInvoice->CSIH_BillingPeriod > $contractBillingTillThisMonth) {
+                    $this->error('We have invalid data in database for contract : ' . $contract->CNH_DocNo);
                     $this->error('Command Terminated Unsuccessfully!');
                     return;
                 }
+
+                $contract->already_generated = ($latestInvoice->CSIH_BillingPeriod == $contractBillingTillThisMonth) ? true : false;
             }
         }
         $this->info('please proceed with creation....');
@@ -109,6 +108,11 @@ class GenerateInvoice extends Command
             for ($c = 0; $c < $approvedContracts->count(); $c++) {
                 $iterationNo = $c + 1;
                 $this->info('START : iteration no : ' . $iterationNo);
+
+                if ($approvedContracts[$c]->already_generated) {
+                    $this->info('This contract invoice have ALREADY generated for this month successfully, skip insert');
+                    continue;
+                }
             
                 $cnsiDocSeq = SystemParamDetail::where('sysparam_cd', 'CNSIDOCSEQ')->select(['param_val'])->first();
                 $cnsiDocSeqNew = $cnsiDocSeq->param_val + 1;
@@ -138,14 +142,14 @@ class GenerateInvoice extends Command
                 $this->info('previous total balance :' . $totalPrevBal);
 
                 $contractInvoice = ContractInvoice::create([
-                    'branch_id' => $approvedContracts[$c]->branch_id,
+                    'branchid' => $approvedContracts[$c]->branchid,
                     'CSIH_DocNo' => $generatedDocNo,
                     'CSIH_CustomerID' => $approvedContracts[$c]->CNH_CustomerID,
                     'contractmast_id' => $approvedContracts[$c]->id,
                     'CSIH_ContractDocNo' => $approvedContracts[$c]->CNH_DocNo,
                     'CSIH_Note' => $approvedContracts[$c]->CNH_Note,
-                    'CSIH_PostingDate' => $todayDateString,
-                    'CSIH_DocDate' => $todayDateString,
+                    'CSIH_PostingDate' => Carbon::now(),
+                    'CSIH_DocDate' => Carbon::now(),
                     'CSIH_Address1' => $customerMaster->Cust_MainAddress1,
                     'CSIH_Address2' => $customerMaster->Cust_MainAddress2,
                     'CSIH_Address3' => $customerMaster->Cust_MainAddress3,
@@ -189,13 +193,13 @@ class GenerateInvoice extends Command
                     'CSID_Total' => $contractMasterDtl->CND_Total,
                     'CSID_SerialNo' => $contractMasterDtl->CND_SerialNo,
                     'CSID_ItemSeq' => $contractMasterDtl->CND_ItemSeq,
-                    'cn_item_Seq' => $contractMasterDtl->CND_ItemSeq
+                    'cn_Item_Seq' => $contractMasterDtl->CND_ItemSeq
                 ]);
 
                 $contractInvoiceLog = ContractInvoiceLog::create([
                     'action' => 'ADD',
                     'trx_type' => 'SI',
-                    'subtrx_type' => null,
+                    'subtrx_type' => '',
                     'branchid' => $contractInvoice->branchid,
                     'CSIH_DocNo' => $contractInvoice->CSIH_DocNo,
                     'CSIH_CustomerID' => $contractInvoice->CSIH_CustomerID,
@@ -212,6 +216,14 @@ class GenerateInvoice extends Command
                     'CSIH_City' => $contractInvoice->CSIH_City,
                     'CSIH_State' => $contractInvoice->CSIH_State,
                     'CSIH_Country' => $contractInvoice->CSIH_Country,
+                    'CSIH_InstallAddress1' => $contractInvoice->CSIH_InstallAddress1,
+                    'CSIH_InstallAddress2' => $contractInvoice->CSIH_InstallAddress2,
+                    'CSIH_InstallAddress3' => $contractInvoice->CSIH_InstallAddress3,
+                    'CSIH_InstallAddress4' => $contractInvoice->CSIH_InstallAddress4,
+                    'CSIH_InstallPostcode' => $contractInvoice->CSIH_InstallPostcode,
+                    'CSIH_InstallCity' => $contractInvoice->CSIH_InstallCity,
+                    'CSIH_InstallState' => $contractInvoice->CSIH_InstallState,
+                    'CSIH_InstallCountry' => $contractInvoice->CSIH_InstallCountry,
                     'CSIH_BillingPeriod' => $contractInvoice->CSIH_BillingPeriod,
                     'CSIH_Total' => $contractInvoice->CSIH_Total,
                     'CSIH_Tax' => $contractInvoice->CSIH_Tax,
@@ -235,6 +247,7 @@ class GenerateInvoice extends Command
                     'CSID_SerialNo' => $contractInvoiceDtl->CSID_SerialNo,
                     'CSID_ItemSeq' => $contractInvoiceDtl->CSID_ItemSeq,
                     'cn_Item_Seq' => $contractInvoiceDtl->cn_Item_Seq,
+                    'status' => '',
                     'usr_created' => null
                 ]);
 

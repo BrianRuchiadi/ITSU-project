@@ -11,7 +11,6 @@
       <h1 class="panel-title">Contract List</h1>
     </div>
     
-    @if ($user->branchind == 0)
     <form class="form-horizontal" action="{{ route('pending.contract.search') }}" method="GET">
       {{ csrf_field() }}
       <div class="form-group row">
@@ -65,7 +64,6 @@
         </div>
       </div>
     </form>
-    @endif
 
     <table class="table table-striped">
       <thead>
