@@ -32,7 +32,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Delivery Date</label>
             <div class="col-sm-8 input-group">
-                <input type="date" class="form-control" name="delivery_date" id="delivery-date">
+                <input type="date" class="form-control" name="delivery_date" id="delivery-date" required>
             </div>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Delivery Address 2</label>
             <div class="col-sm-8">
-                <textarea class="form-control" id="delivery-address-2" name="delivery_address_2" required>
+                <textarea class="form-control" id="delivery-address-2" name="delivery_address_2">
                 </textarea>
             </div>
         </div>
@@ -70,8 +70,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Delivery Postcode</label>
             <div class="col-sm-8">
-                <textarea class="form-control" id="delivery-postcode" name="delivery_postcode" required>
-                </textarea>
+                <input type="text" class="form-control" id="delivery-postcode" name="delivery_postcode" required>
             </div>
         </div>
 
@@ -177,10 +176,10 @@
         let btnSubmit = document.getElementById('btn-submit');
         let btnCancel = document.getElementById('btn-cancel');
 
-        this.updateSubmitStatus(status);
+        this.updateState(status);
         this.getCountryOptions();
 
-        function updateSubmitStatus(state) {
+        function updateState(state) {
             status = state;
 
             if (status == 'invalid') {

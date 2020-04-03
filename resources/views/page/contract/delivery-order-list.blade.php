@@ -68,7 +68,7 @@
             if (res.status === 'success') {
                location.reload();
             } else {
-               this.showAlert('{{ Session::get('showErrorMessage')}}', 'alert-danger');
+               this.showAlert(res.errorMessage, 'alert-danger');
             }
          })
          .catch((error) => {

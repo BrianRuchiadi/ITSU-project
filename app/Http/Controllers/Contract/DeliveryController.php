@@ -42,8 +42,17 @@ class DeliveryController extends Controller
         // validation
         $validator = Validator::make($request->all(), [
             'contract_no' => 'required|string|exists:contractmaster,CNH_DocNo',
-            'serial_no' => 'required|string|min:1'
+            'serial_no' => 'required|string|min:1',
+
+            'delivery_date' => 'required|date',
+            'delivery_address_1' => 'required|string|min:5',
+            'delivery_address_2' => 'nullable|string|min:5',
+            'delivery_postcode' => 'required|string|min:4|max:10',
+            'delivery_country' => 'required|exists:irs_country,CO_ID',
+            'delivery_state' => 'required|exists:irs_state,ST_ID',
+            'delivery_city' => 'required|exists:irs_city,CI_ID',
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
@@ -76,7 +85,7 @@ class DeliveryController extends Controller
                 'CDOH_ContractDocNo' => $contractMaster->CNH_DocNo,
                 'CDOH_Note' => $contractMaster->CNH_Note,
                 'CDOH_PostingDate' => Carbon::now(),
-                'CDOH_DocDate' => Carbon::now(),
+                'CDOH_DocDate' => $request->delivery_date,
                 'CDOH_Address1' => $customerMaster->Cust_MainAddress1,
                 'CDOH_Address2' => $customerMaster->Cust_MainAddress2,
                 'CDOH_Address3' => $customerMaster->Cust_MainAddress3,
@@ -85,14 +94,14 @@ class DeliveryController extends Controller
                 'CDOH_City' => $customerMaster->Cust_MainCity,
                 'CDOH_State' => $customerMaster->Cust_MainState,
                 'CDOH_Country' => $customerMaster->Cust_MainCountry,
-                'CDOH_InstallAddress1' => $contractMaster->CNH_InstallAddress1,
-                'CDOH_InstallAddress2' => $contractMaster->CNH_InstallAddress2,
-                'CDOH_InstallAddress3' => $contractMaster->CNH_InstallAddress3,
-                'CDOH_InstallAddress4' => $contractMaster->CNH_InstallAddress4,
-                'CDOH_InstallPostcode' => $contractMaster->CNH_InstallPostcode,
-                'CDOH_InstallCity' => $contractMaster->CNH_InstallCity,
-                'CDOH_InstallState' => $contractMaster->CNH_InstallState,
-                'CDOH_InstallCountry' => $contractMaster->CNH_InstallCountry,
+                'CDOH_InstallAddress1' => $request->delivery_address_1,
+                'CDOH_InstallAddress2' => $request->delivery_address_2,
+                'CDOH_InstallAddress3' => null,
+                'CDOH_InstallAddress4' => null,
+                'CDOH_InstallPostcode' => $request->delivery_postcode,
+                'CDOH_InstallCity' => $request->delivery_city,
+                'CDOH_InstallState' => $request->delivery_state,
+                'CDOH_InstallCountry' => $request->delivery_country,
                 'CDOH_WarehouseID' => $contractMaster->CNH_WarehouseID,
                 'CDOH_Total' => $contractMaster->CNH_Total,
                 'CDOH_TaxAmt' => $contractMaster->CNH_Tax,
@@ -325,19 +334,24 @@ class DeliveryController extends Controller
                 Session::flash('showSuccessMessage', 'Successfully update POS API');
                 return [
                     'status' => 'success',
-                    'data' => $contractDeliveryOrder
+                    'data' => $contractDeliveryOrder,
+                    'successMessage' => 'Successfully updated POS API'
                 ];
                 break;
+
+            case 400 :
+            case 401 :
             default:
                 $contractDeliveryOrder->update([
                     'pos_api_ind' => 0,
                     'usr_updated' => Auth::user()->id
                 ]);
 
-                Session::flash('showErrorMessage', 'Failure to update POS API');
+                $errorMessage = ($statusCode == 400) ? 'invalid parameter' : 'invalid secret';
                 return [
                     'status' => 'failed',
-                    'data' => $contractDeliveryOrder
+                    'data' => $contractDeliveryOrder,
+                    'errorMessage' => $errorMessage
                 ];
                 break;
         }
