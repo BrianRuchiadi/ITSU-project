@@ -235,6 +235,7 @@ class DeliveryController extends Controller
             ]);
 
             $statusCode = $response->getStatusCode();
+            $contractDeliveryOrder = ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->get();
 
             switch ($statusCode) {
                 case 200: 
