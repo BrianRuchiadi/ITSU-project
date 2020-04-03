@@ -29,7 +29,7 @@
       <tr>
          <td>{{ $contract_delivery_orders->firstItem() + $key }}</td>
          <td>{{ $cdOrder->CDOH_DocNo }}</td>
-         <td>{{ $cdOrder->CDOH_DocDate }}</td>
+         <td>{{ substr($cdOrder->CDOH_DocDate, 0, 10) }}</td>
          <td>
             @if($cdOrder->pos_api_ind == 0)
             <label class="btn btn-sm btn-danger">Failed</label>
