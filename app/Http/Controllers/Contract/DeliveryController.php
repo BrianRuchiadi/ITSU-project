@@ -235,17 +235,16 @@ class DeliveryController extends Controller
             ]);
 
             $statusCode = $response->getStatusCode();
-            $contractDeliveryOrder = ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->get();
 
             switch ($statusCode) {
                 case 200: 
-                    $contractDeliveryOrder->update([
+                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
                         'pos_api_ind' => 1,
                         'usr_updated' => Auth::user()->id
                     ]);
                     break;
                 default:
-                    $contractDeliveryOrder->update([
+                    ContractDeliveryOrder::where('id', $contractDeliveryOrder->id)->update([
                         'pos_api_ind' => 0,
                         'usr_updated' => Auth::user()->id
                     ]);
@@ -307,7 +306,7 @@ class DeliveryController extends Controller
             ]);
             
             DB::commit();
-            Session::flash('showSuccessMessage', "Successfully Create Delivery Order For {$params['contract_no']}");
+            Session::flash('showSuccessMessage', "Successfully Create Delivery Order For {$params['contract_no']} . POS API Status : {$statusCode}");
             return redirect('/contract/delivery-order');
         } catch (Exception $e) {
             DB::rollback();
