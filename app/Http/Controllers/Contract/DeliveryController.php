@@ -152,8 +152,15 @@ class DeliveryController extends Controller
                     ->whereNull('deleted_at')
                     ->update([
                         'do_complete_ind' => 1,
-                        'usr_updated' => Auth::user()->id
+                        'usr_updated' => Auth::user()->id,
+                        'CNH_InstallAddress1' => $request->delivery_address_1,
+                        'CNH_InstallAddress2' => $request->delivery_address_2,
+                        'CNH_InstallPostcode' => $request->delivery_postcode,
+                        'CNH_InstallCity' => $request->delivery_city,
+                        'CNH_InstallState' => $request->delivery_state,
+                        'CNH_InstallCountry' => $request->delivery_country,
                     ]);
+
                 $contractMaster = ContractMaster::where('id', $contractMaster->id)->first();
                                 // store into contractmasterlog
                 $cnsoLogSeq = SystemParamDetail::where('sysparam_cd', 'CNSOLOGSEQ')->select(['param_val'])->first();
@@ -218,11 +225,11 @@ class DeliveryController extends Controller
                     'CND_TaxAmt' => $contractMasterDetail->CND_TaxAmt,
                     'CND_TaxableAmt' => $contractMasterDetail->CND_TaxableAmt,
                     'CND_Total' => $contractMasterDetail->CND_Total,
-                    'CND_SerialNo' => $contractMasterDetail->CND_SerialNo,
+                    'CND_SerialNo' => $params['serial_no'],
                     'CND_ItemSeq' => $contractMasterDetail->CND_ItemSeq,
                     'CND_WarehouseID' => $contractMasterDetail->CND_WarehouseID,
                     'CND_BinLocationID' => $contractMasterDetail->CND_BinLocationID,
-                    'cndeliveryorder_id' => $contractMasterDetail->cndeliveryorder_id,
+                    'cndeliveryorder_id' => $contractDeliveryOrder->id,
                     'usr_created' => Auth::user()->id
                 ]);
             }

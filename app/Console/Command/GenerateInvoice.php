@@ -149,7 +149,7 @@ class GenerateInvoice extends Command
                     'CSIH_ContractDocNo' => $approvedContracts[$c]->CNH_DocNo,
                     'CSIH_Note' => $approvedContracts[$c]->CNH_Note,
                     'CSIH_PostingDate' => Carbon::now(),
-                    'CSIH_DocDate' => Carbon::now(),
+                    'CSIH_DocDate' => Carbon::now()->setDay($approvedContracts[$c]->CNH_EffectiveDay),
                     'CSIH_Address1' => $customerMaster->Cust_MainAddress1,
                     'CSIH_Address2' => $customerMaster->Cust_MainAddress2,
                     'CSIH_Address3' => $customerMaster->Cust_MainAddress3,
