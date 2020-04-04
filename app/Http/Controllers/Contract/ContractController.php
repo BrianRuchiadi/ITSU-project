@@ -59,7 +59,11 @@ class ContractController extends Controller
                 contM.`CNH_NetTotal` AS 'grand_total',
                 contM.`CNH_Status`,
                 contM.`CNH_InstallAddress1`,
-                contM.`CNH_InstallAddress2`
+                contM.`CNH_InstallAddress2`,
+                contM.`CNH_InstallPostcode`,
+                contM.`CNH_InstallCity`,
+                contM.`CNH_InstallState`,
+                contM.`CNH_InstallCountry`
             FROM
                 `contractmaster` contM,
                 `customermaster` custM,

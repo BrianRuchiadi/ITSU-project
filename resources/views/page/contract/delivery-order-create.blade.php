@@ -244,7 +244,7 @@
             elContractNo.value = contract.CNH_DocNo;
             elDeliveryDate.value = todayObject;
             elCustomerName.value = contract.Cust_Name;
-            elCustomerAddress.value = contract.CNH_InstallAddress1;
+            elCustomerAddress.value = `${contract.CNH_InstallAddress1},${contract.CNH_InstallAddress2},${contract.CNH_InstallPostcode},${contract.CNH_InstallCity},${contract.CNH_InstallState},${contract.CNH_InstallCountry}`;
             elItemId.value = contract.contractmasterdtl_id;
 
             elItemName.innerText = contract.IM_Description;
