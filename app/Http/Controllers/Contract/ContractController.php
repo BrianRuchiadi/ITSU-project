@@ -243,7 +243,7 @@ class ContractController extends Controller
             'contractmast_id' => $contract->id,
             'branchid' => $contract->branchid,
             'CNH_DocNo' => $contract->CNH_DocNo,
-            'CNH_CustomerID' => $contract->CNH_Customer_ID,
+            'CNH_CustomerID' => $contract->CNH_CustomerID,
             'CNH_PostingDate' => $contract->CNH_PostingDate,
             'CNH_DocDate' => $contract->CNH_DocDate,
             'CNH_NameRef' => $contract->CNH_NameRef,
