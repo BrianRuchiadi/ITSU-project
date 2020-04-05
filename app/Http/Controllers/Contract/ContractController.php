@@ -63,12 +63,18 @@ class ContractController extends Controller
                 contM.`CNH_InstallPostcode`,
                 contM.`CNH_InstallCity`,
                 contM.`CNH_InstallState`,
-                contM.`CNH_InstallCountry`
+                contM.`CNH_InstallCountry`,
+                irsCity.`CI_Description`,
+                irsState.`ST_Description`,
+                irsCountry.`CO_Description`
             FROM
                 `contractmaster` contM,
                 `customermaster` custM,
                 `contractmasterdtl` contMdtl,
-                `irs_itemmaster` itemM
+                `irs_itemmaster` itemM,
+                `irs_city` irsCity,
+                `irs_state` irsState,
+                `irs_country` irsCountry
             WHERE 1
                 AND contM.`CNH_DocNo` = '{$request->contract_no}'
                 AND contM.`CNH_Status` = 'Approve'
@@ -76,6 +82,9 @@ class ContractController extends Controller
                 AND custM.`id` = contM.`CNH_CustomerID`
                 AND contMdtl.`contractmast_id` = contM.`id`
                 AND contMdtl.`CND_ItemID` = itemM.`IM_ID`
+                AND contM.`CNH_InstallCity` = irsCity.`CI_ID`
+                AND contM.`CNH_InstallState` = irsState.`ST_ID`
+                AND contM.`CNH_InstallCountry` = irsCountry.`CO_ID`
         ";
 
         $contractMaster = DB::select($sql);
