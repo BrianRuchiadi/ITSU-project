@@ -16,7 +16,7 @@
             </h3>
             <section class="group product-installment">
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Product</label>
+                    <label class="col-sm-4 col-form-label required">Product</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required>
                         </select>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">No Of Installment Month</label>
+                    <label class="col-sm-4 col-form-label required">No Of Installment Month</label>
                     <div class="col-sm-8">
                     <select class="form-control" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required>
                     </select>   
@@ -81,7 +81,7 @@
             </h3>
             <section class="group personal-information">
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Name Of Applicant</label>
+                    <label class="col-sm-4 col-form-label required">Name Of Applicant</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
                         @error('name_of_applicant')
@@ -94,7 +94,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">IC Number</label>
+                    <label class="col-sm-4 col-form-label required">IC Number</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="IC Number" id="ic-number" name="ic_number" required>
                     @error('ic_number')
@@ -106,7 +106,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Contact 1 Of Applicant<br/>
+                    <label class="col-sm-4 col-form-label required">Contact 1 Of Applicant<br/>
                         <strong>(Will be used for SMS Tag) </strong>
                     </label>
                     <div class="col-sm-8">
@@ -132,7 +132,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Email Of Applicant</label>
+                    <label class="col-sm-4 col-form-label required">Email Of Applicant</label>
                     <div class="col-sm-8">
                     <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
                     @error('email_of_applicant')
@@ -144,7 +144,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Address 1</label>
+                    <label class="col-sm-4 col-form-label required">Address 1</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required></textarea>
                     @error('address_one')
@@ -168,7 +168,7 @@
                 </div>
                 
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Postcode</label>
+                    <label class="col-sm-4 col-form-label required">Postcode</label>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
                     @error('postcode')
@@ -180,7 +180,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Country</label>
+                    <label class="col-sm-4 col-form-label required">Country</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="country-options" onchange="populateStates(this)" name="country" required>
                         </select>
@@ -193,7 +193,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">State</label>
+                    <label class="col-sm-4 col-form-label required">State</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="state-options" onchange="populateCities(this)" name="state" required>
                         </select>
@@ -206,7 +206,7 @@
                 </div>
         
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">City</label>
+                    <label class="col-sm-4 col-form-label required">City</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="city-options" name="city" required>
                         </select>
@@ -522,11 +522,15 @@
             let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
             let applicantEmail = '{{ Auth::user()->branchind === 4 ? Auth::user()->email : ''}}';
 
+            // default
+            radioIndividualApplicant.checked = true;
+
             this.getCountryOptions();
             this.getItems();
             this.fillApplicantName();
             this.fillApplicantContactOne();
             this.fillEmailOfApplicant();
+            this.changeApplicantType(radioIndividualApplicant.value);
 
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
@@ -535,6 +539,7 @@
                 sellerOne.disabled = true;
                 sellerTwo.disabled = true;
             }
+
         @endif
 
         @if (Session::has('displaySMSTag'))
