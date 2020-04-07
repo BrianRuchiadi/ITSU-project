@@ -1,0 +1,16 @@
+span.input-group-text {
+    position: relative;
+    &:hover::after {
+        content: 'Click to copy link!';
+        position: absolute;
+        bottom: -40px;
+        right: 0;
+        background-color: grey;
+        padding: 5px;
+        color: white;
+        display: block;
+        min-width: 20px;
+        min-height: 10px;
+        transition: opacity 1s;
+    }
+}

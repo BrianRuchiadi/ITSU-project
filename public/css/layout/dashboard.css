@@ -315,8 +315,8 @@
 .container .content-container {
   display: block;
   width: 100vw;
-  height: 100vh;
-  background-color: #F3F3F3;
+  min-height: 100vh;
+  background-color: #FDFDFD;
   font-size: 14px;
   padding: 20px;
 }

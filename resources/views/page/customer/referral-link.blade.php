@@ -25,15 +25,7 @@
             elid.select();
             document.execCommand('Copy');
             
-            elementAlert.classList.add("show");
-            elementAlert.classList.add("alert-success");
-            elementAlert.value = "Successfully copied the text to clipboard";
-
-            setTimeout(() => {
-                elementAlert.classList.remove("show");
-                elementAlert.classList.remove("alert-success");
-                elementAlert.value = "";
-            }, 3000)
+            showAlert("Successfully copied the text to clipboard");
         }
 
         function getReferralLink() {
