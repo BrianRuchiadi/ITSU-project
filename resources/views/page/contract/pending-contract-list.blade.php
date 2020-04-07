@@ -91,7 +91,7 @@
 
             @if ($contract->CTOS_verify == 0)
             <td class="center"><button type="button" class="btn btn-sm btn-primary" onclick="verifyCTOS({{ $contract->id }})">Verify CTOS</button></td> 
-            <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary disabled" disabled>View Details</a></td>
+            <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary">View Details</a></td>
             @else
             <td class="center"><button type="button" class="btn btn-sm btn-primary disabled" onclick="verifyCTOS({{ $contract->id }})" disabled>Verify CTOS</button></td>
             <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary">View Details</a></td>
