@@ -131,6 +131,8 @@ class ContractController extends Controller
                                 'contractmaster.CNH_SalesAgent1',
                                 'contractmaster.CNH_SalesAgent2',
                                 'contractmaster.CTOS_verify',
+                                'contractmaster.CTOS_Score',
+                                'contractmaster.CNH_DocDate',
                                 'contractmaster.CNH_NameRef',
                                 'contractmaster.CNH_ContactRef',
                                 'contractmaster.CNH_EffectiveDay',
@@ -140,6 +142,8 @@ class ContractController extends Controller
                                 'contractmaster.CNH_CommissionMonth',
                                 'contractmaster.CNH_CommissionStartDate',
                                 'contractmasterdtl.CND_ItemID',
+                                'contractmasterdtl.CND_UnitPrice',
+                                'customermaster.id as customer_id',
                                 'customermaster.Cust_NAME',
                                 'customermaster.Cust_NRIC',
                                 'customermaster.Cust_Phone1',
@@ -208,13 +212,14 @@ class ContractController extends Controller
         if ($request->Option == 'Approve') {
             $validator = Validator::make($request->all(), [
                 'start_date' => 'required|after_or_equal:today',
-                'commision_date' => 'required|after_or_equal:start_date',
             ]);
     
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator->errors());
             }
             
+            $customerMaster = CustomerMaster::where('id', $request->customer_id)->first();
+
             ContractMaster::where('id', $request->contract_id)->update([
                 'CNH_Status' => 'Approve',
                 'CNH_EffectiveDay' => $request->effective_day,
@@ -223,12 +228,12 @@ class ContractController extends Controller
                 'CNH_ApproveDate' => Carbon::now(),
                 'CNH_CommissionMonth' => $request->commision_no_of_month,
                 'CNH_CommissionStartDate' => $request->commision_date,
-                'CNH_InstallAddress1' => $request->cust_mainAddress1,
-                'CNH_InstallAddress2' => $request->cust_mainAddress2,
-                'CNH_InstallPostcode' => $request->cust_mainPostcode,
-                'CNH_InstallCity' => $request->cust_mainCity,
-                'CNH_InstallState' => $request->cust_mainState,
-                'CNH_InstallCountry' => $request->cust_mainCountry,
+                'CNH_InstallAddress1' => $customerMaster->Cust_MainAddress1,
+                'CNH_InstallAddress2' => $customerMaster->Cust_MainAddress2,
+                'CNH_InstallPostcode' => $customerMaster->Cust_MainPostcode,
+                'CNH_InstallCity' => $customerMaster->Cust_MainCity,
+                'CNH_InstallState' => $customerMaster->Cust_MainState,
+                'CNH_InstallCountry' => $customerMaster->Cust_MainCountry,
                 'usr_updated' => Auth::user()->id,
             ]);
         } else if ($request->Option == 'Reject') {

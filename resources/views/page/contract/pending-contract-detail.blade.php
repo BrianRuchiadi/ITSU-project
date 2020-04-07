@@ -25,10 +25,77 @@
           {{ csrf_field() }}
             <input type="hidden" name="Option" value="Approve">
             <input type="hidden" name="contract_id" value="{{ $contractDetails->id }}">
+            <input type="hidden" name="customer_id" value="{{ $contractDetails->customer_id }}">
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Apply Date</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_name" value="{{ $contractDetails->CNH_DocDate }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Name Of Applicant</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_name" value="{{ $contractDetails->Cust_NAME }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">IC Number</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_nric" value="{{ $contractDetails->Cust_NRIC }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Contact 1 Of Applicant</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_phone1" value="{{ $contractDetails->Cust_Phone1 }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Contact 2 Of Applicant</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_phone2" value="{{ $contractDetails->Cust_Phone2 }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Email Of Applicant</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cust_email" value="{{ $contractDetails->Cust_Email }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Address</span>
+                <div class="col-sm-8 input-group">
+                  <textarea class="form-control" style="overflow:hidden;resize:none" name="address" readonly>
+{{ $contractDetails->Cust_MainAddress1 }}, {{ ($contractDetails->Cust_MainAddress2) ? $contractDetails->Cust_MainAddress2 . ', ' : '' }}{{ $contractDetails->Cust_MainPostcode }}, {{ $city->CI_Description }}, {{ $state->ST_Description }}, {{ $country->CO_Description }}
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Name Of Reference</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cnh_name_ref" value="{{ $contractDetails->CNH_NameRef }}" readonly>
+                </div>
+              </div>
+            </div>
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Product</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   <input type="hidden" class="form-control" name="product" value="{{ $itemMaster->id }}">
                   <input type="text" class="form-control" value="{{ ($itemMaster->IM_Description) ?? '' }}" readonly>  
                 </div>
@@ -37,122 +104,23 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">No Of Installment Month</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   <input type="text" class="form-control" name="cnh_tot_inst_period" value="{{ $contractDetails->CNH_TotInstPeriod }}" readonly>
                 </div>
               </div>
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Name Of Applicant</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_name" value="{{ $contractDetails->Cust_NAME }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">IC Number</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_nric" value="{{ $contractDetails->Cust_NRIC }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Contact 1 Of Applicant</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_phone1" value="{{ $contractDetails->Cust_Phone1 }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Contact 2 Of Applicant</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_phone2" value="{{ $contractDetails->Cust_Phone2 }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Email Of Applicant</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_email" value="{{ $contractDetails->Cust_Email }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Address 1</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_mainAddress1" value="{{ $contractDetails->Cust_MainAddress1 }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Address 2</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_mainAddress2" value="{{ $contractDetails->Cust_MainAddress2 }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Postcode</span> 
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cust_mainPostcode" value="{{ $contractDetails->Cust_MainPostcode }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">City</span>
-                <div class="col-sm-8">
-                  <input type="hidden" class="form-control" name="cust_mainCity" value="{{ $contractDetails->Cust_MainCity }}" readonly>
-                  <input class="form-control" value="{{ ($city->CI_Description) ?? '' }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">State</span>
-                <div class="col-sm-8">
-                  <input type="hidden" class="form-control" name="cust_mainState" value="{{ $contractDetails->Cust_MainState }}" readonly>
-                  <input class="form-control" value="{{ ($state->ST_Description) ?? '' }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Country</span>
-                <div class="col-sm-8">
-                  <input type="hidden" class="form-control" name="cust_mainCountry" value="{{ $contractDetails->Cust_MainCountry }}" readonly>
-                  <input class="form-control" value="{{ ($country->CO_Description) ?? '' }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Name Of Reference</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cnh_name_ref" value="{{ $contractDetails->CNH_NameRef }}" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Contact Of Reference</span>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" name="cnh_contact_ref" value="{{ $contractDetails->CNH_ContactRef }}" readonly>
+                <span class="input-group-text col-sm-4">Unit Price</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="cnd_unit_price" value="{{ $contractDetails->CND_UnitPrice }}" readonly>
                 </div>
               </div>
             </div>
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Seller 1</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   <input type="hidden" class="form-control" name="cnh_sales_agent1" value="{{ $contractDetails->CNH_SalesAgent1 }}" readonly>
                   <input type="text" class="form-control" value="{{ ($agent1->name) ?? '' }}" readonly>  
                 </div>
@@ -160,7 +128,32 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Contract Effective Date (1st / 16th)</span>
+                <span class="input-group-text col-sm-4">Seller 2</span>
+                <div class="col-sm-8 input-group">
+                  <input type="hidden" class="form-control" name="cnh_sales_agent2" value="{{ $contractDetails->CNH_SalesAgent2 }}" readonly>
+                  <input type="text" class="form-control" value="{{ ($agent2->name) ?? '' }}" readonly>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">CTOS Status</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="ctos_status" value="{{ ($contractDetails->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">CTOS Score</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="ctos_score" value="{{ $contractDetails->CTOS_Score }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Effective Date</span>
                 <div class="col-sm-2">
                   <select class="form-control" id="effective_day" name="effective_day" id="effective_day" required>
                     <option value="1">1</option>
@@ -171,8 +164,8 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Contract Start Date</span>
-                <div class="col-sm-8">
+                <span class="input-group-text col-sm-4">Start Date</span>
+                <div class="col-sm-8 input-group">
                   <input type="date" name="start_date" class="form-control" id="start_date"
                   placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" onchange="updateEndDate(start_date, cnh_tot_inst_period)" required>
                   @error('start_date')
@@ -185,8 +178,8 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Contract End Date</span>
-                <div class="col-sm-8">
+                <span class="input-group-text col-sm-4">End Date</span>
+                <div class="col-sm-8 input-group">
                   <input type="date" name="end_date" class="form-control" id="end_date"
                   placeholder="{{ $contractDetails->end_date }}" value="{{ $contractDetails->end_date }}" readonly>
                 </div>
@@ -194,9 +187,10 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Commision (No Of Months)</span>
+                <span class="input-group-text col-sm-4">Commision Month</span>
                 <div class="col-sm-2">
                 <select class="form-control" name="commision_no_of_month">
+                  <option value=""></option>
                   @for ($i = 1; $i <= $contractDetails->CNH_TotInstPeriod; $i++)
                     <option value="{{ $i }}">{{ $i }}</option>
                   @endfor     
@@ -206,10 +200,10 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Commision (Disburse Effective on which month)</span>
-                <div class="col-sm-8">
+                <span class="input-group-text col-sm-4">Commision Date</span>
+                <div class="col-sm-8 input-group">
                   <input type="date" name="commision_date" class="form-control"
-                  placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}" required>
+                  placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}">
                   @error('commision_date')
                     <div class="form-alert alert-danger">
                       <strong>{{ $message }}</strong>
@@ -222,7 +216,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">IC No</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->icno_mime == "application/pdf")
                     <object data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="500" height="500"></object>
                   @else
@@ -234,7 +228,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Income</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->income_mime == "application/pdf")
                     <object data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="500" height="500"></object>
                   @else
@@ -246,7 +240,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Bank Statement</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->bankstatement_mime == "application/pdf")
                     <object data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="500" height="500"></object>
                   @else
@@ -260,7 +254,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Company Form</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->comp_form_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="500" height="500"></object>
                   @else
@@ -272,7 +266,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Company IC No</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->comp_icno_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="500" height="500"></object>
                   @else
@@ -284,7 +278,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Company Bank Statement</span>
-                <div class="col-sm-8">
+                <div class="col-sm-8 input-group">
                   @if($attachment->comp_bankstatement_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="500" height="500"></object>
                   @else
@@ -296,8 +290,12 @@
             @endif
             <div class="form-group row">
               <div class="input-group">
-                <button type="submit" class="btn btn-primary m-2">Approve</button>
-                <button type="button" class="btn btn-danger m-2" data-toggle="modal" data-target="#modal-reject{{ $contractDetails->id }}">Reject</button>
+                @if($contractDetails->CTOS_verify == 0)
+                  <button type="submit" class="btn btn-primary m-2 disabled" disabled>Approve</button>
+                @else
+                  <button type="submit" class="btn btn-primary m-2">Approve</button>
+                @endif
+                  <button type="button" class="btn btn-danger m-2" data-toggle="modal" data-target="#modal-reject{{ $contractDetails->id }}">Reject</button>
               </div>
             </div>
         </form>

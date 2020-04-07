@@ -18,8 +18,9 @@
    <thead>
       <tr>
          <th>#</th>
-         <th>Doc No</th>
-         <th>Doc Date</th>
+         <th>Document No</th>
+         <th>Document Date</th>
+         <th>Contract No</th>
          <th>Status</th>
          <th>Action</th>
       </tr>
@@ -30,6 +31,7 @@
          <td>{{ $contract_delivery_orders->firstItem() + $key }}</td>
          <td>{{ $cdOrder->CDOH_DocNo }}</td>
          <td>{{ substr($cdOrder->CDOH_DocDate, 0, 10) }}</td>
+         <td>{{ $cdOrder->CDOH_ContractDocNo }}</td>
          <td>
             @if($cdOrder->pos_api_ind == 0)
             <label class="btn btn-sm btn-danger">Failed</label>
@@ -39,7 +41,9 @@
          </td>
          <td>
             @if($cdOrder->pos_api_ind == 0)
-            <button class="btn btn-sm btn-primary" onclick="resubmitPosApi(this, {{ $cdOrder->id }})">Re - submit</button>
+            <button class="btn btn-sm btn-warning" onclick="resubmitPosApi(this, {{ $cdOrder->id }})">Re - submit</button>
+            @elseif ($cdOrder->pos_api_ind == 1) 
+            <button class="btn btn-sm btn-success">View Detail</button>
             @endif
          </td>
       </tr>
