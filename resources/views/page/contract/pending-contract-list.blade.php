@@ -13,56 +13,43 @@
     
     <form class="form-horizontal" action="{{ route('pending.contract.search') }}" method="GET">
       {{ csrf_field() }}
-      <div class="form-group row">
-        <div class="input-group mb-2 col-4">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                Customer
-              </span>
-            </div>
-            <input type="text" class="form-control" id="customer" name="customer">
-        </div>
-        <div class="input-group mb-2 col-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                IC No
-              </span>
-            </div>
-            <input type="text" class="form-control" id="ic_no" name="ic_no">
-        </div>
-        <div class="input-group mb-2 col-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                Tel No
-              </span>
-            </div>
-            <input type="text" class="form-control" id="tel_no" name="tel_no">
-        </div>
-        <div class="input-group mb-2 col-2">
-            <div class="input-group-prepend">
-              <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="input-group col-4">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                Contract No
-              </span>
-            </div>
-            <input type="text" class="form-control" id="contract_no" name="contract_no">
-        </div>
-        <div class="input-group col-3">
-        </div>
-        <div class="input-group col-3">
-        </div>
-        <div class="input-group col-2">
-            <div class="input-group-prepend">
-              <a href="{{ url('/contract/pending-contract') }}" class="btn btn-primary">Clear </a>
-            </div>
-        </div>
-      </div>
+      <h3 class="table-header">
+        <i class="fas fa-search"></i>
+        Search Contract
+        <i class="fas fa-caret-down"></i>
+      </h3>
+      <input type="checkbox" class="search-toggler">
+      <table class="table table-borderless">
+        <tbody>
+          <tr>
+            <td>Customer</td>
+            <td><input type="text" class="form-control" id="customer" name="customer"></td>
+          </tr>
+          <tr>
+            <td>Ic No</td>
+            <td><input type="text" class="form-control" id="ic_no" name="ic_no"></td>
+          </tr>
+          <tr>
+            <td>Tel No</td>
+            <td><input type="text" class="form-control" id="tel_no" name="tel_no"></td>
+          </tr>
+          <tr>
+            <td>Customer</td>
+            <td><input type="text" class="form-control" id="customer" name="customer"></td>
+          </tr>
+          <tr>
+            <td>Contract No</td>
+            <td><input type="text" class="form-control" id="contract_no" name="contract_no"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button class="btn btn-success" type="submit">Search</button>
+              <a href="{{ url('/contract/pending-contract') }}" class="btn btn-danger">Clear </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </form>
 
     <table class="table table-striped">
@@ -85,10 +72,16 @@
             <td class="center">{{ $contract->CNH_PostingDate }}</td>
             <td class="center">{{ $contract->Cust_NAME }}</td>
             <td class="center">{{ $contract->CNH_DocNo }}</td>
-            <td class="center {{ $contract->CTOS_verify == 1 ?' verified' : 'not_verified' }}">{{ ($contract->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}</td>     
-            <td class="center {{ $contract->CNH_EmailVerify == 1 ?' verified' : 'not_verified' }}">
-            {{ ($contract->CNH_EmailVerify == 1) ? 'Verified' : 'Not Verified' }}</td>     
-
+            <td class="center">
+              <label class="{{ $contract->CTOS_verify == 1 ?' verified' : 'not-verified' }}">
+                {{ ($contract->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}
+              </label>
+            </td>     
+            <td class="center">
+              <label class="{{ $contract->CNH_EmailVerify == 1 ?' verified' : 'not-verified' }}">
+                {{ ($contract->CNH_EmailVerify == 1) ? 'Verified' : 'Not Verified' }}
+              </label>
+            </td>     
             @if ($contract->CTOS_verify == 0)
             <td class="center"><button type="button" class="btn btn-sm btn-primary" onclick="verifyCTOS({{ $contract->id }})">Verify CTOS</button></td> 
             <td class="center"><a href="{{ route('pending.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary">View Details</a></td>
