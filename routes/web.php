@@ -104,6 +104,8 @@ Route::group([
         Route::get('invoices/{invoice}', 'Contract\InvoiceController@showInvoiceDetail');
         
         // API
+        Route::get('api/approved-contract/delivery-ready/search', 'Contract\ContractController@showApproveContractUndeliveredSearchResult');
+
         Route::post('api/delivery-order/create', 'Contract\DeliveryController@createDeliveryOrder');
         Route::post('api/delivery-order/{contractDeliveryOrder}/resubmit', 'Contract\DeliveryController@resubmitDeliveryOrder');
         Route::post('api/invoice/generate', 'Contract\ReserveController@generateInvoice');

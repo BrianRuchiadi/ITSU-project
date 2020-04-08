@@ -37,6 +37,12 @@ form textarea:required {
   border: 1px solid red;
 }
 
+form input:required:valid,
+form textarea:required:valid,
+form select:required:valid {
+  border-color: #ced4da;
+}
+
 table.table-striped {
   margin-top: 20px;
 }
@@ -73,14 +79,24 @@ i.fas.fa-plus {
   pointer-events: all;
 }
 
+.modal-master i.fa-times {
+  color: red;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;
+}
+
 .modal-master .modal-wrapper {
-  min-width: 200px;
-  max-width: 80vw;
+  min-width: 300px;
+  max-width: 90vw;
   min-height: 300px;
   max-height: 80vh;
   overflow: scroll;
   margin: 0 auto;
-  margin-top: 80px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 16px 0px black;
+  margin-top: 50px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -88,12 +104,30 @@ i.fas.fa-plus {
   height: -moz-fit-content;
   height: fit-content;
   background-color: #F7F7F7;
+  position: relative;
 }
 
 .modal-master .modal-wrapper h1 {
-  padding: 0 10px;
+  position: relative;
+  padding-left: 10px;
   padding-top: 5px;
+  padding-right: 20px;
   background-color: #E9BC1A;
+  text-align: center;
+}
+
+.modal-master .modal-wrapper table tr td {
+  padding: 5px 0.75rem;
+}
+
+.modal-master .modal-wrapper table.table-borderless button {
+  width: 50%;
+}
+
+.modal-master .modal-wrapper table.search-result tr:first-of-type td {
+  background-color: #333;
+  color: white;
+  text-align: center;
 }
 
 @media print {

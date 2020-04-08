@@ -118,6 +118,51 @@ class ContractController extends Controller
 
         return view('page.contract.pending-contract-list', compact('contracts', 'user'));
     }
+
+    public function showApproveContractUndeliveredSearchResult(Request $request) {
+        $contracts = DB::table('customermaster')
+                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                       ->join('irs_city', 'irs_city.CI_ID', '=', 'contractmaster.CNH_InstallCity')
+                       ->join('irs_state', 'irs_state.ST_ID', '=', 'contractmaster.CNH_InstallState')
+                       ->join('irs_country', 'irs_country.CO_ID', '=', 'contractmaster.CNH_InstallCountry')
+                       ->join('contractmasterdtl', 'contractmasterdtl.contractmast_id', '=', 'contractmaster.id')
+                       ->join('irs_itemmaster', 'irs_itemmaster.IM_ID', '=', 'contractmasterdtl.CND_ItemID')
+                       ->where('contractmaster.CNH_Status', '=', 'Approve')
+                       ->where('contractmaster.deleted_at', '=', null)
+                       ->where('contractmaster.do_complete_ind', '=', 0);
+
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
+        $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
+
+        $contracts = $contracts->select([
+                        'contractmaster.id',
+                        'contractmaster.CNH_InstallAddress1',
+                        'contractmaster.CNH_InstallAddress2',
+                        'contractmaster.CNH_InstallPostcode',
+                        'contractmaster.CNH_InstallCity',
+                        'contractmaster.CNH_InstallState',
+                        'contractmaster.CNH_InstallCountry',
+                        'contractmaster.CNH_PostingDate',
+                        'contractmaster.CNH_DocNo',
+                        'contractmaster.CNH_Status',
+                        'customermaster.Cust_Phone1',
+                        'customermaster.Cust_NAME',
+                        'irs_city.CI_Description',
+                        'irs_state.ST_Description',
+                        'irs_country.CO_Description',
+                        'irs_itemmaster.IM_Description',
+                        'contractmasterdtl.id AS "contractmasterdtl_id"',
+                        'contractmasterdtl.CND_Qty',
+                        'contractmasterdtl.CND_UnitPrice',
+                        'contractmasterdtl.CND_SubTotal',
+                    ])->paginate(30);
+
+        return [
+            'contracts' => $contracts
+        ];
+    }
     
     public function showCustomerContractDetail(Request $request, $contractId) {
         $contractDetails = DB::table('customermaster')

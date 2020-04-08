@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label required">Delivery Date</label>
+            <label class="col-sm-4 col-form-label required">Document Date</label>
             <div class="col-sm-8 input-group">
                 <input type="date" class="form-control" name="delivery_date" id="delivery-date" required>
             </div>
@@ -148,11 +148,38 @@
 </div>
 
 <div class="modal-master" id="search-modal" onclick="closeSearchModal()">
+    <i class="fas fa-times" onclick="closeSearchModal()"></i>
     <div class="modal-wrapper" onclick="stopBubbling(event)">
-        <h1><i class="fas fa-search"></i> Contract Search</h1>
-        <table>
+        <h1>
+            <i class="fas fa-search"></i> Contract Search
+        </h1>
+        <table class="table table-borderless">
             <tr>
+                <td>Customer</td>
+                <td><input type="text" class="form-control" id="customer"></td>
+              </tr>
+              <tr>
+                <td>Ic No</td>
+                <td><input type="text" class="form-control" id="ic-no"></td>
+              </tr>
+              <tr>
+                <td>Tel No</td>
+                <td><input type="text" class="form-control" id="tel-no"></td>
+              </tr>
+              <tr>
+                <td>Contract No</td>
+                <td><input type="text" class="form-control" id="contract-number"></td>
+              </tr>
+              <tr>
+                <td></td>
                 <td>
+                  <button class="btn btn-success" type="submit" onclick="submitSearchContract()">Search</button>
+                  <button class="btn btn-danger" onclick="clearSearchContract()">Clear </button>
+                </td>
+              </tr>
+        </table>
+
+        <table class="table table-striped search-result" id="table-search-result">
         </table>
     </div>
 </div>
@@ -161,8 +188,6 @@
 
 @section('scripts')
     <script type="text/javascript">
-        let todayObject = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-
         let elContractNo = document.getElementById('contract-no');
         let elDeliveryDate = document.getElementById('delivery-date');
         let elCustomerAddress = document.getElementById('customer-address');
@@ -181,8 +206,15 @@
         let elItemStatus = document.getElementById('item-status');
         let elContractTotalAmount = document.getElementById('contract-total-amount');
 
-        let elSearchModal = document.getElementById('search-modal');
+        let elCustomer = document.getElementById('customer');
+        let elIcNo = document.getElementById('ic-no');
+        let elTelNo = document.getElementById('tel-no');
+        let elContractNumber = document.getElementById('contract-number');
 
+        let elSearchModal = document.getElementById('search-modal');
+        let elTableSearchResult = document.getElementById('table-search-result');
+
+        let contracts = [];
         let contract = {};
 
         let status = 'invalid';
@@ -191,6 +223,9 @@
 
         this.updateState(status);
         this.getCountryOptions();
+
+        let todayObject = new Date().toJSON().slice(0,10);
+        elDeliveryDate.value = new Date().toJSON().slice(0,10);
 
         function stopBubbling(ev) {
             ev.stopPropagation();
@@ -202,6 +237,96 @@
 
         function closeSearchModal() {
             elSearchModal.classList.remove('open');
+        }
+
+        function submitSearchContract() {
+            fetch("{{ url('/contract/api/approved-contract/delivery-ready/search') }}" + 
+                `?customer=${elCustomer.value}&` +
+                `ic_no=${elIcNo.value}&` +
+                `tel_no=${elTelNo.value}&` +
+                `contract_no=${elContractNumber.value}`
+                , 
+            {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    contracts = res.contracts.data;
+                    clearSearchContract();
+
+                    if (contracts.length) {
+                        for (let i = 0; i < contracts.length; i++) {
+                            if (i == 0) {
+                                insertTableHeader();
+                            } else {
+                                let newRow = elTableSearchResult.insertRow(i);
+
+                                let colRow_Action = newRow.insertCell(0);
+                                colRow_Action.innerHTML = '<button id="selected_'  +  i + '" class="btn btn-primary btn-sm" onclick="selectedContract(this)">Select</button>';
+
+                                let colRow_DocNo = newRow.insertCell(1);
+                                colRow_DocNo.innerHTML = contracts[i].CNH_DocNo;
+
+                                let colRow_CustName = newRow.insertCell(2);
+                                colRow_CustName.innerHTML = contracts[i].Cust_NAME;
+
+                                let colRow_CustPhone = newRow.insertCell(3);
+                                colRow_CustPhone.innerHTML = contracts[i].Cust_Phone1; 
+                            }
+                        }
+                    } else {
+                       insertNotFoundRow();
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', error]);
+            });
+        }
+
+        function clearSearchContract() {
+            let length = elTableSearchResult.rows.length;
+
+            if (length < 1) { return; }
+            for (let i = 0; i < length; i++) {
+                elTableSearchResult.deleteRow(0);
+            }
+        }
+
+        function insertTableHeader() {
+            let newRow = elTableSearchResult.insertRow(0);
+
+            let colRowLabelAction = newRow.insertCell(0);
+            colRowLabelAction.innerHTML = '';
+
+            let colRowLabelDocNo = newRow.insertCell(1);
+            colRowLabelDocNo.innerHTML ='Contract No';
+
+            let colRowLabelCustName = newRow.insertCell(2);
+            colRowLabelCustName.innerHTML = 'Customer Name';
+
+            let colRowLabelCustPhone = newRow.insertCell(3);
+            colRowLabelCustPhone.innerHTML = 'Phone No';
+        }
+
+        function insertNotFoundRow() {
+            let newRow = elTableSearchResult.insertRow(0);
+
+            let colRowLabelAction = newRow.insertCell(0);
+            colRowLabelAction.innerHTML = 'No Record Found!';
+        }
+
+        function selectedContract(selected) {
+            let selectedIndex = +selected.id.split("selected_")[1];
+
+            contract = contracts[selectedIndex];
+            populateContract();
+            closeSearchModal();
         }
 
         function updateState(state) {
@@ -268,10 +393,17 @@
         function populateContract() {
             elContractNo.value = contract.CNH_DocNo;
             elDeliveryDate.value = todayObject;
-            elCustomerName.value = contract.Cust_Name;
-            elCustomerAddress.value = `${contract.CNH_InstallAddress1},${contract.CNH_InstallAddress2},${contract.CNH_InstallPostcode},${contract.CI_Description},${contract.ST_Description},${contract.CO_Description}`;
+            elCustomerName.value = contract.Cust_NAME;
+            elCustomerAddress.value = `${contract.CNH_InstallAddress1 ? contract.CNH_InstallAddress1 + ',' : ''} ${contract.CNH_InstallAddress2 ? contract.CNH_InstallAddress2 + ',' : ''} ${contract.CNH_InstallPostcode ? contract.CNH_InstallPostcode + ',' : ''} ${contract.CI_Description ? contract.CI_Description + ',' : ''} ${contract.ST_Description ? contract.ST_Description + ',' : ''} ${contract.CO_Description ? contract.CO_Description : ''}`;
             elItemId.value = contract.contractmasterdtl_id;
 
+            elDeliveryAddressOne.value = (contract.CNH_InstallAddress1) ? contract.CNH_InstallAddress1 : '';
+            elDeliveryAddressTwo.value = (contract.CNH_InstallAddress2) ? contract.CNH_InstallAddress2 : '';
+            elDeliveryPostcode.value = (contract.CNH_InstallPostcode) ? contract.CNH_InstallPostcode : '';
+            elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
+
+            populateStates(elDeliveryCountry);
+    
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;
             elItemUnitPrice.innerText = contract.CND_UnitPrice;
@@ -318,6 +450,11 @@
                         elDeliveryState.appendChild(option);
                     }
                     
+                    if (contract) {
+                        elDeliveryState.value = (contract.CNH_InstallState) ? contract.CNH_InstallState : '';
+                        populateCities(elDeliveryState);
+                    }
+
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         elDeliveryState.value = '{{ session()->get('state') }}';
@@ -359,6 +496,10 @@
                         elDeliveryCity.appendChild(option);
                     }
                     
+                    if (contract) {
+                        elDeliveryCity.value = (contract.CNH_InstallCity) ? contract.CNH_InstallCity : '';
+                    }
+
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         elDeliveryCity.value = '{{ session()->get('city') }}';
