@@ -250,11 +250,13 @@
         .side-nav .customer-toggler:checked ~ ul ,
         .side-nav .contract-toggler:checked ~ ul {
             max-height: 200px !important;
+            pointer-events: all;
         }
 
         .side-nav .customer-toggler:not(:checked) ~ ul ,
         .side-nav .contract-toggler:not(:checked) ~ ul {
             max-height: 0px !important;
+            pointer-events: none;
         }
         
         .customer-toggler:checked ~ ul li.customer,

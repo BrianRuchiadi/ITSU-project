@@ -34,10 +34,6 @@
             <td><input type="text" class="form-control" id="tel_no" name="tel_no"></td>
           </tr>
           <tr>
-            <td>Customer</td>
-            <td><input type="text" class="form-control" id="customer" name="customer"></td>
-          </tr>
-          <tr>
             <td>Contract No</td>
             <td><input type="text" class="form-control" id="contract_no" name="contract_no"></td>
           </tr>
