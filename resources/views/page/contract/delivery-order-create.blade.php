@@ -9,7 +9,7 @@
 <div>
     <h1 class="title">
         Create Delivery Order
-        <a class="btn btn-primary" href="{{url('/contract/delivery-order')}}">
+        <a class="btn btn-secondary" href="{{url('/contract/delivery-order')}}">
             <i class="fas fa-chevron-left"></i>
             Back To Delivery Order List
         </a>

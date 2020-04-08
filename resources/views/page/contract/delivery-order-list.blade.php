@@ -42,8 +42,8 @@
          <td>
             @if($cdOrder->pos_api_ind == 0)
             <button class="btn btn-sm btn-warning" onclick="resubmitPosApi(this, {{ $cdOrder->id }})">Re - submit</button>
-            @elseif ($cdOrder->pos_api_ind == 1) 
-            <button class="btn btn-sm btn-success">View Detail</button>
+            @elseif ($cdOrder->pos_api_ind == 1)
+            <a href="{{ route('delivery.order.detail',$cdOrder->id) }}" class="btn btn-sm btn-primary">View Details</a>
             @endif
          </td>
       </tr>
