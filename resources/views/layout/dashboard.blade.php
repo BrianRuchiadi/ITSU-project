@@ -132,9 +132,6 @@
         @yield('header')
         @yield('footer')
         <script type="text/javascript">
-            @if (Session::has('showSuccessMessage'))
-                this.showAlert('{{ Session::get('showSuccessMessage') }}');
-            @endif
 
             @if (Auth::user()->branchind == 0)
                 localStorage.removeItem('referrerCode');
@@ -143,6 +140,9 @@
             let contentContainer = document.getElementById('content-container');
             let elementAlert = document.getElementById('alert');
 
+            @if (Session::has('showSuccessMessage'))
+                this.showAlert('{{ Session::get('showSuccessMessage') }}');
+            @endif
             function toggleContentPanel(obj) {
                 if (obj.checked) {
                     contentContainer.classList.add('compressed');

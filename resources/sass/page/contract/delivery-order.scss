@@ -24,6 +24,15 @@ form {
     .submit {
         margin-top: 20px;
     }
+
+    label.required::before {
+        content: '* ';
+        color: red;
+    }
+    
+    input:required, select:required, textarea:required {
+        border: 1px solid red;
+    }
 }
 
 table.table-striped {
@@ -40,6 +49,45 @@ i.fas.fa-plus{
 
     h2 {
         padding-left: 10px;
+    }
+}
+
+.modal-master {
+    z-index: 100000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    background-color: rgb(157, 155, 155, 0.5);
+    display: block;
+    transition: all 1s;
+
+    &.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .modal-wrapper {
+        min-width: 200px;
+        max-width: 80vw;
+        min-height: 300px;
+        max-height: 80vh;
+        overflow: scroll;
+        margin: 0 auto;
+        
+        margin-top: 80px;
+        width: fit-content;
+        height: fit-content;
+        background-color: #F7F7F7;   
+
+        h1 {
+            padding: 0 10px;
+            padding-top: 5px;
+            background-color: #E9BC1A;
+        }
     }
 }
 

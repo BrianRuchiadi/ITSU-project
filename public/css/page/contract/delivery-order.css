@@ -26,6 +26,17 @@ form .submit {
   margin-top: 20px;
 }
 
+form label.required::before {
+  content: "* ";
+  color: red;
+}
+
+form input:required,
+form select:required,
+form textarea:required {
+  border: 1px solid red;
+}
+
 table.table-striped {
   margin-top: 20px;
 }
@@ -41,6 +52,48 @@ i.fas.fa-plus {
 
 .item-section h2 {
   padding-left: 10px;
+}
+
+.modal-master {
+  z-index: 100000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  pointer-events: none;
+  background-color: rgba(157, 155, 155, 0.5);
+  display: block;
+  transition: all 1s;
+}
+
+.modal-master.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-master .modal-wrapper {
+  min-width: 200px;
+  max-width: 80vw;
+  min-height: 300px;
+  max-height: 80vh;
+  overflow: scroll;
+  margin: 0 auto;
+  margin-top: 80px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #F7F7F7;
+}
+
+.modal-master .modal-wrapper h1 {
+  padding: 0 10px;
+  padding-top: 5px;
+  background-color: #E9BC1A;
 }
 
 @media print {

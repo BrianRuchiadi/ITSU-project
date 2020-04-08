@@ -7,21 +7,22 @@
 @section('content')
 
 <div>
+    <a class="btn btn-secondary" href="{{url('/contract/delivery-order')}}">
+        <i class="fas fa-chevron-left"></i>
+        Back To Delivery Order List
+    </a>
     <h1 class="title">
         Create Delivery Order
-        <a class="btn btn-secondary" href="{{url('/contract/delivery-order')}}">
-            <i class="fas fa-chevron-left"></i>
-            Back To Delivery Order List
-        </a>
+        
         <button class="btn btn-danger" onclick="updateState('invalid')" id="btn-cancel">Clear</button>
     </h1>
    <form method="POST" action="{{ url('/contract/api/delivery-order/create') }}">
         {{ csrf_field() }}
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">* Contract No</label>
+            <label class="col-sm-4 col-form-label required">Contract No</label>
             <div class="col-sm-8 input-group">
                 <input type="text" class="form-control" name="contract_no" id="contract-no" required>
-                <div class="input-group-append" onclick="querySearch()">
+                <div class="input-group-append" onclick="openSearchModal()">
                     <span class="input-group-text">
                         <i class="fas fa-search"></i>
                     </span>
@@ -30,7 +31,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Date</label>
+            <label class="col-sm-4 col-form-label required">Delivery Date</label>
             <div class="col-sm-8 input-group">
                 <input type="date" class="form-control" name="delivery_date" id="delivery-date" required>
             </div>
@@ -52,7 +53,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Address 1</label>
+            <label class="col-sm-4 col-form-label required">Delivery Address 1</label>
             <div class="col-sm-8">
                 <textarea class="form-control" id="delivery-address-1" name="delivery_address_1" required>
                 </textarea>
@@ -68,14 +69,14 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Postcode</label>
+            <label class="col-sm-4 col-form-label required">Delivery Postcode</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="delivery-postcode" name="delivery_postcode" required>
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery Country</label>
+            <label class="col-sm-4 col-form-label required">Delivery Country</label>
             <div class="col-sm-8">
                 <select class="form-control" id="delivery-country" name="delivery_country" onchange="populateStates(this)" required>
                 </select>
@@ -83,7 +84,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery State</label>
+            <label class="col-sm-4 col-form-label required">Delivery State</label>
             <div class="col-sm-8">
                 <select class="form-control" id="delivery-state" name="delivery_state" onchange="populateCities(this)" required>
                 </select>
@@ -91,7 +92,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Delivery City</label>
+            <label class="col-sm-4 col-form-label required">Delivery City</label>
             <div class="col-sm-8">
                 <select class="form-control" id="delivery-city" name="delivery_city" required>
                 </select>
@@ -146,6 +147,16 @@
    </form>
 </div>
 
+<div class="modal-master" id="search-modal" onclick="closeSearchModal()">
+    <div class="modal-wrapper" onclick="stopBubbling(event)">
+        <h1><i class="fas fa-search"></i> Contract Search</h1>
+        <table>
+            <tr>
+                <td>
+        </table>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -170,6 +181,8 @@
         let elItemStatus = document.getElementById('item-status');
         let elContractTotalAmount = document.getElementById('contract-total-amount');
 
+        let elSearchModal = document.getElementById('search-modal');
+
         let contract = {};
 
         let status = 'invalid';
@@ -178,6 +191,18 @@
 
         this.updateState(status);
         this.getCountryOptions();
+
+        function stopBubbling(ev) {
+            ev.stopPropagation();
+        }
+
+        function openSearchModal() {
+            elSearchModal.classList.add('open');
+        }
+
+        function closeSearchModal() {
+            elSearchModal.classList.remove('open');
+        }
 
         function updateState(state) {
             status = state;
