@@ -44,14 +44,14 @@
             </tr>
             <tr>
                 <td rowspan="2">Customer Address</td>
-                <td>: {{ $deliveryOrder->CDOH_Address1 }}, {{ ($deliveryOrder->CDOH_Address2) ? $deliveryOrder->CDOH_Address2 : '' }}</td>
+                <td>: {{ $deliveryOrder->CDOH_Address1 }}{{ ($deliveryOrder->CDOH_Address2) ? ', ' . $deliveryOrder->CDOH_Address2 : '' }}</td>
             </tr>
             <tr>
                 <td>: {{ $deliveryOrder->CDOH_Postcode }}, {{ $deliveryOrder->City_Description }}, {{ $deliveryOrder->State_Description }}, {{ $deliveryOrder->Country_Description }}</td>
             </tr>
             <tr>
                 <td rowspan="2">Delivery Address</td>
-                <td>: {{ $deliveryOrder->CDOH_InstallAddress1 }}, {{ ($deliveryOrder->CDOH_InstallAddress2) ? $deliveryOrder->CDOH_InstallAddress2 : '' }}</td>
+                <td>: {{ $deliveryOrder->CDOH_InstallAddress1 }}{{ ($deliveryOrder->CDOH_InstallAddress2) ? ', ' . $deliveryOrder->CDOH_InstallAddress2 : '' }}</td>
             </tr>
             <tr>
                 <td>: {{ $deliveryOrder->CDOH_InstallPostcode }}, {{ $deliveryOrder->InstallCity_Description }}, {{ $deliveryOrder->InstallState_Description }}, {{ $deliveryOrder->InstallCountry_Description }}</td>
