@@ -13,87 +13,86 @@
     <button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-invoice')">
         <i class="fas fa-print"></i> Print
     </button>
-    <button type="button" class="btn btn-primary d-print-none" onclick="createPDF('header', {{ $invoiceDetail->id }})">
-        <i class="fas fa-file-pdf"></i> Export To PDF
-    </button>
 </div>
 <div id="print-area-invoice">
+    <h1>{{ $companyAddress->CO_Name }}</h1>
+    <h4>{{ $companyAddress->CO_MainAddress1 }}{{ ($companyAddress->CO_MainAddress2) ? ', ' . $companyAddress->CO_MainAddress2: '' }}{{ ($companyAddress->CO_MainAddress3) ? ', ' . $companyAddress->CO_MainAddress3: '' }}{{ ($companyAddress->CO_MainAddress4) ? ', ' . $companyAddress->CO_MainAddress4: '' }}
+    </h4>
+    <h4>{{ $companyAddress->CO_MainPostcode }}, {{ $companyAddress->CI_Description }}, {{ $companyAddress->ST_Description }}, {{ $companyAddress->CO_Description }}</h4>
+    <h4>Tel No : {{ $companyAddress->CO_Phone1 }}</h4>
+    <h4>Email : {{ $companyAddress->CO_Email }}</h4>
+    <h4>Website : {{ $companyAddress->CO_Website }}</h4>
+
     <div class="header d-print-none">
         <h1>Invoices : {{ $invoiceDetail->CSIH_DocNo }}</h1>
     </div>
-
-    <table class="table" id="table-invoice">
-        <thead class="d-none d-print-block">
+    <div class="col-sm-6 fa-pull-left">
+        <h3>Delivery Location</h3>
+        <table class="table">
             <tr>
-                <td colspan="2">Invoices : {{ $invoiceDetail->CSIH_DocNo }}</td>
+                <td>Bill To</td>
+                <td>{{ $invoiceDetail->Cust_NAME }}</td>
             </tr>
-        </thead>
-        <tbody>
             <tr>
-                <td>Invoice Payment Period</td>
-                <td>: {{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
+                <td rowspan="2">Address</td>
+                <td>{{ $invoiceDetail->CSIH_InstallAddress1 }}{{ ($invoiceDetail->CSIH_InstallAddress2) ? ', ' . $invoiceDetail->CSIH_InstallAddress2: '' }}</td>
+            </tr>
+            <tr>
+                <td>{{ $invoiceDetail->CSIH_InstallPostcode }}, {{ $invoiceDetail->City_Description }}, {{ $invoiceDetail->State_Description }}, {{ $invoiceDetail->Country_Description }}</td>
+            </tr>
+            <tr>
+                <td>Tel No</td>
+                <td>{{ $invoiceDetail->Cust_Phone1 }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ $invoiceDetail->Cust_Email }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-6 fa-pull-right">
+        <h3>Invoice</h3>
+        <table class="table">
+            <tr>
+                <td>Invoice Date</td>
+                <td>{{ $invoiceDetail->CSIH_DocDate }}</td>
             </tr>
             <tr>
                 <td>Invoice No</td>
-                <td>: {{ $invoiceDetail->CSIH_DocNo }}</td>
+                <td>{{ $invoiceDetail->CSIH_DocNo }}</td>
             </tr>
             <tr>
-                <td>Customer Name</td>
-                <td>: {{ $invoiceDetail->Cust_NAME }}</td>
+                <td>Billing Period</td>
+                <td>{{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
             </tr>
             <tr>
-                <td>Customer Email</td>
-                <td>: {{ $invoiceDetail->Cust_Email }}</td>
+                <td>Contract No</td>
+                <td>{{ $invoiceDetail->CSIH_ContractDocNo }}</td>
             </tr>
-            <tr>
-                <td>Customer Phone</td>
-                <td>: {{ $invoiceDetail->Cust_Phone1 }}</td>
-            </tr>
-            <tr>
-                <td>Install Address 1</td>
-                <td>:
-                    {{ $invoiceDetail->CSIH_InstallAddress1 }}
-                </td>
-            </tr>
-            @if ($invoiceDetail->CSIH_InstallAddress2)
+        </table>
+    </div>
+    
+    <div class="item-section">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>Install Address 2 </td>
-                    <td>:
-                        {{ $invoiceDetail->CSIH_InstallAddress2 }}
-                    </td>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
                 </tr>
-            @endif
-            <tr>
-                <td>City</td>
-                <td>: {{ $invoiceDetail->City_Description }}</td>
-            </tr>
-            <tr>
-                <td>State</td>
-                <td>: {{ $invoiceDetail->State_Description }}</td>
-            </tr>
-            <tr>
-                <td>Country</td>
-                <td>: {{ $invoiceDetail->Country_Description }}</td>
-            </tr>
-            <tr>
-                <td>Net Total</td>
-                <td>: {{ $invoiceDetail->CSIH_NetTotal }}</td>
-            </tr>
-            <tr>
-                <td>Balance Total</td>
-                <td>: {{ $invoiceDetail->CSIH_BalTotal }}</td>
-            </tr>
-            <tr>
-                <td>Prev Balance Total</td>
-                <td>: {{ $invoiceDetail->CSIH_PrevBalTotal }}</td>
-            </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $invoiceDetail->CSID_Description }}</td>
+                    <td>{{ $invoiceDetail->CSID_Qty }}</td>
+                    <td>{{ $invoiceDetail->CSID_Total }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
 @section('scripts')
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js'></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.3.1/jspdf.plugin.autotable.min.js"></script>
 <script type="text/javascript">
   
   function printPage(print) {
@@ -104,15 +103,6 @@
     window.print();
 
     document.body.innerHTML = originalContent;    
-  }
-
-  function createPDF(print, invoice) {
-
-    let doc = new jsPDF('p', 'pt', 'a4', true);
-    doc.setFontSize(22);
-    doc.autoTable({ html : '#table-invoice' });
-    doc.save('invoice-' + invoice + '.pdf');
-
   }
 </script>
 @endsection
