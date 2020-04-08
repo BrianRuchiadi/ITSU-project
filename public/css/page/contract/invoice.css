@@ -24,9 +24,18 @@ a.btn {
   white-space: pre-wrap;
 }
 
+.item-section {
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.item-section h2 {
+  padding-left: 10px;
+}
+
 @media print {
 @page {
-    size: A4 portrait;
+    size: landscape a4;
     margin: 10mm auto;
 }
 }

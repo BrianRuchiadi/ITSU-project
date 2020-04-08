@@ -17,7 +17,7 @@
                         <i class="fas fa-user"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="User Id" name="user_id">
+                    <input type="text" class="form-control" placeholder="User Id" name="user_id" autofocus>
                 </div>
             </div>
             <div class="form-group">

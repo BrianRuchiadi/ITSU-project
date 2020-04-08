@@ -97,7 +97,7 @@ Route::group([
         
         Route::get('delivery-order', 'Contract\DeliveryController@showDeliveryOrder');
         Route::get('delivery-order/create', 'Contract\DeliveryController@showCreateDeliveryOrder');
-        Route::get('delivery-order/detail/{contract_id}', 'Contract\DeliveryController@showDeliveryOrderDetail')->name('delivery.order.detail');
+        Route::get('delivery-order/detail/{delivery_order_id}', 'Contract\DeliveryController@showDeliveryOrderDetail')->name('delivery.order.detail');
         
         Route::get('invoices', 'Contract\InvoiceController@showInvoicesByGeneratedDate');
         Route::get('invoices/list', 'Contract\InvoiceController@showInvoicesListByDate');

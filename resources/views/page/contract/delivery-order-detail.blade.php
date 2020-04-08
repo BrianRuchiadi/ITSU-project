@@ -24,7 +24,7 @@
     <h4>Website : {{ $companyAddress->CO_Website }}</h4>
 
     <div class="header">
-        <span class="fa-pull-right d-none d-print-block">{{ $printTime }}</span>
+        <span class="fa-pull-right d-none d-print-block">Print Date : {{ $printDate }}</span>
         <h1>Delivery Order : {{ $deliveryOrder->CDOH_DocNo }}</h1>
     </div>
     
@@ -60,30 +60,28 @@
     </table>
     
     <div class="item-section">
-            <h2>Item Detail</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Item Name</th>
-                        <th>Qty</th>
-                        <th>Serial Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ $deliveryOrder->CDOD_Description }}</td>
-                        <td>{{ $deliveryOrder->CDOD_Qty }}</td>
-                        <td>{{ $deliveryOrder->CDOD_SerialNo }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <h2>Item Detail</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>Serial Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $deliveryOrder->CDOD_Description }}</td>
+                    <td>{{ $deliveryOrder->CDOD_Qty }}</td>
+                    <td>{{ $deliveryOrder->CDOD_SerialNo }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 @endsection
 @section('scripts')
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js'></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.3.1/jspdf.plugin.autotable.min.js"></script>
 <script type="text/javascript">
   
   function printPage(print) {
