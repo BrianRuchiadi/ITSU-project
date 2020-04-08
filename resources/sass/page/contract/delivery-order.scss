@@ -17,15 +17,6 @@ form {
     border-top: 2px solid black;
     padding-top: 10px;
 
-    .item-section {
-        border: 1px solid grey;
-        border-radius: 4px;
-
-        h2 {
-            padding-left: 10px;
-        }
-    }
-
     i:hover {
         cursor: pointer;
     }
@@ -41,4 +32,19 @@ table.table-striped {
 
 i.fas.fa-plus{
     margin-right: 5px;
+}
+
+.item-section {
+    border: 1px solid grey;
+    border-radius: 4px;
+
+    h2 {
+        padding-left: 10px;
+    }
+}
+
+@media print {
+    @page {
+        size: portrait a4;
+    }
 }
