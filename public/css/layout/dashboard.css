@@ -94,21 +94,20 @@
   color: transparent;
   font-size: 0px;
   text-align: center;
-  transition: width 1.9s, color 0.9s;
+  transition: width 1.4s, color 0.9s;
 }
 
 .container header .side-nav ul.main {
   -webkit-padding-start: 0px;
           padding-inline-start: 0px;
   position: absolute;
-  transform: scale(0);
   opacity: 0;
   font-size: 14px;
   top: 50px;
   width: 0px;
   min-height: calc(100vh - 50px);
   background-color: #333;
-  transition: width 1.9s, opacity 1.9s, scale 1.9s;
+  transition: width 1.4s, opacity 1.4s, scale 1.4s;
 }
 
 .container header .side-nav ul.main li {
@@ -116,7 +115,7 @@
   position: relative;
   color: white;
   height: 30px;
-  transition: all 1.5s ease-in-out;
+  transition: all 1.2s ease-in-out;
 }
 
 .container header .side-nav ul.main li.customer-master,
@@ -147,9 +146,12 @@
   -webkit-padding-start: 0px;
           padding-inline-start: 0px;
   width: 100%;
+  max-height: 0px;
+  transition: max-height 0.9s, opacity 0.7s;
 }
 
 .container header .side-nav ul.main ul.inside li {
+  display: block;
   background-color: #333;
   padding: 6px;
   padding-left: 8px;
@@ -220,11 +222,12 @@
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
   opacity: 0;
-  height: 0;
-  display: none;
-  transition: all 1.5s;
+  max-height: 0;
+  display: block;
+  transition: opacity 1s, max-height 1s;
   color: white;
   z-index: 100000;
+  pointer-events: none;
 }
 
 .container header .account-submenu ul li {
@@ -263,20 +266,34 @@
 }
 
 .container header .account-submenu .submenu-toggler:checked ~ ul {
-  display: block;
   opacity: 1;
-  height: auto;
+  max-height: 300px;
+  pointer-events: all;
+}
+
+.container header .account-submenu .submenu-toggler:not(:checked) ~ ul {
+  opacity: 0;
+  max-height: 0;
+  pointer-events: none;
+}
+
+.container header .side-nav .customer-toggler:checked ~ ul,
+.container header .side-nav .contract-toggler:checked ~ ul {
+  max-height: 200px !important;
+}
+
+.container header .side-nav .customer-toggler:not(:checked) ~ ul,
+.container header .side-nav .contract-toggler:not(:checked) ~ ul {
+  max-height: 0px !important;
 }
 
 .container header .customer-toggler:checked ~ ul li.customer,
 .container header .contract-toggler:checked ~ ul li.contract {
-  display: block;
   opacity: 1;
 }
 
-.container header .customer-toggler:not(checked) ~ ul li.customer,
-.container header .contract-toggler:not(checked) ~ ul li.contract {
-  display: none;
+.container header .customer-toggler:not(:checked) ~ ul li.customer,
+.container header .contract-toggler:not(:checked) ~ ul li.contract {
   opacity: 0;
 }
 
@@ -289,7 +306,6 @@
 }
 
 .container header .side-nav .toggler:checked ~ ul {
-  transform: scale(1);
   width: 180px;
   opacity: 1;
 }
@@ -301,7 +317,6 @@
 }
 
 .container header .side-nav .toggler:not(:checked) ~ ul {
-  transform: scale(0);
   width: 0px;
   opacity: 0;
 }
@@ -315,16 +330,18 @@
 .container .content-container {
   display: block;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #FDFDFD;
   font-size: 14px;
   padding: 20px;
+  margin-left: 0px;
+  transition: width 1.4s, margin-left 1.4s;
+  overflow-y: scroll;
 }
 
 .container .content-container.compressed {
   margin-left: 180px;
   width: calc(100vw - 180px);
-  transition: all 1.9s;
 }
 
 .container .alert {
