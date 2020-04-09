@@ -1,6 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
     <link rel="stylesheet" type="text/css" href="/css/page/contract/delivery-order.css">
 @endsection
 
@@ -101,9 +102,10 @@
 
         <div class="item-section">
             <h2>Item Detail</h2>
-            <table class="table">
+            <table class="table" id="table-item-detail">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>#</th>
                         <th>Item Name</th>
                         <th>Qty</th>
@@ -115,6 +117,7 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td></td>
                         <td><input type="checkbox" class="form-control" name="item" id="item-id"></td>
                         <td id="item-name"></td>
                         <td id="item-qty"></td>
@@ -133,9 +136,14 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3" style="text-align: right;">Total Amount :</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;">Total Amount :</td>
                         <td id="contract-total-amount"></td>
-                        <td colspan="2"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
@@ -180,6 +188,16 @@
         </table>
 
         <table class="table table-striped search-result" id="table-search-result">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Contract No</th>
+                    <th>Customer Name</th>
+                    <th>Phone No</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
     </div>
 </div>
@@ -187,7 +205,11 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="/js/vendor/vendor.js"></script>
     <script type="text/javascript">
+        let datatableSearchResult = null;
+        let datatableItem = null;
+
         let elContractNo = document.getElementById('contract-no');
         let elDeliveryDate = document.getElementById('delivery-date');
         let elCustomerAddress = document.getElementById('customer-address');
@@ -262,24 +284,26 @@
 
                     if (contracts.length) {
                         for (let i = 0; i < contracts.length; i++) {
-                            if (i == 0) {
-                                insertTableHeader();
-                            } else {
-                                let newRow = elTableSearchResult.insertRow(i);
+                            let newRow = elTableSearchResult.getElementsByTagName('tbody')[0].insertRow(i);
 
-                                let colRow_Action = newRow.insertCell(0);
-                                colRow_Action.innerHTML = '<button id="selected_'  +  i + '" class="btn btn-primary btn-sm" onclick="selectedContract(this)">Select</button>';
+                            let colRow_Action = newRow.insertCell(0);
+                            colRow_Action.innerHTML = '<button id="selected_'  +  i + '" class="btn btn-primary btn-sm" onclick="selectedContract(this)">Select</button>';
 
-                                let colRow_DocNo = newRow.insertCell(1);
-                                colRow_DocNo.innerHTML = contracts[i].CNH_DocNo;
+                            let colRow_DocNo = newRow.insertCell(1);
+                            colRow_DocNo.innerHTML = contracts[i].CNH_DocNo;
 
-                                let colRow_CustName = newRow.insertCell(2);
-                                colRow_CustName.innerHTML = contracts[i].Cust_NAME;
+                            let colRow_CustName = newRow.insertCell(2);
+                            colRow_CustName.innerHTML = contracts[i].Cust_NAME;
 
-                                let colRow_CustPhone = newRow.insertCell(3);
-                                colRow_CustPhone.innerHTML = contracts[i].Cust_Phone1; 
-                            }
+                            let colRow_CustPhone = newRow.insertCell(3);
+                            colRow_CustPhone.innerHTML = contracts[i].Cust_Phone1; 
                         }
+
+                        datatableSearchResult = $('#table-search-result').DataTable({
+                            paging : false,
+                            searching : false,
+                            responsive: true
+                        });
                     } else {
                        insertNotFoundRow();
                     }
@@ -292,32 +316,21 @@
         function clearSearchContract() {
             let length = elTableSearchResult.rows.length;
 
-            if (length < 1) { return; }
-            for (let i = 0; i < length; i++) {
-                elTableSearchResult.deleteRow(0);
+            if (length < 2) { return; }
+            for (let i = 1; i < length; i++) {
+                elTableSearchResult.deleteRow(1);
+            }
+
+            if ($.fn.DataTable.isDataTable('#table-search-result')) {
+                $('#table-search-result').DataTable().clear().destroy();
             }
         }
 
-        function insertTableHeader() {
-            let newRow = elTableSearchResult.insertRow(0);
-
-            let colRowLabelAction = newRow.insertCell(0);
-            colRowLabelAction.innerHTML = '';
-
-            let colRowLabelDocNo = newRow.insertCell(1);
-            colRowLabelDocNo.innerHTML ='Contract No';
-
-            let colRowLabelCustName = newRow.insertCell(2);
-            colRowLabelCustName.innerHTML = 'Customer Name';
-
-            let colRowLabelCustPhone = newRow.insertCell(3);
-            colRowLabelCustPhone.innerHTML = 'Phone No';
-        }
-
         function insertNotFoundRow() {
-            let newRow = elTableSearchResult.insertRow(0);
+            let newRow = elTableSearchResult.getElementsByTagName('tbody')[0].insertRow(0);
 
             let colRowLabelAction = newRow.insertCell(0);
+            colRowLabelAction.colSpan = 4;
             colRowLabelAction.innerHTML = 'No Record Found!';
         }
 
@@ -326,6 +339,16 @@
 
             contract = contracts[selectedIndex];
             populateContract();
+
+            if ($.fn.DataTable.isDataTable('#table-item-detail')) {
+                $('#table-item-detail').DataTable().clear().destroy();
+            }
+            
+            datatableItem = $('#table-item-detail').DataTable({
+                paging : false,
+                searching : false,
+                responsive: true
+            });
             closeSearchModal();
         }
 
@@ -403,7 +426,7 @@
             elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
 
             populateStates(elDeliveryCountry);
-    
+
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;
             elItemUnitPrice.innerText = contract.CND_UnitPrice;

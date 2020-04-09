@@ -1,6 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
+<link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
 <link rel="stylesheet" type="text/css" href="/css/page/contract/delivery-order.css">
 @endsection
 
@@ -14,7 +15,7 @@
    <i class="fas fa-plus"></i>Create Delivery Order
 </a>
 
-<table class="table table-striped">
+<table class="table table-striped" id="table-delivery-order">
    <thead>
       <tr>
          <th>#</th>
@@ -55,31 +56,40 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
-   function resubmitPosApi(element, id) {
-      element.disabled = true;
-
-      fetch('{{ url('') }}' + `/contract/api/delivery-order/${id}/resubmit`, {
-         method: 'POST', // or 'PUT'
-         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-         },
-         })
-         .then((response) => { return response.json(); })
-         .then((res) => { 
-            element.disabled = false;
-            if (res.status === 'success') {
-               location.reload();
-            } else {
-               this.showAlert(res.errorMessage, 'alert-danger');
-            }
-         })
-         .catch((error) => {
-            element.disabled = false;
-            console.log(['err', error]);
+   <script type="text/javascript" src="/js/vendor/vendor.js"></script>
+   <script type="text/javascript">
+      $(document).ready( function () {
+         let datatable = $('#table-delivery-order').DataTable({
+            paging : false,
+            searching : false,
+            responsive: true
          });
-   }
+      });
 
-</script>
+      function resubmitPosApi(element, id) {
+         element.disabled = true;
+
+         fetch('{{ url('') }}' + `/contract/api/delivery-order/${id}/resubmit`, {
+            method: 'POST', // or 'PUT'
+            headers: {
+               'Content-Type': 'application/json',
+               'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            })
+            .then((response) => { return response.json(); })
+            .then((res) => { 
+               element.disabled = false;
+               if (res.status === 'success') {
+                  location.reload();
+               } else {
+                  this.showAlert(res.errorMessage, 'alert-danger');
+               }
+            })
+            .catch((error) => {
+               element.disabled = false;
+               console.log(['err', error]);
+            });
+      }
+
+   </script>
 @endsection

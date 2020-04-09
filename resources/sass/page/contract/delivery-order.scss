@@ -41,6 +41,10 @@ form {
     }
 }
 
+input#item-serial-number {
+    max-width: 200px;
+}
+
 table.table-striped {
     margin-top: 20px;
 }
@@ -118,7 +122,7 @@ i.fas.fa-plus{
         }
 
         table.search-result {
-            tr:first-of-type td {
+            tr:first-of-type th {
                 background-color: #333;
                 color: white;
                 text-align: center;

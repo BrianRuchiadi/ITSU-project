@@ -1,6 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
+<link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
 <link rel="stylesheet" type="text/css" href="/css/page/contract/invoice.css">
 @endsection
 
@@ -35,34 +36,42 @@
 </div>
 
 
-<table class="table table-striped limited">
+<table class="table table-striped limited" id="table-invoice-list">
     <thead>
         <tr>
             <th>#</th>
             <th>Contract Generated Date</th>
             <th>Total Invoices</th>
-            <th></th>
+            <th>Action</th>
         </tr>
-
+    </thead>
+    <tbody>
         @foreach ($contractInvoicesDate as $key => $value)
         <tr>
             <td>{{ $key + 1 }}</td>
             <td>{{ $value->CSIH_PostingDate }}</td>
             <td>{{ $value->total_contract }}</td>
             <td>
-                <a class="btn btn-primary" href="{{ url('/contract/invoices/list?generated_date=' . $value->CSIH_PostingDate) }}">View Invoices</a>
+                <a class="btn btn-primary btn-sm" href="{{ url('/contract/invoices/list?generated_date=' . $value->CSIH_PostingDate) }}">View Invoices</a>
             </td> 
         </tr>   
         @endforeach
-    </thead>
+    </tbody>
 </table>
 {{ $contractInvoicesDate->links() }}
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="/js/vendor/vendor.js"></script>
     <script type="text/javascript">
+        $(document).ready( function () {
+            let datatable = $('#table-invoice-list').DataTable({
+                paging : false,
+                searching : false,
+                responsive: true
+            });
+        });
         @if (Session::has('showErrorMessage'))
-            console.log(['a']);
             showAlert('{{ Session::get('showErrorMessage')}}', 'alert-danger');
         @endif
     </script>

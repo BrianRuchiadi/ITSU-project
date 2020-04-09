@@ -1,6 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
     <link rel="stylesheet" type="text/css" href="/css/page/contract/pending-contract-list.css">
 @endsection
 
@@ -48,7 +49,7 @@
       </table>
     </form>
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="table-pending-contract">
       <thead>
         <tr>
           <th class="center">No</th>
@@ -101,7 +102,16 @@
 
 @endsection 
 @section('scripts')
+<script type="text/javascript" src="/js/vendor/vendor.js"></script>
 <script type="text/javascript">
+      $(document).ready( function () {
+         let datatable = $('#table-pending-contract').DataTable({
+            paging : false,
+            searching : false,
+            responsive: true
+         });
+      });
+
       function verifyCTOS(contractId) {
           fetch('{{ url('') }}' + `/contract/pending-contract/verify-ctos`, {
               method: 'POST', // or 'PUT'

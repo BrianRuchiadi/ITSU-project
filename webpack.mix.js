@@ -14,6 +14,27 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
+mix.styles([
+    'node_modules/datatables.net-bs4/css/datatables.net-bs4',
+    'node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css',
+    'node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'
+], 'public/css/vendor/vendor.css');
+
+mix.scripts([
+    'node_modules/jquery/dist/jquery.min.js',
+
+    'node_modules/datatables.net/js/jquery.dataTables.min.js',
+    'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js',
+
+    'node_modules/datatables.net-buttons/js/dataTables.buttons.min.js',
+    'node_modules/datatables.net-buttons/js/buttons.print.min.js',
+    'node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
+
+    'node_modules/datatables.net-responsive/js/dataTables.responsive.min.js',
+    'node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'
+
+], 'public/js/vendor/vendor.js');
+
 mix.sass('resources/sass/layout/dashboard.scss', 'public/css/layout');
 
 mix.sass('resources/sass/page/auth/login.scss', 'public/css/page/auth');
