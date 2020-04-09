@@ -283,7 +283,6 @@
         }
 
         .side-nav .toggler:checked ~ ul {
-            // transform: scale(1);
             width: 180px; 
             opacity: 1;
         }
@@ -295,7 +294,6 @@
         }
 
         .side-nav .toggler:not(:checked) ~ ul {
-            // transform: scale(0);
             width: 0px; 
             opacity: 0;
         }
@@ -337,8 +335,64 @@
     }
 }
 
-
-
 @media (max-width: 767px) {
+    .container {
+        header {
+            .side-nav {
+                ul.main {
+                    position: fixed;
+                    opacity: 0;
+                    height: 100vh;
+                    top: 0;
+                    left: 0;
+                    z-index: 9999999;
+                    padding-top: 50px;
+                }
 
+                .toggler {
+                    z-index: 999999999;
+                }
+            }
+
+            .side-nav .toggler:checked ~ h1 {
+                content: '';
+                color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 99999999;
+
+                &::before {
+                    content: "X";
+                    position: absolute;
+                    background: #E9BC1A;
+                    padding: 0px 8px;
+                    border-radius: 4px;
+                    top: 10px;
+                    right: -35px;
+                    color: white;
+                    font-size: 18px;
+                }
+            }
+
+            .side-nav .toggler:checked ~ ul {
+                // transform: scale(1);
+                width: 230px; 
+                opacity: 1;
+            }
+        
+            .side-nav .toggler:not(:checked) ~ ul {
+                // transform: scale(0);
+                width: 0px; 
+                opacity: 0;
+            }
+        }
+
+        .content-container {
+            &.compressed {
+                margin-left: 0px;
+                width: 100vw;
+            }
+        }
+    }
 }

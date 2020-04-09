@@ -364,3 +364,55 @@
   display: block;
 }
 
+@media (max-width: 767px) {
+  .container header .side-nav ul.main {
+    position: fixed;
+    opacity: 0;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+    padding-top: 50px;
+  }
+
+  .container header .side-nav .toggler {
+    z-index: 999999999;
+  }
+
+  .container header .side-nav .toggler:checked ~ h1 {
+    content: "";
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999999;
+  }
+
+  .container header .side-nav .toggler:checked ~ h1::before {
+    content: "X";
+    position: absolute;
+    background: #E9BC1A;
+    padding: 0px 8px;
+    border-radius: 4px;
+    top: 10px;
+    right: -35px;
+    color: white;
+    font-size: 18px;
+  }
+
+  .container header .side-nav .toggler:checked ~ ul {
+    width: 230px;
+    opacity: 1;
+  }
+
+  .container header .side-nav .toggler:not(:checked) ~ ul {
+    width: 0px;
+    opacity: 0;
+  }
+
+  .container .content-container.compressed {
+    margin-left: 0px;
+    width: 100vw;
+  }
+}
+

@@ -206,7 +206,7 @@
                         display: $.fn.dataTable.Responsive.display.childRowImmediate,
                         type: 'inline'
                     }
-                }
+                },
             });
         });
         let datatableItem = null;
@@ -304,7 +304,7 @@
                         datatableSearchResult = $('#table-search-result').DataTable({
                             paging : false,
                             searching : false,
-                            responsive: true
+                            responsive: true,
                         });
                     } else {
                        insertNotFoundRow();
@@ -413,7 +413,7 @@
                         display: $.fn.dataTable.Responsive.display.childRowImmediate,
                         type: 'inline'
                     }
-                }
+                },
             });
 
             populateStates(elDeliveryCountry);
