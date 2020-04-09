@@ -43,6 +43,7 @@ form {
 
 input#item-serial-number {
     max-width: 200px;
+    width: 75%;
 }
 
 table.table-striped {
@@ -129,6 +130,10 @@ i.fas.fa-plus{
             }
         }
     }
+}
+
+.detail h4 {
+    margin-left: 15px;
 }
 
 @media print {

@@ -107,11 +107,11 @@
                     <tr>
                         <th></th>
                         <th>#</th>
+                        <th>Serial Number</th>
                         <th>Item Name</th>
                         <th>Qty</th>
                         <th>Unit Price</th>
                         <th>Amount</th>
-                        <th>Serial Number</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -119,10 +119,6 @@
                     <tr>
                         <td></td>
                         <td><input type="checkbox" class="form-control" name="item" id="item-id"></td>
-                        <td id="item-name"></td>
-                        <td id="item-qty"></td>
-                        <td id="item-unit-price"></td>
-                        <td id="item-amount"></td>
                         <td>
                             <input type="text" class="form-control" id="item-serial-number" name="serial_no" required>
                             @error('serial_no')
@@ -131,24 +127,18 @@
                                 </div>
                             @enderror
                         </td>
+                        <td id="item-name"></td>
+                        <td id="item-qty"></td>
+                        <td id="item-unit-price"></td>
+                        <td id="item-amount"></td>
                         <td id="item-status"></td>
                     </tr>
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align: right;">Total Amount :</td>
-                        <td id="contract-total-amount"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
-
+        <div class="row detail">
+            <h4>Total Amount : <span style="font-weight: bold" id="contract-total-amount"></span></h4>
+        </div>
         <div class="row form-group col-md-4 submit">
             <button class="btn btn-block btn-success" type="submit" id="btn-submit">Submit</button>
         </div>
@@ -207,8 +197,20 @@
 @section('scripts')
     <script type="text/javascript" src="/js/vendor/vendor.js"></script>
     <script type="text/javascript">
-        let datatableSearchResult = null;
+        $(document).ready( function () {
+            let datatableItem = $('#table-item-detail').DataTable({
+                paging : false,
+                searching : false,
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                        type: 'inline'
+                    }
+                }
+            });
+        });
         let datatableItem = null;
+        let datatableSearchResult = null;
 
         let elContractNo = document.getElementById('contract-no');
         let elDeliveryDate = document.getElementById('delivery-date');
@@ -340,15 +342,7 @@
             contract = contracts[selectedIndex];
             populateContract();
 
-            if ($.fn.DataTable.isDataTable('#table-item-detail')) {
-                $('#table-item-detail').DataTable().clear().destroy();
-            }
-            
-            datatableItem = $('#table-item-detail').DataTable({
-                paging : false,
-                searching : false,
-                responsive: true
-            });
+            updateState('valid');
             closeSearchModal();
         }
 
@@ -364,35 +358,10 @@
             }
         }
 
-        function querySearch() {
-            fetch("{{ url('/contract/approved-contract/search/cnh-doc') }}" + `?contract_no=${elContractNo.value}`, {
-                method: 'GET', // or 'PUT'
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-                })
-                .then((response) => {
-                    return response.json();
-                })
-                .then((res) => {
-                    if (res.data.length) {
-                        contract = res.data[0];
-
-                        this.showAlert('Contract is found');
-                        this.populateContract();
-                        this.updateState('valid');
-                    } else {
-                        this.showAlert('Contract is not found', 'alert-danger');
-                        this.emptyContract();
-                    }
-                })
-                .catch((error) => {
-                    console.log(['err', error]);
-                });
-        }
-
         function emptyContract() {
+            if ($.fn.DataTable.isDataTable('#table-item-detail')) {
+                $('#table-item-detail').DataTable().destroy();
+            }
             // elContractNo.value = contract.CNH_DocNo;
             elCustomerName.value = '';
             elCustomerAddress.value = '';
@@ -425,14 +394,29 @@
             elDeliveryPostcode.value = (contract.CNH_InstallPostcode) ? contract.CNH_InstallPostcode : '';
             elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
 
-            populateStates(elDeliveryCountry);
-
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;
             elItemUnitPrice.innerText = contract.CND_UnitPrice;
             elItemAmount.innerText = contract.CND_SubTotal;
             elItemStatus.innerText = contract.CNH_Status;
             elContractTotalAmount.innerText = contract.grand_total;
+
+            if ($.fn.DataTable.isDataTable('#table-item-detail')) {
+                $('#table-item-detail').DataTable().destroy();
+            }
+
+            datatableItem = $('#table-item-detail').DataTable({
+                paging : false,
+                searching : false,
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                        type: 'inline'
+                    }
+                }
+            });
+
+            populateStates(elDeliveryCountry);
         }
 
         function removeOptions(option) {
