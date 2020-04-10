@@ -546,6 +546,10 @@
             let selfEmployedNotes = document.getElementById('self-employed-notes');
             // END : File and requirements note
             
+            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                var datacustomer = {!! json_encode($customerMaster, JSON_HEX_TAG) !!};
+            }
+            
             let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
             let applicantTelCode = '{{ Auth::user()->branchind === 4 ? Auth::user()->telcode : ''}}';
             let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
@@ -713,6 +717,13 @@
             nameOfApplicant.value = applicantName;
             contactOneOfApplicant.value = applicantContactOne;
             emailOfApplicant.value = applicantEmail;
+            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                icNumber.value = datacustomer.Cust_NRIC;
+                addressOne.value = datacustomer.Cust_MainAddress1;
+                addressTwo.value = datacustomer.Cust_MainAddress2;
+                postcode.value = datacustomer.Cust_MainPostcode;
+                contactTwoOfApplicant.value = datacustomer.Cust_Phone2;
+            }
         }
 
         function sendSmsTag() {
@@ -1079,6 +1090,10 @@
                         this.populateCities(stateOptions);
                     @endif
 
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        stateOptions.value = datacustomer.Cust_MainState;
+                        this.populateCities(stateOptions);
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1119,6 +1134,9 @@
                         cityOptions.value = '{{ session()->get('city') }}';
                     @endif
 
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        cityOptions.value = datacustomer.Cust_MainCity;
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1158,6 +1176,11 @@
                         countryOptions.value = '{{ session()->get('country') }}';
                         this.populateStates(countryOptions);
                     @endif
+                    
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        countryOptions.value = datacustomer.Cust_MainCountry;
+                        this.populateStates(countryOptions);
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1226,6 +1249,10 @@
                         @if (!Session::has('displaySMSTag'))
                             telCodeOptions1.value = applicantTelCode;
                         @endif
+
+                        if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                            telCodeOptions2.value = datacustomer.telcode2;
+                        }
                     }
 
                 })

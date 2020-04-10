@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\CustomerUserMap;
+use App\Models\CustomerMaster;
 
 class PageController extends Controller
 {
@@ -20,7 +22,15 @@ class PageController extends Controller
 
     public function showApplicationForm(Request $request) 
     { 
-        return view('page.customer.application-form');
+        if (Auth::user()->branchind == 4) {
+            $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get()->last();
+            $customerMaster = CustomerMaster::where('id', ($userMap->customer_id) ?? null)->first();
+            
+        } else {
+            $customerMaster = [];
+        }
+        
+        return view('page.customer.application-form', compact('customerMaster'));
     }
 
     public function showChangePasswordForm() 

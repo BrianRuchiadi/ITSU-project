@@ -179,10 +179,12 @@ class CustomerController extends Controller
                     'Cust_AltCity' => $request->city,
                     'Cust_AltState' => $request->state,
                     'Cust_AltCountry' => $request->country,
-                    'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
-                    'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
+                    'Cust_Phone1' => $request->contact_one_of_applicant,
+                    'Cust_Phone2' => $request->contact_two_of_applicant,
                     'Cust_Email' => $request->email_of_applicant,
                     'Cust_NRIC' => $request->ic_number,
+                    'telcode1' => $request->tel_code_1,
+                    'telcode2' => $request->tel_code_2,
                     'CC_ID' => $custCcIdSeqNumberNew,
                     'usr_created' => Auth::user()->id
                 ]);
@@ -205,10 +207,12 @@ class CustomerController extends Controller
                             'Cust_AltCity' => $request->city,
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
-                            'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
-                            'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
+                            'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
+                            'telcode1' => $request->tel_code_1,
+                            'telcode2' => $request->tel_code_2,
                             'usr_updated' => Auth::user()->id
                         ]);
                     $customerMaster = CustomerMaster::where('Cust_NRIC', $request->ic_number)->first();
@@ -230,10 +234,12 @@ class CustomerController extends Controller
                             'Cust_AltCity' => $request->city,
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
-                            'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
-                            'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
+                            'Cust_Phone1' => $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
+                            'telcode1' => $request->tel_code_1,
+                            'telcode2' => $request->tel_code_2,
                             'usr_updated' => Auth::user()->id
                         ]);
                     $customerMaster = CustomerMaster::where('Cust_Email', $request->email_of_applicant)->first();
@@ -241,7 +247,7 @@ class CustomerController extends Controller
                 }
             }
             // if user is a customer
-            if (Auth::user()->branchind === 4) {
+            if (Auth::user()->branchind == 4) {
                 $customerUserMap = CustomerUserMap::firstOrCreate(
                     [
                         'users_id' => Auth::user()->id,
@@ -286,13 +292,19 @@ class CustomerController extends Controller
                 'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_Tax' => 0,
                 'CNH_TaxableAmt' => 1 * $irsItemRental->IR_UnitPrice,
+                'CNH_NetTotal' => 1 * $irsItemRental->IR_UnitPrice,
+                'CNH_Address1' => $request->address_one,
+                'CNH_Address2' => $request->address_two,
+                'CNH_Postcode' => $request->postcode,
+                'CNH_City' => $request->city,
+                'CNH_State' => $request->state,
+                'CNH_Country' => $request->country,
                 'CNH_InstallAddress1' => $request->address_one,
                 'CNH_InstallAddress2' => $request->address_two,
                 'CNH_InstallPostcode' => $request->postcode,
                 'CNH_InstallCity' => $request->city,
                 'CNH_InstallState' => $request->state,
                 'CNH_InstallCountry' => $request->country,
-                'CNH_NetTotal' => 1 * $irsItemRental->IR_UnitPrice,
                 'CNH_TNCInd' => $request->tandcitsu,
                 'CNH_CTOSInd' => $request->tandcctos,
                 'CNH_SmsTag' => $request->contact_one_sms_tag,
@@ -415,6 +427,14 @@ class CustomerController extends Controller
                 'CNH_Tax' => $contractMaster->CNH_Tax,
                 'CNH_TaxableAmt' => $contractMaster->CNH_TaxableAmt,
                 'CNH_NetTotal' => $contractMaster->CNH_NetTotal,
+                'CNH_Address1' => $contractMaster->CNH_Address1,
+                'CNH_Address2' => $contractMaster->CNH_Address2,
+                'CNH_Address3' => $contractMaster->CNH_Address3,
+                'CNH_Address4' => $contractMaster->CNH_Address4,
+                'CNH_Postcode' => $contractMaster->CNH_Postcode,
+                'CNH_City' => $contractMaster->CNH_City,
+                'CNH_State' => $contractMaster->CNH_State,
+                'CNH_Country' => $contractMaster->CNH_Country,
                 'CNH_InstallAddress1' => $contractMaster->CNH_InstallAddress1,
                 'CNH_InstallAddress2' => $contractMaster->CNH_InstallAddress2,
                 'CNH_InstallAddress3' => $contractMaster->CNH_InstallAddress3,
