@@ -40,7 +40,7 @@ class CustomerController extends Controller
         $hashedId = $hashids->encode(Auth::user()->id);
         
         return [
-            'url' => config('app.url') . '/register?ref=' . $hashedId
+            'url' => config('app.url') . '/login?ref=' . $hashedId
         ];
     }
 
