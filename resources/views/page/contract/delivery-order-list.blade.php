@@ -15,7 +15,7 @@
    <i class="fas fa-plus"></i>Create Delivery Order
 </a>
 
-<table class="table table-striped" id="table-delivery-order">
+<table class="table table-striped responsive nowrap" id="table-delivery-order">
    <thead>
       <tr>
          <th>#</th>

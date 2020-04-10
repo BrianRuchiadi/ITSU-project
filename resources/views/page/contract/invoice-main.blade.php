@@ -36,7 +36,7 @@
 </div>
 
 
-<table class="table table-striped limited" id="table-invoice-list">
+<table class="table table-striped limited responsive nowrap" id="table-invoice-list">
     <thead>
         <tr>
             <th>#</th>

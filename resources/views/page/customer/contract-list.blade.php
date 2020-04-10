@@ -51,7 +51,7 @@
     </form>
     @endif
 
-    <table class="table table-striped" id="table-contract-list">
+    <table class="table table-striped responsive nowrap" id="table-contract-list">
       <thead>
         <tr>
           <th class="center">No</th>

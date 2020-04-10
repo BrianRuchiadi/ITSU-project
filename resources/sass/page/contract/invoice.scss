@@ -1,6 +1,7 @@
 .header {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid grey;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .table.limited {
@@ -33,9 +34,17 @@ a.btn {
     }
 }
 
+table {
+    width: 100% !important;
+}
 @media print {
     @page {
         size: landscape a4;
         margin: 10mm auto;
     }
 }
+
+@media (max-width: 767px) {
+    .header { font-size: 80%; }
+}
+

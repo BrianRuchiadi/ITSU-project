@@ -11,10 +11,12 @@
     Back To Invoices By Date
 </a>
 <div class="header">
-    <h1>Invoices Generated Record for : <label class="btn btn-md btn-success">{{ $selectedDate }}</label></h1>
+    <h1>Invoices Generated Record : <br/>
+        <label class="btn btn-md btn-success">{{ $selectedDate }}</label>
+    </h1>
 </div>
 
-<table class="table table-striped" id="table-invoice-list">
+<table class="table table-striped responsive nowrap" id="table-invoice-list">
     <thead>
         <tr>
             <th>#</th>

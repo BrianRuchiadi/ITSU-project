@@ -9,12 +9,12 @@ h1.title button {
 }
 
 .header {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid grey;
   margin-bottom: 10px;
 }
 
 form {
-  border-top: 2px solid black;
+  border-top: 2px solid grey;
   padding-top: 10px;
 }
 
@@ -141,6 +141,7 @@ i.fas.fa-plus {
 
 table {
   width: 100% !important;
+  max-width: 800px;
 }
 
 @media print {

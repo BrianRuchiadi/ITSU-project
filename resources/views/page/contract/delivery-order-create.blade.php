@@ -14,7 +14,6 @@
     </a>
     <h1 class="title">
         Create Delivery Order
-        
         <button class="btn btn-danger" onclick="updateState('invalid')" id="btn-cancel">Clear</button>
     </h1>
    <form method="POST" action="{{ url('/contract/api/delivery-order/create') }}">
@@ -102,7 +101,7 @@
 
         <div class="item-section">
             <h2>Item Detail</h2>
-            <table class="table" id="table-item-detail">
+            <table class="table responsive nowrap" id="table-item-detail">
                 <thead>
                     <tr>
                         <th></th>
