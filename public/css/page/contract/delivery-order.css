@@ -45,6 +45,7 @@ form select:required:valid {
 
 input#item-serial-number {
   max-width: 200px;
+  width: 75%;
 }
 
 table.table-striped {
@@ -132,6 +133,10 @@ i.fas.fa-plus {
   background-color: #333;
   color: white;
   text-align: center;
+}
+
+.detail h4 {
+  margin-left: 15px;
 }
 
 @media print {
