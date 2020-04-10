@@ -1,3 +1,10 @@
+.content-wrapper {
+    max-width: 800px;
+    &.max {
+        max-width: 1200px;
+    }
+}
+
 .header {
     border-bottom: 2px solid grey;
     margin-bottom: 10px;

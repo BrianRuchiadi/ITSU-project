@@ -1,3 +1,7 @@
+.content-wrapper {
+  max-width: 800px;
+}
+
 .panel-heading {
   border-bottom: 2px solid grey;
   margin-bottom: 10px;

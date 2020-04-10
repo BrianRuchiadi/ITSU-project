@@ -1,3 +1,7 @@
+.content-wrapper {
+  max-width: 800px;
+}
+
 h1.title {
   position: relative;
 }

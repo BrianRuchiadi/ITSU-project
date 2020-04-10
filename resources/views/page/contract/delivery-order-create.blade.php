@@ -7,7 +7,7 @@
 
 @section('content')
 
-<div>
+<div class="content-wrapper">
     <a class="btn btn-secondary" href="{{url('/contract/delivery-order')}}">
         <i class="fas fa-chevron-left"></i>
         Back To Delivery Order List
