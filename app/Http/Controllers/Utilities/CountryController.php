@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Utilities;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,12 @@ class CountryController extends Controller
     public function getCountriesOptions(Request $request) {
         return [
             'data' => IrsCountry::whereNull('deleted_at')->get(),
+        ];
+    }
+
+    public function getCountriesTelCodeOptions(Request $request) {
+        return [
+            'data' => DB::table('countrycodes')->get(),
         ];
     }
 

@@ -50,8 +50,10 @@ class CustomerController extends Controller
             'no_of_installment_month' => 'required|numeric',
             'name_of_applicant' => 'required|string|min:3|max:50',
             'ic_number' => 'required|string',
+            'tel_code_1' => 'required|string',
             'contact_one_of_applicant' => 'required|string',
-            'contact_two_of_applicant' => 'string|min:8|max:20|nullable',
+            'tel_code_2' => 'required_with:contract_two_of_applicant|string|nullable',
+            'contact_two_of_applicant' => 'required_with:tel_code_2|string|min:8|max:20|nullable',
             'email_of_applicant' => 'required|email',
             'address_one' => 'required|string|min:10',
             'address_two' => 'string|min:10|nullable',
@@ -177,8 +179,8 @@ class CustomerController extends Controller
                     'Cust_AltCity' => $request->city,
                     'Cust_AltState' => $request->state,
                     'Cust_AltCountry' => $request->country,
-                    'Cust_Phone1' => $request->contact_one_of_applicant,
-                    'Cust_Phone2' => $request->contact_two_of_applicant,
+                    'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
+                    'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
                     'Cust_Email' => $request->email_of_applicant,
                     'Cust_NRIC' => $request->ic_number,
                     'CC_ID' => $custCcIdSeqNumberNew,
@@ -203,8 +205,8 @@ class CustomerController extends Controller
                             'Cust_AltCity' => $request->city,
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
-                            'Cust_Phone1' => $request->contact_one_of_applicant,
-                            'Cust_Phone2' => $request->contact_two_of_applicant,
+                            'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -228,8 +230,8 @@ class CustomerController extends Controller
                             'Cust_AltCity' => $request->city,
                             'Cust_AltState' => $request->state,
                             'Cust_AltCountry' => $request->country,
-                            'Cust_Phone1' => $request->contact_one_of_applicant,
-                            'Cust_Phone2' => $request->contact_two_of_applicant,
+                            'Cust_Phone1' => $request->tel_code_1 . $request->contact_one_of_applicant,
+                            'Cust_Phone2' => $request->tel_code_2 . $request->contact_two_of_applicant,
                             'Cust_Email' => $request->email_of_applicant,
                             'Cust_NRIC' => $request->ic_number,
                             'usr_updated' => Auth::user()->id
@@ -654,7 +656,9 @@ class CustomerController extends Controller
         Session::flash('no_of_installment_month', $request->no_of_installment_month);
         Session::flash('name_of_applicant', $request->name_of_applicant);
         Session::flash('ic_number', $request->ic_number);
+        Session::flash('tel_code_options_1', $request->tel_code_1);
         Session::flash('contact_one_of_applicant', $request->contact_one_of_applicant);
+        Session::flash('tel_code_options_2', $request->tel_code_2);
         Session::flash('contact_two_of_applicant', $request->contact_two_of_applicant);
         Session::flash('email_of_applicant', $request->email_of_applicant);
         Session::flash('address_one', $request->address_one);

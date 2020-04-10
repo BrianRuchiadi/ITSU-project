@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/page/auth/register.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -22,8 +23,9 @@
                         <i class="fas fa-phone"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="+60123456789" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
-                </div>
+                    <select class="js-example-basic-single form-control d-inline col-sm-5" id="tel-code-options" name="tel_code" required></select>
+                    <input type="text" class="form-control d-inline" name="telephoneno" placeholder required>
+                    </div>
                 @error('telephoneno')
                     <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
@@ -136,10 +138,18 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/js/vendor/vendor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+
     const queryStrings = this.getAllQueryString(window.location.search);
     const referrerCode = this.getReferrerCode();
 
+    this.getCountryTelCode();
     this.injectReferrerCode();
 
     function backToLogin() {
@@ -184,5 +194,38 @@
     function formReset() {
         document.getElementById('register-form').reset();
     }
+    
+    function getCountryTelCode() {
+            fetch("{{ url('/api/country/tel-code') }}", {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    
+                    let telCodeOptions1 = document.getElementById('tel-code-options');
+                    let option = document.createElement('option');
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Tel Code --'));
+
+                    telCodeOptions1.appendChild(option);
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.dial_code);
+                        option.appendChild(document.createTextNode(`${each.name} (${each.dial_code})`));
+
+                        telCodeOptions1.appendChild(option);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+        
 </script>
 @endsection
