@@ -17,22 +17,42 @@
         </h2>
 
         <form class="form-horizontal">
+          <div class="form-group row">
+            <div class="input-group">
+              <span class="input-group-text col-sm-4">Apply Date</span>
+              <div class="col-sm-8">
+                <label class="form-control">{{ $contractDetails->Apply_Date }}</label>  
+              </div>
+            </div>
+          </div>
+          @if ($contractDetails->CNH_Status == "Approve")
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Product</span>
+                <span class="input-group-text col-sm-4">Approve Date</span>
                 <div class="col-sm-8">
-                  <label class="form-control">{{ ($itemMaster->IM_Description) ?? '' }}</label>  
+                  <label class="form-control">{{ $contractDetails->Approve_Date }}</label>   
+                </div>
+              </div>
+            </div>
+          @endif
+          @if ($contractDetails->CNH_Status == "Reject")
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Reject Date</span>
+                <div class="col-sm-8">
+                  <label class="form-control">{{ $contractDetails->Reject_Date }}</label>   
                 </div>
               </div>
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">No Of Installment Month</span>
+                <span class="input-group-text col-sm-4">Reject Reason</span>
                 <div class="col-sm-8">
-                  <label class="form-control">{{ $contractDetails->CNH_TotInstPeriod }}</label>  
+                  <label class="form-control">{{ $contractDetails->CNH_RejectDesc }}</label>   
                 </div>
               </div>
             </div>
+          @endif
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Name Of Applicant</span>
@@ -53,7 +73,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contact 1 Of Application</span>
                 <div class="col-sm-8">
-                  <label class="form-control">{{ $contractDetails->Cust_Phone1 }}</label>  
+                  <label class="form-control">{{ $contractDetails->telcode1 }}{{ $contractDetails->Cust_Phone1 }}</label>  
                 </div>
               </div>
             </div>
@@ -61,7 +81,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contact 2 Of Application</span>
                 <div class="col-sm-8">
-                  <label class="form-control">{{ $contractDetails->Cust_Phone2 }}</label>  
+                  <label class="form-control">{{ $contractDetails->telcode2 }}{{ $contractDetails->Cust_Phone2 }}</label>  
                 </div>
               </div>
             </div>
@@ -118,6 +138,30 @@
                 <span class="input-group-text col-sm-4">Country</span>
                 <div class="col-sm-8">
                   <label class="form-control">{{ ($country->CO_Description) ?? '' }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Product</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ ($itemMaster->IM_Description) ?? '' }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">No Of Installment Month</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->CNH_TotInstPeriod }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Unit Price</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->CND_UnitPrice }}</label>
                 </div>
               </div>
             </div>
@@ -209,16 +253,6 @@
                   @else
                     <img src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="500">
                   @endif
-                </div>
-              </div>
-            </div>
-            @endif
-            @if ($contractDetails->CNH_Status == "Reject")
-            <div class="form-group row">
-              <div class="input-group">
-                <span class="input-group-text col-sm-4">Reject Remark</span>
-                <div class="col-sm-8">
-                  <label class="form-control">{{ $contractDetails->CNH_RejectDesc }}</label>   
                 </div>
               </div>
             </div>

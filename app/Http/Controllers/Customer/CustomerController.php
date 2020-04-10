@@ -802,6 +802,10 @@ class CustomerController extends Controller
                             ->where('contractmaster.id', '=', $contractId)
                             ->first();
 
+        $contractDetails->Apply_Date = Carbon::parse($contractDetails->CNH_DocDate)->format('d/m/Y H:i:s');
+        $contractDetails->Approve_Date = Carbon::parse($contractDetails->CNH_ApproveDate)->format('d/m/Y H:i:s');
+        $contractDetails->Reject_Date = Carbon::parse($contractDetails->CNH_RejectDate)->format('d/m/Y H:i:s');
+
         $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
                         ->where('IM_TYPE', '=', '1')
                         ->where('IM_NonSaleItem_YN', '=', 0)
