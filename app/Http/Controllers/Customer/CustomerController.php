@@ -701,7 +701,15 @@ class CustomerController extends Controller
         if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
-            $contracts = [];
+            $contracts = DB::table('customermaster')
+                           ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                           ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         } else {
             $contracts = [];
         }
