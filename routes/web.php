@@ -23,6 +23,7 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register')->name('auth.register');
 Route::get('register/verify', 'Auth\RegisterController@showVerifiedRegister')->middleware('signed');
 Route::post('register/verify', 'Auth\RegisterController@verifyRegister')->name('auth.register.verify');
+Route::get('/api/country/tel-code', 'Utilities\CountryController@getCountriesTelCodeOptions');
 
 // Reset Password Routes...
 Route::get('reset-password', 'Auth\ResetPasswordController@showResetPasswordForm');
@@ -59,6 +60,7 @@ Route::group([
         Route::get('/api/items/rental', 'Utilities\ItemController@getRentalMonthOptions');
         Route::get('/api/items/rental/price', 'Utilities\ItemController@getRentalMonthOptionsPrice');
         Route::get('/api/countries', 'Utilities\CountryController@getCountriesOptions');
+        Route::get('/api/country/tel-code', 'Utilities\CountryController@getCountriesTelCodeOptions');
         Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
         Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
         Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');

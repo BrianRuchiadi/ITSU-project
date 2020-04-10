@@ -56,11 +56,12 @@ class RegisterController extends Controller
         // more validation needed to validate the referrer code
 
         $validator = Validator::make($request->all(), [
+            'tel_code' => 'required',
+            'telephoneno' => 'required|min:4',
             'email_address' => 'required|string|email|max:255|unique:users,email',
             'user_id' => 'required|string|max:255|unique:users,userid',
             'password' => 'required|string|min:6|confirmed|same:password_confirmation',
             'name' => 'required|string',
-            'telephoneno' => 'required',
         ]);
 
         if ($validator->fails()){
@@ -74,6 +75,7 @@ class RegisterController extends Controller
                 'password' => Hash::make($request['password']),
                 'name' => $request['name'],
                 'telephoneno' => $request['telephoneno'],
+                'telcode' => $request['tel_code'],
                 'status' => 0,
             ]);
             
@@ -136,6 +138,7 @@ class RegisterController extends Controller
                 'email' => $customerRegister->email,
                 'password' => $customerRegister->password,
                 'name' => $customerRegister->name,
+                'telcode' => $customerRegister->telcode,
                 'telephone' => $customerRegister->telephoneno,
                 'branchind' => 4,
                 'status' => 1,

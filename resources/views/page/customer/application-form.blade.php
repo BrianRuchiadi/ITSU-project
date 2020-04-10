@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/page/customer/application-form.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -18,25 +19,23 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">Product</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required>
-                        </select>
-                    @error('product')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        <select class="js-example-basic-single form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required></select>
+                        @error('product')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">No Of Installment Month</label>
                     <div class="col-sm-8">
-                    <select class="form-control" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required>
-                    </select>   
-                    @error('no_of_installment_month')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        <select class="form-control js-example-basic-single" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required></select>   
+                        @error('no_of_installment_month')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group row">
@@ -110,20 +109,32 @@
                         <strong>(Will be used for SMS Tag) </strong>
                     </label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
-                    @error('contact_one_of_applicant')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-1" name="tel_code_1" required></select>
+                        @error('tel_code_1')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                        @error('contact_one_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Contact 2 Of Applicant</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="+60 15 666 XXXX" id="contact-two-of-applicant" name="contact_two_of_applicant">
-                    @error('contact_two_of_applicant')
+                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-2" name="tel_code_2"></select>
+                        @error('tel_code_2')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-two-of-applicant" name="contact_two_of_applicant">
+                        @error('contact_two_of_applicant')
                         <div class="form-alert alert-danger">
                             <strong>{{ $message }}</strong>
                         </div>
@@ -134,12 +145,12 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">Email Of Applicant</label>
                     <div class="col-sm-8">
-                    <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
-                    @error('email_of_applicant')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
+                        @error('email_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
         
@@ -147,11 +158,11 @@
                     <label class="col-sm-4 col-form-label required">Address 1</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required></textarea>
-                    @error('address_one')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        @error('address_one')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
         
@@ -159,86 +170,86 @@
                     <label class="col-sm-4 col-form-label">Address 2</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" placeholder="Address 2" id="address-two" name="address_two"></textarea>
-                    @error('address_two')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        @error('address_two')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">Postcode</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
-                    @error('postcode')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
+                        @error('postcode')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">Country</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="country-options" onchange="populateStates(this)" name="country" required>
+                        <select class="form-control js-example-basic-single" id="country-options" onchange="populateStates(this)" name="country" required>
                         </select>
-                    @error('country')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
+                        @error('country')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">State</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="state-options" onchange="populateCities(this)" name="state" required>
+                        <select class="form-control js-example-basic-single" id="state-options" onchange="populateCities(this)" name="state" required>
                         </select>
-                    @error('state')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        @error('state')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">City</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="city-options" name="city" required>
+                        <select class="form-control js-example-basic-single" id="city-options" name="city" required>
                         </select>
-                    @error('city')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        @error('city')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Name Of Reference</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
-                    @error('name_of_reference')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
+                        @error('name_of_reference')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Contact of Reference</label>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
-                    @error('contact_of_reference')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
+                        @error('contact_of_reference')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
             </section>
@@ -253,26 +264,24 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Seller 1</label>
                     <div class="col-sm-8">
-                    <select class="form-control" id="seller-one" name="seller_one" required>
-                    </select>
-                    @error('seller_one')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        <select class="form-control js-example-basic-single" id="seller-one" name="seller_one" required></select>
+                        @error('seller_one')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
         
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Seller 2</label>
                     <div class="col-sm-8">
-                    <select class="form-control" id="seller-two" name="seller_two">
-                    </select>
-                    @error('seller_two')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror 
+                        <select class="form-control js-example-basic-single" id="seller-two" name="seller_two"></select>
+                        @error('seller_two')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
                     </div>
                 </div>
             </section>
@@ -441,7 +450,13 @@
                             <strong>(Please Include Country Code) </strong>
                         </label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="6012 333 4444" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-1" name="tel_code_1"></select>
+                        @error('tel_code_1')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
                         @error('contact_one_of_applicant')
                             <div class="form-alert alert-danger">
                                 <strong>{{ $message }}</strong>
@@ -469,8 +484,19 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-        
+<script type="text/javascript" src="/js/vendor/vendor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">     
+        $(document).ready(function() {
+            $(".js-example-basic-single").select2({
+                width: '100%'
+            });
+            $(".select2-contact").select2({
+                height: '100px'
+            });
+        });
+
         @if (!Session::has('displaySMSTag'))
             let form = document.getElementById('form');
             // START : product installment 
@@ -486,7 +512,9 @@
             let contactTwoOfApplicant = document.getElementById('contact-two-of-applicant');
             let emailOfApplicant = document.getElementById('email-of-applicant');
             let addressOne = document.getElementById('address-one');
+            let telCodeOptions1 = document.getElementById('tel-code-options-1');
             let addressTwo = document.getElementById('address-two');
+            let telCodeOptions2 = document.getElementById('tel-code-options-2');
             let postcode = document.getElementById('postcode');
             let countryOptions = document.getElementById('country-options');
             let stateOptions = document.getElementById('state-options');
@@ -518,7 +546,12 @@
             let selfEmployedNotes = document.getElementById('self-employed-notes');
             // END : File and requirements note
             
+            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                var datacustomer = {!! json_encode($customerMaster, JSON_HEX_TAG) !!};
+            }
+            
             let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
+            let applicantTelCode = '{{ Auth::user()->branchind === 4 ? Auth::user()->telcode : ''}}';
             let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
             let applicantEmail = '{{ Auth::user()->branchind === 4 ? Auth::user()->email : ''}}';
 
@@ -526,18 +559,15 @@
             radioIndividualApplicant.checked = true;
 
             this.getCountryOptions();
+            this.getCountryTelCode('not-sms');
             this.getItems();
-            this.fillApplicantName();
-            this.fillApplicantContactOne();
-            this.fillEmailOfApplicant();
+            this.fillApplicantData();
             this.changeApplicantType(radioIndividualApplicant.value);
 
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
                 this.checkUser();
-                sellerOne.disabled = true;
-                sellerTwo.disabled = true;
             }
 
         @endif
@@ -546,6 +576,10 @@
             let networkRequest = {};
             // START : verification information
             let contactOneOfApplicant = document.getElementById('contact-one-of-applicant');
+            let telCodeOptions1 = document.getElementById('tel-code-options-1');
+            
+            this.getCountryTelCode('sms');
+            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';
             contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';
 
             let contactOneSmsVerified = 'invalid'; // 'invalid', 'valid'
@@ -568,20 +602,21 @@
             let applicantType = '{{ session()->get('applicant_type') }}';
 
             this.getCountryOptions();
+            this.getCountryTelCode('not-sms');
             this.getItems();
 
             if (localStorage.getItem('referrerCode')) {
                 this.getUsers();
             } else {
                 this.checkUser();
-                sellerOne.disabled = true;
-                sellerTwo.disabled = true;
             }
 
             monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
             nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
             icNumber.value = '{{ session()->get('ic_number') }}';           
-            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';           
+            telCodeOptions1.value = '{{ session()->get('tel_code_options_1') }}';    
+            contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';         
+            telCodeOptions2.value = '{{ session()->get('tel_code_options_2') }}';      
             contactTwoOfApplicant.value = '{{ session()->get('contact_two_of_applicant') }}';           
             emailOfApplicant.value = '{{ session()->get('email_of_applicant') }}';           
             addressOne.value = '{{ session()->get('address_one') }}';           
@@ -604,7 +639,9 @@
             networkRequest.no_of_installment_month = '{{ Session::get('no_of_installment_month') }}';
             networkRequest.name_of_applicant = '{{ Session::get('name_of_applicant') }}';
             networkRequest.ic_number = '{{ Session::get('ic_number') }}';
+            networkRequest.tel_code_1 = '{{ Session::get('tel_code_options_1') }}';
             networkRequest.contact_one_of_applicant = '{{ Session::get('contact_one_of_applicant') }}';
+            networkRequest.tel_code_2 = '{{ Session::get('tel_code_options_2') }}';
             networkRequest.contact_two_of_applicant = '{{ Session::get('contact_two_of_applicant') }}';
             networkRequest.email_of_applicant = '{{ Session::get('email_of_applicant') }}';
             networkRequest.applicant_type = '{{ Session::get('applicant_type') }}';
@@ -676,16 +713,17 @@
             unitPrice.value = '';
         }
 
-        function fillApplicantName() {
+        function fillApplicantData() {
             nameOfApplicant.value = applicantName;
-        }
-
-        function fillApplicantContactOne() {
             contactOneOfApplicant.value = applicantContactOne;
-        }
-
-        function fillEmailOfApplicant() {
             emailOfApplicant.value = applicantEmail;
+            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                icNumber.value = datacustomer.Cust_NRIC;
+                addressOne.value = datacustomer.Cust_MainAddress1;
+                addressTwo.value = datacustomer.Cust_MainAddress2;
+                postcode.value = datacustomer.Cust_MainPostcode;
+                contactTwoOfApplicant.value = datacustomer.Cust_Phone2;
+            }
         }
 
         function sendSmsTag() {
@@ -698,7 +736,9 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify(
-                    {'contact_one_of_applicant' : contactOneOfApplicant.value }
+                    {
+                        'tel_code_1' : telCodeOptions1.value,
+                        'contact_one_of_applicant' : contactOneOfApplicant.value }
                 )
                 })
                 .then((response) => { return response.json() })
@@ -744,6 +784,7 @@
                 body: JSON.stringify(
                     {
                         'contact_one_of_applicant' : contactOneOfApplicant.value,
+                        'tel_code_1' : telCodeOptions1.value,
                         'contact_one_sms_tag': contactOneSmsTag.value
                     }
                 )
@@ -815,8 +856,11 @@
                     
                     if (res.decoded_referrer_id) {
                         sellerOne.value = res.decoded_referrer_id;
-                        sellerOne.setAttribute("disabled", true);
-                        sellerTwo.setAttribute("disabled", true);
+
+                        if (!res.staff) {
+                            sellerOne.setAttribute("disabled", true);
+                            sellerTwo.setAttribute("disabled", true);
+                        }
 
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
@@ -885,8 +929,6 @@
                     
                     if (res.staff) {
                         sellerOne.value = res.staff;
-                        sellerOne.setAttribute("disabled", true);
-                        sellerTwo.setAttribute("disabled", true);
 
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
@@ -901,6 +943,9 @@
                         //append to form element that you want .
                         form.appendChild(input);
                         form.appendChild(input2);
+                    } else { 
+                        sellerOne.disabled = true;
+                        sellerTwo.disabled = true;
                     }
                 })
                 .catch((error) => {
@@ -1045,6 +1090,10 @@
                         this.populateCities(stateOptions);
                     @endif
 
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        stateOptions.value = datacustomer.Cust_MainState;
+                        this.populateCities(stateOptions);
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1085,6 +1134,9 @@
                         cityOptions.value = '{{ session()->get('city') }}';
                     @endif
 
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        cityOptions.value = datacustomer.Cust_MainCity;
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1124,12 +1176,91 @@
                         countryOptions.value = '{{ session()->get('country') }}';
                         this.populateStates(countryOptions);
                     @endif
+                    
+                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                        countryOptions.value = datacustomer.Cust_MainCountry;
+                        this.populateStates(countryOptions);
+                    }
                 })
                 .catch((error) => {
                     console.log(['err', err]);
                 });
         }
 
+        function getCountryTelCode(type) {
+            fetch("{{ url('/customer/api/country/tel-code') }}", {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    if (type === 'sms') {
+                        this.clearItems(telCodeOptions1);
+                        let option = document.createElement('option');
+                        option.setAttribute('value', '');
+                        option.appendChild(document.createTextNode('-- Select Tel Code --'));
+                        
+                        for (let each of res.data) {
+                            let option = document.createElement('option');
+                            option.setAttribute('value', each.dial_code);
+                            option.appendChild(document.createTextNode(`${each.name} (${each.dial_code})`));
+
+                            telCodeOptions1.appendChild(option);
+                        }
+                        
+                        telCodeOptions1.value = '{{ session()->get('tel_code_options_1') }}';    
+                    } else {
+                        this.clearItems(telCodeOptions1);
+                        this.clearItems(telCodeOptions2);
+                        let option = document.createElement('option');
+                        option.setAttribute('value', '');
+                        option.appendChild(document.createTextNode('-- Select Tel Code --'));
+                        let option2 = document.createElement('option');
+                        option2.setAttribute('value', '');
+                        option2.appendChild(document.createTextNode('-- Select Tel Code --'));
+
+                        telCodeOptions1.appendChild(option);
+                        telCodeOptions2.appendChild(option2);
+
+                        for (let each of res.data) {
+                            let option = document.createElement('option');
+                            option.setAttribute('value', each.dial_code);
+                            option.appendChild(document.createTextNode(`${each.name} (${each.dial_code})`));
+
+                            let option2 = document.createElement('option');
+                            option2.setAttribute('value', each.dial_code);
+                            option2.appendChild(document.createTextNode(`${each.name} (${each.dial_code})`));
+
+                            telCodeOptions1.appendChild(option);
+                            telCodeOptions2.appendChild(option2);
+                        }
+                        // if got error validation
+                        @if (Session::has('errorFormValidation'))
+                            telCodeOptions1.value = '{{ session()->get('tel_code_options_1') }}';
+                            telCodeOptions2.value = '{{ session()->get('tel_code_options_2') }}';
+                            this.populateStates(countryOptions);
+                        @endif  
+                        
+                        @if (!Session::has('displaySMSTag'))
+                            telCodeOptions1.value = applicantTelCode;
+                        @endif
+
+                        if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
+                            telCodeOptions2.value = datacustomer.telcode2;
+                        }
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+        
         function clearItems(item)
         {
             for (i = item.options.length-1; i >= 0; i--) {

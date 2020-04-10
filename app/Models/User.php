@@ -23,6 +23,7 @@ class User extends Authenticatable
         'userid', 
         'password', 
         'name', 
+        'telcode',
         'telephone',
         'remember_token', 
         'branchind', 
