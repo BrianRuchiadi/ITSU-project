@@ -187,9 +187,9 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Commision Month</span>
+                <span class="input-group-text col-sm-4">Commission Month</span>
                 <div class="col-sm-2">
-                <select class="form-control" name="commision_no_of_month">
+                <select class="form-control" name="commission_no_of_month">
                   <option value=""></option>
                   @for ($i = 1; $i <= $contractDetails->CNH_TotInstPeriod; $i++)
                     <option value="{{ $i }}">{{ $i }}</option>
@@ -200,11 +200,11 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
-                <span class="input-group-text col-sm-4">Commision Date</span>
+                <span class="input-group-text col-sm-4">Commission Date</span>
                 <div class="col-sm-8 input-group">
-                  <input type="date" name="commision_date" class="form-control"
+                  <input type="date" name="commission_date" class="form-control"
                   placeholder="{{ $contractDetails->start_date }}" value="{{ $contractDetails->start_date }}">
-                  @error('commision_date')
+                  @error('commission_date')
                     <div class="form-alert alert-danger">
                       <strong>{{ $message }}</strong>
                     </div>

@@ -258,6 +258,8 @@ class ContractController extends Controller
         if ($request->Option == 'Approve') {
             $validator = Validator::make($request->all(), [
                 'start_date' => 'required|after_or_equal:today',
+                'commission_no_of_month' => 'required_with:commission_date|nullable',
+                'commission_date' => 'required_with:commission_no_of_month|nullable',
             ]);
     
             if ($validator->fails()) {
@@ -272,8 +274,8 @@ class ContractController extends Controller
                 'CNH_StartDate' => $request->start_date,
                 'CNH_EndDate' => $request->end_date,
                 'CNH_ApproveDate' => Carbon::now(),
-                'CNH_CommissionMonth' => $request->commision_no_of_month,
-                'CNH_CommissionStartDate' => $request->commision_date,
+                'CNH_CommissionMonth' => $request->commission_no_of_month,
+                'CNH_CommissionStartDate' => $request->commission_date,
                 'CNH_InstallAddress1' => $customerMaster->Cust_MainAddress1,
                 'CNH_InstallAddress2' => $customerMaster->Cust_MainAddress2,
                 'CNH_InstallPostcode' => $customerMaster->Cust_MainPostcode,
