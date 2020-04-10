@@ -73,11 +73,11 @@
               </tr>
               <tr>
                 <td>Contract 1 of Applicant</td>
-                <td>{{ $contractDetails->Cust_Phone1 }}</td>
+                <td>{{ $contractDetails->telcode1 }}{{ $contractDetails->Cust_Phone1 }}</td>
               </tr>
               <tr>
                 <td>Contact 2 of Applicant</td>
-                <td>{{ $contractDetails->Cust_Phone2 }}</td>
+                <td>{{ $contractDetails->telcode2 }}{{ $contractDetails->Cust_Phone2 }}</td>
               </tr>
               <tr>
                 <td>Email of Applicant</td>
