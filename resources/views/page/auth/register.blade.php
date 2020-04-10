@@ -24,7 +24,7 @@
                       </span>
                     </div>
                     <select class="js-example-basic-single form-control d-inline col-sm-5" id="tel-code-options" name="tel_code" required></select>
-                    <input type="text" class="form-control d-inline" name="telephoneno" placeholder required>
+                    <input type="text" class="form-control d-inline" name="telephoneno" placeholder="123456789" required>
                     </div>
                 @error('telephoneno')
                     <div class="alert alert-danger">
