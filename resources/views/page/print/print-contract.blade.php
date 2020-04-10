@@ -24,13 +24,45 @@
             </thead>
             <tbody>
               <tr>
-                <td>Product</td>
-                <td>{{ ($itemMaster->IM_Description) ?? '' }}</td>
+                <td>Apply Date</td>
+                <td>{{ $contractDetails->CNH_DocDate }}</td>
+              </tr>
+              @if ($contractDetails->CNH_Status == 'Approve')
+              <tr>
+                <td>Approve Date</td>
+                <td>{{ $contractDetails->CNH_ApproveDate }}</td>
               </tr>
               <tr>
-                <td>No Of Installment Month</td>
-                <td>{{ $contractDetails->CNH_TotInstPeriod }}</td>
+                <td>Effective Day</td>
+                <td>{{ $contractDetails->CNH_EffectiveDay }}</td>
               </tr>
+              <tr>
+                <td>Start Date</td>
+                <td>{{ $contractDetails->CNH_StartDate }}</td>
+              </tr>
+              <tr>
+                <td>End Date</td>
+                <td>{{ $contractDetails->CNH_EndDate }}</td>
+              </tr>
+              <tr>
+                <td>Commission (No of Months)</td>
+                <td>{{ $contractDetails->CNH_CommissionMonth }}</td>
+              </tr>
+              <tr>
+                <td>Commission Date</td>
+                <td>{{ $contractDetails->CNH_CommissionStartDate }}</td>
+              </tr>
+              @endif
+              @if ($contractDetails->CNH_Status == 'Reject')
+              <tr>
+                <td>Reject Date</td>
+                <td>{{ $contractDetails->CNH_RejectDate }}</td>
+              </tr>
+              <tr>
+                <td>Reject Reason</td>
+                <td>{{ $contractDetails->CNH_RejectDesc }}</td>
+              </tr>
+              @endif
               <tr>
                 <td>Name Of Applicant</td>
                 <td>{{ $contractDetails->Cust_NAME }}</td>
@@ -72,6 +104,14 @@
                 <td>{{ ($country->CO_Description) ?? '' }}</td>
               </tr>
               <tr>
+                <td>Product</td>
+                <td>{{ ($itemMaster->IM_Description) ?? '' }}</td>
+              </tr>
+              <tr>
+                <td>No Of Installment Month</td>
+                <td>{{ $contractDetails->CNH_TotInstPeriod }}</td>
+              </tr>
+              <tr>
                 <td>Name of Reference</td>
                 <td>{{ $contractDetails->CNH_NameRef }}</td>
               </tr>
@@ -83,28 +123,10 @@
                 <td>Seller 1</td>
                 <td>{{ ($agent1->name) ?? '' }}</td>
               </tr>
-              @if ($status != 'Pending') 
               <tr>
-                <td>Effective Day</td>
-                <td>{{ $contractDetails->CNH_EffectiveDay }}</td>
+                <td>Seller 2</td>
+                <td>{{ ($agent2->name) ?? '' }}</td>
               </tr>
-              <tr>
-                <td>Start Date</td>
-                <td>{{ $contractDetails->CNH_StartDate }}</td>
-              </tr>
-              <tr>
-                <td>End Date</td>
-                <td>{{ $contractDetails->CNH_EndDate }}</td>
-              </tr>
-              <tr>
-                <td>Commission (No of Months)</td>
-                <td>{{ $contractDetails->CNH_CommissionMonth }}</td>
-              </tr>
-              <tr>
-                <td>Commission Date</td>
-                <td>{{ $contractDetails->CNH_CommissionStartDate }}</td>
-              </tr>
-              @endif
             </tbody>
           </table>
         </div>

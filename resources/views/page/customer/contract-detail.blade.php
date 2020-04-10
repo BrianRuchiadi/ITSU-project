@@ -143,6 +143,22 @@
             </div>
             <div class="form-group row">
               <div class="input-group">
+                <span class="input-group-text col-sm-4">Name Of Reference</span>
+                <div class="col-sm-8">
+                  <label class="form-control">{{ $contractDetails->CNH_NameRef }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Contact Of Reference</span>
+                <div class="col-sm-8">
+                  <label class="form-control">{{ $contractDetails->CNH_ContactRef }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
                 <span class="input-group-text col-sm-4">Product</span>
                 <div class="col-sm-8 input-group">
                   <label class="form-control">{{ ($itemMaster->IM_Description) ?? '' }}</label>

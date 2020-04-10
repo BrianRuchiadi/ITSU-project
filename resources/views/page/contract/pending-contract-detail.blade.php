@@ -54,7 +54,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contact 1 Of Applicant</span>
                 <div class="col-sm-8 input-group">
-                  <input type="text" class="form-control" name="cust_phone1" value="{{ $contractDetails->Cust_Phone1 }}" readonly>
+                  <input type="text" class="form-control" name="cust_phone1" value="{{ $contractDetails->telcode1 }}{{ $contractDetails->Cust_Phone1 }}" readonly>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Contact 2 Of Applicant</span>
                 <div class="col-sm-8 input-group">
-                  <input type="text" class="form-control" name="cust_phone2" value="{{ $contractDetails->Cust_Phone2 }}" readonly>
+                  <input type="text" class="form-control" name="cust_phone2" value="{{ $contractDetails->telcode2 }}{{ $contractDetails->Cust_Phone2 }}" readonly>
                 </div>
               </div>
             </div>
@@ -89,6 +89,14 @@
                 <span class="input-group-text col-sm-4">Name Of Reference</span>
                 <div class="col-sm-8 input-group">
                   <input type="text" class="form-control" name="cnh_name_ref" value="{{ $contractDetails->CNH_NameRef }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Contact Of Reference</span>
+                <div class="col-sm-8 input-group">
+                  <input type="text" class="form-control" name="contact_ref" value="{{ $contractDetails->CNH_ContactRef }}" readonly>
                 </div>
               </div>
             </div>

@@ -187,6 +187,7 @@ class ContractController extends Controller
                                 'contractmaster.CNH_ApproveDate',
                                 'contractmaster.CNH_CommissionMonth',
                                 'contractmaster.CNH_CommissionStartDate',
+                                'contractmaster.CNH_Status',
                                 'contractmasterdtl.CND_ItemID',
                                 'contractmasterdtl.CND_UnitPrice',
                                 'customermaster.id as customer_id',
@@ -201,6 +202,8 @@ class ContractController extends Controller
                                 'customermaster.Cust_MainCity',
                                 'customermaster.Cust_MainState',
                                 'customermaster.Cust_MainCountry',
+                                'customermaster.telcode1',
+                                'customermaster.telcode2',
                             ])->first();
 
         $contractDetails->start_date = Carbon::today()->toDateString();
@@ -237,9 +240,8 @@ class ContractController extends Controller
 
         $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->first();
 
-        $status = 'Pending';
         if ($request->print == 1) {
-            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'status'));
+            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2'));
         } else {
             return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
         }
