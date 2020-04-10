@@ -451,7 +451,7 @@
                         </label>
                         <div class="col-sm-8">
                         <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-1" name="tel_code_1"></select>
-                        error('tel_code_1')
+                        @error('tel_code_1')
                             <div class="form-alert alert-danger">
                                 <strong>{{ $message }}</strong>
                             </div>
