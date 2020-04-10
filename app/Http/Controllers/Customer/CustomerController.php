@@ -674,35 +674,77 @@ class CustomerController extends Controller
     }
 
     public function showCustomerContractList() {
-        
         if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
-            $contracts = DB::table('customermaster')
-                           ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                           ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
-                            'contractmaster.id',
-                            'contractmaster.CNH_PostingDate',
-                            'contractmaster.CNH_DocNo',
-                            'customermaster.Cust_NAME',
-                            'contractmaster.CNH_Status'
-                        ])->paginate(30);
+            $contracts = [];
         } else {
             $contracts = [];
         }
 
         $user = Auth::user();
-        return view('page.customer.contract-list', compact('contracts', 'user'));
+        return view('page.customer.contract-list', [
+            'contracts' => $contracts,
+            'user' => $user,
+            'error_message' => ''
+        ]);
     }
 
-    public function showSearchResult(Request $request) {    
+    public function showSearchResult(Request $request) {  
+        $validator = Validator::make($request->all(), [
+            'customer' => 'string|nullable|min:4|required_without_all:ic_no,tel_no,contract_no',
+            'ic_no' => 'string|nullable|min:6',
+            'tel_no' => 'string|nullable|min:4',
+            'contract_no' => 'string|nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return view('page.customer.contract-list', [
+                'contracts' => [],
+                'user' => Auth::user(),
+                'error_message' => $validator->errors()->first()
+            ]);
+        }
+
+        $params = $request->all();
+
+        if ($request->contract_no) {
+            // validation and data shaping
+            if (is_numeric($request->contract_no)) {
+                $validator = Validator::make($request->all(), ['contract_no' => 'string|min:2']);
+                $errMessage = "Contract No must have at least 2 value";
+
+                $params['contract_no'] = str_pad($request->contract_no, 8, '0', STR_PAD_LEFT);
+                $params['contract_no_type'] = 'not-strict';
+            } else {
+                $validator = Validator::make($request->all(), ['contract_no' => 'string|min:4']);
+                $errMessage = "Contract No must have at least 4 characters";
+
+                $params['contract_no'] = $params['contract_no'];
+                $params['contract_no_type'] = 'strict';
+            }
+
+            if ($validator->fails()) {
+                return view('page.customer.contract-list', [
+                    'contracts' => [],
+                    'user' => Auth::user(),
+                    'error_message' => $errMessage
+                ]);
+            }
+        }
+
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID');
 
-        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', $request->customer . '%') : $contracts; 
-        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', $request->ic_no . '%') : $contracts; 
-        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', $request->tel_no . '%') : $contracts; 
-        $contracts = (!empty($request->contract_no)) ? $contracts->where('contractmaster.CNH_DocNo', 'like', $request->contract_no . '%') : $contracts; 
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%') : $contracts; 
+
+        if ($request->contract_no) {
+            $contracts = ($params['contract_no_type'] == 'not-strict') ? 
+                $contracts->where('contractmaster.CNH_DocNo', 'like', '%' . $params['contract_no'] . '%') : 
+                $contracts->where('contractmaster.CNH_DocNo', '=', $params['contract_no']); 
+        }
 
         $contracts = $contracts->select([
             'contractmaster.id',
@@ -714,7 +756,11 @@ class CustomerController extends Controller
 
         $user = Auth::user();
 
-        return view('page.customer.contract-list', compact('contracts', 'user'));
+        return view('page.customer.contract-list', [
+            'contracts' => $contracts,
+            'user' => $user,
+            'error_message' => ''
+        ]);
     }
 
     public function showCustomerContractDetail($contractId) {

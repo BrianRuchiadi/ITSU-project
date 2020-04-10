@@ -136,6 +136,10 @@ i.fas.fa-plus{
     margin-left: 15px;
 }
 
+table {
+    width: 100% !important;
+}
+
 @media print {
     @page {
         size: portrait a4;
