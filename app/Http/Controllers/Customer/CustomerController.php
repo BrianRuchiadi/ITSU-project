@@ -40,7 +40,7 @@ class CustomerController extends Controller
         $hashedId = $hashids->encode(Auth::user()->id);
         
         return [
-            'url' => config('app.url') . '/register?ref=' . $hashedId
+            'url' => config('app.url') . '/login?ref=' . $hashedId
         ];
     }
 
@@ -701,7 +701,15 @@ class CustomerController extends Controller
         if (Auth::user()->branchind == 4) {
             $userMap = CustomerUserMap::where('users_id', Auth::user()->id)->get();
             $userMapCustomer = collect($userMap)->pluck('customer_id')->toArray();
-            $contracts = [];
+            $contracts = DB::table('customermaster')
+                           ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                           ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
+                            'contractmaster.id',
+                            'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_DocNo',
+                            'customermaster.Cust_NAME',
+                            'contractmaster.CNH_Status'
+                        ])->paginate(30);
         } else {
             $contracts = [];
         }
@@ -793,6 +801,10 @@ class CustomerController extends Controller
                             ->join('contractmasterdtl', 'contractmaster.id', '=', 'contractmasterdtl.contractmast_id')
                             ->where('contractmaster.id', '=', $contractId)
                             ->first();
+
+        $contractDetails->Apply_Date = Carbon::parse($contractDetails->CNH_DocDate)->format('d/m/Y H:i:s');
+        $contractDetails->Approve_Date = Carbon::parse($contractDetails->CNH_ApproveDate)->format('d/m/Y H:i:s');
+        $contractDetails->Reject_Date = Carbon::parse($contractDetails->CNH_RejectDate)->format('d/m/Y H:i:s');
 
         $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
                         ->where('IM_TYPE', '=', '1')

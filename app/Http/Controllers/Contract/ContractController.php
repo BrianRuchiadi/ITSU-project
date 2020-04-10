@@ -187,6 +187,7 @@ class ContractController extends Controller
                                 'contractmaster.CNH_ApproveDate',
                                 'contractmaster.CNH_CommissionMonth',
                                 'contractmaster.CNH_CommissionStartDate',
+                                'contractmaster.CNH_Status',
                                 'contractmasterdtl.CND_ItemID',
                                 'contractmasterdtl.CND_UnitPrice',
                                 'customermaster.id as customer_id',
@@ -201,6 +202,8 @@ class ContractController extends Controller
                                 'customermaster.Cust_MainCity',
                                 'customermaster.Cust_MainState',
                                 'customermaster.Cust_MainCountry',
+                                'customermaster.telcode1',
+                                'customermaster.telcode2',
                             ])->first();
 
         $contractDetails->start_date = Carbon::today()->toDateString();
@@ -237,9 +240,8 @@ class ContractController extends Controller
 
         $attachment = ContractMasterAttachment::where('contractmast_id', $contractId)->first();
 
-        $status = 'Pending';
         if ($request->print == 1) {
-            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'status'));
+            return view('page.print.print-contract', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2'));
         } else {
             return view('page.contract.pending-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
         }
@@ -258,6 +260,8 @@ class ContractController extends Controller
         if ($request->Option == 'Approve') {
             $validator = Validator::make($request->all(), [
                 'start_date' => 'required|after_or_equal:today',
+                'commission_no_of_month' => 'required_with:commission_date|nullable',
+                'commission_date' => 'required_with:commission_no_of_month|nullable',
             ]);
     
             if ($validator->fails()) {
@@ -272,8 +276,8 @@ class ContractController extends Controller
                 'CNH_StartDate' => $request->start_date,
                 'CNH_EndDate' => $request->end_date,
                 'CNH_ApproveDate' => Carbon::now(),
-                'CNH_CommissionMonth' => $request->commision_no_of_month,
-                'CNH_CommissionStartDate' => $request->commision_date,
+                'CNH_CommissionMonth' => $request->commission_no_of_month,
+                'CNH_CommissionStartDate' => $request->commission_date,
                 'CNH_InstallAddress1' => $customerMaster->Cust_MainAddress1,
                 'CNH_InstallAddress2' => $customerMaster->Cust_MainAddress2,
                 'CNH_InstallPostcode' => $customerMaster->Cust_MainPostcode,
