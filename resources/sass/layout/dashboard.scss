@@ -90,7 +90,7 @@
                 color: transparent;
                 font-size: 0px;
                 text-align: center;
-                transition: width 1.4s, color .9s;
+                transition: width 0.3s, color .9s;
             }
 
             ul.main {
@@ -103,7 +103,7 @@
                 width: 0px;
                 min-height: calc(100vh - 50px);
                 background-color: #333;
-                transition: width 1.4s ,opacity 1.4s, scale 1.4s;
+                transition: width 0.3s ,opacity 0.3s, scale 0.3s;
 
                 li {
                     display: none;
@@ -313,7 +313,7 @@
         font-size: 14px;
         padding: 20px;
         margin-left: 0px;
-        transition: width 1.4s ,margin-left 1.4s;
+        transition: width 0.3s ,margin-left 0.3s;
         overflow-y: scroll;
 
         &.compressed {
