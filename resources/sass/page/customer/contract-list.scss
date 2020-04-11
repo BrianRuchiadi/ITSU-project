@@ -110,7 +110,7 @@ table.table-striped {
         top: 15px;
     }
 
-    .contract-toggler, .invoice-toggler {
+    .contract-toggler, .invoice-toggler, .delivery-toggler {
         position: absolute;
         top: 0px;
         width: 100%;
@@ -122,12 +122,14 @@ table.table-striped {
     }
 
     .contract-toggler:checked ~ div,
-    .invoice-toggler:checked ~ div {
+    .invoice-toggler:checked ~ div,
+    .delivery-toggler:checked ~ div {
         display: none;
     }
 
     .contract-toggler:not(:checked) ~ div,
-    .invoice-toggler:not(:checked) ~ div {
+    .invoice-toggler:not(:checked) ~ div,
+    .delivery-toggler:not(:checked) ~ div {
         display: block;
     }
 }

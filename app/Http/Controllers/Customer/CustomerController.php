@@ -22,6 +22,7 @@ use App\Models\CustomerMaster;
 use App\Models\CustomerUserMap;
 use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
+use App\Models\ContractDeliveryOrder;
 use App\Models\ContractInvoice;
 use App\Models\ContractInvoiceDtl;
 use App\Models\SystemParamDetail;
@@ -718,9 +719,12 @@ class CustomerController extends Controller
             $invoices = (count($contractsIds)) ?
                 ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
                 [];
+            // delivery orders no need to display for customer
+            $deliveryOrders = [];
         } else {
             $contracts = [];
             $invoices = [];
+            $deliveryOrders = [];
         }
 
         $user = Auth::user();
@@ -728,7 +732,8 @@ class CustomerController extends Controller
             'invoices' => $invoices,
             'contracts' => $contracts,
             'user' => $user,
-            'error_message' => ''
+            'error_message' => '',
+            'delivery_orders' => $deliveryOrders
         ]);
     }
 
@@ -744,6 +749,7 @@ class CustomerController extends Controller
             return view('page.customer.contract-list', [
                 'invoices' => [],
                 'contracts' => [],
+                'delivery_orders' => [],
                 'user' => Auth::user(),
                 'error_message' => $validator->errors()->first()
             ]);
@@ -772,6 +778,7 @@ class CustomerController extends Controller
                 return view('page.customer.contract-list', [
                     'invoices' => [],
                     'contracts' => [],
+                    'delivery_orders' => [],
                     'user' => Auth::user(),
                     'error_message' => $errMessage
                 ]);
@@ -805,11 +812,16 @@ class CustomerController extends Controller
         $invoices = (count($contractsIds)) ?
             ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
             [];
+        $deliveryOrders = (count($contractsIds)) ? 
+            ContractDeliveryOrder::whereIn('contractmast_id',$contractsIds)->get() :
+            [];
+
         $user = Auth::user();
 
         return view('page.customer.contract-list', [
             'contracts' => $contracts,
             'user' => $user,
+            'delivery_orders' => $deliveryOrders,
             'error_message' => '',
             'invoices' => $invoices
         ]);

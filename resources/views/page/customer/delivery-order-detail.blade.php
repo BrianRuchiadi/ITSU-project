@@ -1,13 +1,13 @@
 @extends('layout.dashboard')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/page/contract/delivery-order.css">
+<link rel="stylesheet" type="text/css" href="/css/page/customer/delivery-order.css">
 @endsection
 
 @section('content')
-<a class="btn btn-secondary" href="{{url('/contract/delivery-order')}}">
+<a class="btn btn-secondary" href="{{url('/customer/contract')}}">
     <i class="fas fa-chevron-left"></i>
-    Back To Delivery Order List
+    Back To Contract List
 </a>
 <div class="py-2">
     <button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-delivery')">

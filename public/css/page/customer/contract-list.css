@@ -113,7 +113,8 @@ table.table-striped {
 }
 
 .table-wrapper .contract-toggler,
-.table-wrapper .invoice-toggler {
+.table-wrapper .invoice-toggler,
+.table-wrapper .delivery-toggler {
   position: absolute;
   top: 0px;
   width: 100%;
@@ -123,17 +124,20 @@ table.table-striped {
 }
 
 .table-wrapper .contract-toggler:hover,
-.table-wrapper .invoice-toggler:hover {
+.table-wrapper .invoice-toggler:hover,
+.table-wrapper .delivery-toggler:hover {
   cursor: pointer;
 }
 
 .table-wrapper .contract-toggler:checked ~ div,
-.table-wrapper .invoice-toggler:checked ~ div {
+.table-wrapper .invoice-toggler:checked ~ div,
+.table-wrapper .delivery-toggler:checked ~ div {
   display: none;
 }
 
 .table-wrapper .contract-toggler:not(:checked) ~ div,
-.table-wrapper .invoice-toggler:not(:checked) ~ div {
+.table-wrapper .invoice-toggler:not(:checked) ~ div,
+.table-wrapper .delivery-toggler:not(:checked) ~ div {
   display: block;
 }
 
