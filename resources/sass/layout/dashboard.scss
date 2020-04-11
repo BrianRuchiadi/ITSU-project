@@ -61,7 +61,7 @@
                     margin: 0 auto;
                     background-color: #333;
                     border-radius: 25%;
-                    transition: box-shadow 0.8s;
+                    // transition: box-shadow 0.8s;
             
                     &::before, &::after {
                         content: '';
@@ -72,7 +72,7 @@
                         width: 30px;
                         height: 4px;
                         top: 10px;
-                        transition: box-shadow 0.8s;
+                        // transition: box-shadow 0.8s;
                     }
             
                     &::before {
@@ -90,7 +90,7 @@
                 color: transparent;
                 font-size: 0px;
                 text-align: center;
-                transition: width 0.3s, color .9s;
+                // transition: width 0.3s, color .9s;
             }
 
             ul.main {
@@ -103,14 +103,14 @@
                 width: 0px;
                 min-height: calc(100vh - 50px);
                 background-color: #333;
-                transition: width 0.3s ,opacity 0.3s, scale 0.3s;
+                // transition: width 0.3s ,opacity 0.3s, scale 0.3s;
 
                 li {
                     display: none;
                     position: relative;
                     color: white;
                     height: 30px;
-                    transition: all 1.2s ease-in-out;
+                    // transition: all 1.2s ease-in-out;
 
                     &.customer-master, &.contract-master {
                         height: auto;
@@ -139,7 +139,7 @@
                     padding-inline-start: 0px;
                     width: 100%;
                     max-height: 0px;
-                    transition: max-height 0.9s, opacity 0.7s;
+                    // transition: max-height 0.9s, opacity 0.7s;
                     li { 
                         display: block;
                         background-color: #333; 
@@ -205,7 +205,7 @@
                 opacity: 0;
                 max-height: 0;
                 display: block;
-                transition: opacity 1s, max-height 1s;
+                // transition: opacity 1s, max-height 1s;
                 color: white;
                 z-index: 100000;
                 pointer-events: none;
@@ -313,7 +313,7 @@
         font-size: 14px;
         padding: 20px;
         margin-left: 0px;
-        transition: width 0.3s ,margin-left 0.3s;
+        // transition: width 0.3s ,margin-left 0.3s;
         overflow-y: scroll;
 
         &.compressed {
