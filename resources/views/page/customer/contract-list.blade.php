@@ -104,6 +104,7 @@
               <th>Invoice No</th>
               <th>Invoice Date</th>
               <th>Billing Period</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -171,6 +172,9 @@
 
             let colRow_BillingPeriod = newRow.insertCell(3);
             colRow_BillingPeriod.innerHTML = relevantInvoices[i].CSIH_BillingPeriod + ' / ' + selectedContract.CNH_TotInstPeriod; 
+
+            let colRow_ActionButton = newRow.insertCell(4);
+            colRow_ActionButton.innerHTML = '<a href="/customer/invoice/' +  relevantInvoices[i].id +  '" class="btn btn-primary btn-sm">View Detail</a>';
           }
 
           datatableInvoiceList = $('#table-invoice-list').DataTable({

@@ -708,11 +708,16 @@ class CustomerController extends Controller
                            ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
                             'contractmaster.id',
                             'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_TotInstPeriod',
                             'contractmaster.CNH_DocNo',
                             'customermaster.Cust_NAME',
                             'contractmaster.CNH_Status'
                         ])->paginate(30);
-            $invoices = []; // add invoices logic
+            $contractsIds = collect($contracts->items())->pluck('id')->toArray();
+
+            $invoices = (count($contractsIds)) ?
+                ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+                [];
         } else {
             $contracts = [];
             $invoices = [];

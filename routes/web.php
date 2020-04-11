@@ -53,6 +53,7 @@ Route::group([
         Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
         Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('customer.contract.detail');
 
+        Route::get('invoice/{invoice}', 'Customer\InvoiceController@getInvoice');
         // API
         Route::get('/api/users', 'Utilities\UserController@getUsers');
         Route::get('/api/check/user', 'Utilities\UserController@checkUser');

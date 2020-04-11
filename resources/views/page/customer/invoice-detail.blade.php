@@ -1,7 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/page/contract/invoice.css">
+<link rel="stylesheet" type="text/css" href="/css/page/customer/invoice.css">
 @endsection
 
 @section('content')
