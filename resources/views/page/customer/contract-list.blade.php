@@ -228,7 +228,7 @@
           insertNotFoundRowInvoice();
         }
 
-        if (relevantDeliveryOrders.length) {
+        if (relevantDeliveryOrders.length && selectedContract.CNH_Status == 'Approve') {
           message += "Delivery orders found! Please scroll down to view! <br/>"
           elTableWrapperDelivery.classList.remove('hide');
 
