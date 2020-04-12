@@ -226,9 +226,9 @@
                 <span class="input-group-text col-sm-4">IC No</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->icno_mime == "application/pdf")
-                    <object data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="500">
+                    <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="100%">
                   @endif
                 </div>
               </div>
@@ -238,9 +238,9 @@
                 <span class="input-group-text col-sm-4">Income</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->income_mime == "application/pdf")
-                    <object data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="500">
+                    <img src="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="100%">
                   @endif
                 </div>
               </div>
@@ -250,9 +250,9 @@
                 <span class="input-group-text col-sm-4">Bank Statement</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->bankstatement_mime == "application/pdf")
-                    <object data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="500">
+                    <img src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%">
                   @endif
                 </div>
               </div>
@@ -264,9 +264,9 @@
                 <span class="input-group-text col-sm-4">Company Form</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->comp_form_mime == "application/pdf")
-                    <object data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="500">
+                    <img src="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="100%">
                   @endif
                 </div>
               </div>
@@ -276,9 +276,9 @@
                 <span class="input-group-text col-sm-4">Company IC No</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->comp_icno_mime == "application/pdf")
-                    <object data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="500">
+                    <img src="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="100%">
                   @endif
                 </div>
               </div>
@@ -288,9 +288,9 @@
                 <span class="input-group-text col-sm-4">Company Bank Statement</span>
                 <div class="col-sm-8 input-group">
                   @if($attachment->comp_bankstatement_mime == "application/pdf")
-                    <object data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="500" height="500"></object>
+                    <object data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="100%" height="500"></object>
                   @else
-                    <img src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="500">
+                    <img src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="100%">
                   @endif
                 </div>
               </div>

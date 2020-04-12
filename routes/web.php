@@ -52,6 +52,7 @@ Route::group([
         Route::get('apply', 'PageController@showApplicationForm');
         Route::get('contract', 'Customer\CustomerController@showCustomerContractList');
         Route::get('contract/detail/{contract_id}', 'Customer\CustomerController@showCustomerContractDetail')->name('customer.contract.detail');
+        Route::get('contract/resubmit/{contract_id}', 'Customer\CustomerController@showResubmitForm')->name('customer.contract.resubmit');
 
         // API
         Route::get('/api/users', 'Utilities\UserController@getUsers');
@@ -64,6 +65,7 @@ Route::group([
         Route::get('/api/country/states', 'Utilities\CountryController@getStatesOptions');
         Route::get('/api/state/cities', 'Utilities\CountryController@getCitiesOptions');
         Route::post('/api/apply', 'Customer\CustomerController@submitContractForm');
+        Route::post('/api/resubmit/{contract_id}', 'Customer\CustomerController@resubmitContractForm');
         
         // SMS APIs
         Route::post('/api/sms/send','Utilities\ConfirmationController@sendSms');

@@ -7,19 +7,203 @@
 
 @section('content')
     <h2 class="center">Application Form</h2>
-    <form method="POST" action="{{ url('/customer/api/apply') }}" enctype="multipart/form-data" id="form">
+    <form method="POST" action="{{ url('/customer/api/resubmit', $contractDetails->id) }}" enctype="multipart/form-data" id="form">
         {{ csrf_field() }}
-
         @if (!Session::has('displaySMSTag'))
+            <h3 class="section-header" onclick="toggleRequirements('reject-information')">
+                1. Reject Information
+                <i class="fas fa-caret-down right"></i>
+            </h3>
+            <section class="group reject-information">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Reject Reason</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Reject Reason" id="reject-reason" name="reject_reason" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Reject Date</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Reject Date" id="reject-date" name="reject_date" readonly>
+                    </div>
+                </div>
+            </section>
+            
+            <h3 class="section-header" onclick="toggleRequirements('personal-information')">
+                2. Personal Information
+                <i class="fas fa-caret-down right"></i>
+            </h3>
+            <section class="group personal-information">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Name Of Applicant</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
+                        @error('name_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">IC Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="IC Number" id="ic-number" name="ic_number" required>
+                        @error('ic_number')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Contact 1 Of Applicant<br/>
+                        <strong>(Will be used for SMS Tag) </strong>
+                    </label>
+                    <div class="col-sm-8">
+                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-1" name="tel_code_1" required></select>
+                        @error('tel_code_1')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
+                        @error('contact_one_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Contact 2 Of Applicant</label>
+                    <div class="col-sm-8">
+                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-2" name="tel_code_2"></select>
+                        @error('tel_code_2')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-two-of-applicant" name="contact_two_of_applicant">
+                        @error('contact_two_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Email Of Applicant</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
+                        @error('email_of_applicant')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Address 1</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required></textarea>
+                        @error('address_one')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Address 2</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" placeholder="Address 2" id="address-two" name="address_two"></textarea>
+                        @error('address_two')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Postcode</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
+                        @error('postcode')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">Country</label>
+                    <div class="col-sm-8">
+                        <select class="form-control js-example-basic-single" id="country-options" onchange="populateStates(this, 'change')" name="country" required>
+                        </select>
+                        @error('country')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">State</label>
+                    <div class="col-sm-8">
+                        <select class="form-control js-example-basic-single" id="state-options" onchange="populateCities(this, 'change')" name="state" required>
+                        </select>
+                        @error('state')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label required">City</label>
+                    <div class="col-sm-8">
+                        <select class="form-control js-example-basic-single" id="city-options" name="city" required>
+                        </select>
+                        @error('city')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Name Of Reference</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
+                        @error('name_of_reference')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Contact of Reference</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
+                        @error('contact_of_reference')
+                            <div class="form-alert alert-danger">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror 
+                    </div>
+                </div>
+            </section>
             <h3 class="section-header" onclick="toggleRequirements('product-installment')">
-                1. Product Installment
+                3. Product Installment
                 <i class="fas fa-caret-down right"></i>
             </h3>
             <section class="group product-installment">
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">Product</label>
                     <div class="col-sm-8">
-                        <select class="js-example-basic-single form-control" id="item-options" name="product" onchange="populateMonthOptions(this)" required></select>
+                        <select class="js-example-basic-single form-control" id="item-options" name="product" onchange="populateMonthOptions(this, 'change')" required></select>
                         @error('product')
                             <div class="form-alert alert-danger">
                                 <strong>{{ $message }}</strong>
@@ -30,7 +214,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label required">No Of Installment Month</label>
                     <div class="col-sm-8">
-                        <select class="form-control js-example-basic-single" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this)" required></select>   
+                        <select class="form-control js-example-basic-single" id="month-options" name="no_of_installment_month" onchange="populateUnitPrice(product, this, 'change')" required></select>   
                         @error('no_of_installment_month')
                             <div class="form-alert alert-danger">
                                 <strong>{{ $message }}</strong>
@@ -41,7 +225,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Unit Price</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="unit-price" name="unit_price" readonly>
+                        <input type="text" class="form-control" id="unit-price" name="unit_price" readonly required>
                     </div>
                 </div>
                 <div class="form-group row" style="margin-bottom: 0px;">
@@ -73,191 +257,10 @@
                     </div>
                 </div>
             </section>
-            
-            <h3 class="section-header" onclick="toggleRequirements('personal-information')">
-                2. Personal Information
-                <i class="fas fa-caret-down right"></i>
-            </h3>
-            <section class="group personal-information">
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Name Of Applicant</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Name Of Applicant" id="name-of-applicant" name="name_of_applicant" required>
-                        @error('name_of_applicant')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                   
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">IC Number</label>
-                    <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="IC Number" id="ic-number" name="ic_number" required>
-                    @error('ic_number')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Contact 1 Of Applicant<br/>
-                        <strong>(Will be used for SMS Tag) </strong>
-                    </label>
-                    <div class="col-sm-8">
-                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-1" name="tel_code_1" required></select>
-                        @error('tel_code_1')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-one-of-applicant" name="contact_one_of_applicant" required>
-                        @error('contact_one_of_applicant')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Contact 2 Of Applicant</label>
-                    <div class="col-sm-8">
-                        <select class="form-control col-sm-3 d-inline select2-contact" id="tel-code-options-2" name="tel_code_2"></select>
-                        @error('tel_code_2')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                        <input type="text" class="form-control col-sm-8 d-inline" placeholder="123456789" id="contact-two-of-applicant" name="contact_two_of_applicant">
-                        @error('contact_two_of_applicant')
-                        <div class="form-alert alert-danger">
-                            <strong>{{ $message }}</strong>
-                        </div>
-                    @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Email Of Applicant</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" placeholder="jane.doe@gmail.com" id="email-of-applicant" name="email_of_applicant" required>
-                        @error('email_of_applicant')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Address 1</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" placeholder="Address 1" id="address-one" name="address_one" required></textarea>
-                        @error('address_one')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Address 2</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" placeholder="Address 2" id="address-two" name="address_two"></textarea>
-                        @error('address_two')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-                
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Postcode</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Postcode" id="postcode" name="postcode" required>
-                        @error('postcode')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">Country</label>
-                    <div class="col-sm-8">
-                        <select class="form-control js-example-basic-single" id="country-options" onchange="populateStates(this, 'change')" name="country" required>
-                        </select>
-                        @error('country')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">State</label>
-                    <div class="col-sm-8">
-                        <select class="form-control js-example-basic-single" id="state-options" onchange="populateCities(this, 'change')" name="state" required>
-                        </select>
-                        @error('state')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label required">City</label>
-                    <div class="col-sm-8">
-                        <select class="form-control js-example-basic-single" id="city-options" name="city" required>
-                        </select>
-                        @error('city')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Name Of Reference</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Name Of Reference" id="name-of-reference" name="name_of_reference">
-                        @error('name_of_reference')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                </div>
-        
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Contact of Reference</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Contact Of Reference" id="contact-of-reference" name="contact_of_reference">
-                        @error('contact_of_reference')
-                            <div class="form-alert alert-danger">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                </div>
-            </section>
 
             <input type="hidden" name="file_inclusion" value="include">
-
             <h3 class="section-header" onclick="toggleRequirements('referral-information')">
-                3. Referral Information
+                4. Referral Information
                 <i class="fas fa-caret-down right"></i>
             </h3>
             <section class="group referral-information">
@@ -301,7 +304,6 @@
                         </div>
                         @enderror 
                     </div>
-                    
                 </div>
 
                 <div class="form-group row employed-requirement">
@@ -378,7 +380,73 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="previous_applicant_type" value="{{ $attachment->type }}">
+            @if ($attachment->icno_file != null)
+            <h3 class="important-note" onclick="toggleRequirements('previous-individual-applicant')">
+                    Previous Individual Applicant Uploaded File
+                    <i class="fas fa-caret-down"></i>
+                </h3>
+            <div class="form-group row previous-individual-applicant" id="previous-individual-applicant">
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">One Photocopy Of I/C</span>
+                  @if($attachment->icno_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="300" height="300"></object>
+                  @else
+                    <img class="m-auto" src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="100%">
+                  @endif
+              </div>
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">Photocopy Of 3 Months Proof Of Income</span>
+                  @if($attachment->income_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="300" height="300"></object>
+                  @else
+                    <img class="m-auto" src="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="100%">
+                  @endif
+              </div>
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">Updated Bank Statement Or Savings Passbook</span>
+                  @if($attachment->bankstatement_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="300" height="300"></object>
+                  @else
+                    <img class="m-auto" src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%">
+                  @endif
+              </div>
+            </div>
+            @endif
 
+            @if ($attachment->comp_form_file != null) 
+            <h3 class="important-note" onclick="toggleRequirements('previous-self-employed')">
+                Previous Self Employed Uploaded File
+                <i class="fas fa-caret-down"></i>
+            </h3>
+            <div class="form-group row  previous-self-employed" id="previous-self-employed">
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">Form J and Business Registration Form<br/>
+                 (Borang A and D)</span>
+                  @if($attachment->comp_form_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="300" height="300"></object>
+                  @else
+                    <img class="m-auto" src="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="100%">
+                  @endif
+              </div>
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">Photocopied I/C Of Proprietor / Partners / Directors</span>
+                  @if($attachment->comp_icno_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="300" height="300"></object>
+                  @else
+                    <img class="m-auto" src="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="100%">
+                  @endif
+              </div>
+              <div class="input-group col-sm-4" style="text-align:center">
+                <span class="col-sm-12 m-2">Updated 3 Month Bank Statement</span>
+                @if($attachment->comp_bankstatement_mime == "application/pdf")
+                    <object class="m-auto" data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="300" height="300"></object>
+                @else
+                    <img class="m-auto" src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="100%">
+                @endif
+              </div>
+            </div>
+            @endif
             <div class="notes">
                 <div id="individual-applicant-notes">
                     <h3 class="important-note" onclick="toggleRequirements('employed')">
@@ -434,7 +502,7 @@
                     <button type="submit" class="btn btn-block btn-primary" onclick="unhideRequirement()">Submit</button>
                 </div>
             </div>        
-            @endif
+        @endif
             @if (Session::has('displaySMSTag'))
                 <h3 class="section-header" onclick="toggleRequirements('verification-information')">
                     Verification Information
@@ -477,7 +545,7 @@
                 </section>
 
                 <div class="form-group row last">
-                    <button type="button" id="sms-tag-submit-button" class="btn btn-primary btn-block" onclick="submitFinalForm()" disabled>Submit</button>
+                    <button type="button" id="sms-tag-submit-button" class="btn btn-primary btn-block" onclick="reSubmitFinalForm({{ $contractDetails->id }})" disabled>Submit</button>
                 </div>
             @endif
     </form>
@@ -496,15 +564,14 @@
                 height: '100px'
             });
         });
-
         // PAGE LOAD
 
             let form = document.getElementById('form');
-            // START : product installment 
-            let itemOptions = document.getElementById('item-options');
-            let monthOptions = document.getElementById('month-options');
-            let unitPrice = document.getElementById('unit-price');
-            // END : product installment
+
+            // START : reject information
+            let rejectReason = document.getElementById('reject-reason');
+            let rejectDate = document.getElementById('reject-date');
+            // END : reject information
 
             // START : personal information
             let nameOfApplicant = document.getElementById('name-of-applicant');
@@ -526,14 +593,22 @@
             let radioIndividualApplicant = document.getElementById('radio-individual-applicant');
             // END : personal information
 
+            // START : product installment 
+            let itemOptions = document.getElementById('item-options');
+            let monthOptions = document.getElementById('month-options');
+            let unitPrice = document.getElementById('unit-price');
+            // END : product installment
+
             // START : referral information
             let sellerOne = document.getElementById('seller-one');
             let sellerTwo = document.getElementById('seller-two');
             // END : referral information
 
-            // START : File and requirements note
+            // START : File and requirements note\
             let individualApplicantRequirement = document.getElementById('individual-applicant-requirement');
             let selfEmployedRequirement = document.getElementById('self-employed-requirement');
+            let previousIndividualApplicant = document.getElementById('previous-individual-applicant');
+            let previousSelfEmployed = document.getElementById('previous-self-employed');
 
             let individualApplicantIC = document.getElementById('file-individual-icno');
             let individualApplicantIncome = document.getElementById('file-individual-income');
@@ -545,41 +620,27 @@
 
             let individualApplicantNotes = document.getElementById('individual-applicant-notes');
             let selfEmployedNotes = document.getElementById('self-employed-notes');
+
+            var contractDetails = {!! json_encode($contractDetails, JSON_HEX_TAG) !!};
+            var attachment = {!! json_encode($attachment, JSON_HEX_TAG) !!};
             // END : File and requirements note
-        
+
         // PAGE LOADED
 
         @if (!Session::has('displaySMSTag') && !Session::has('errorFormValidation'))
             
-            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
-                var datacustomer = {!! json_encode($customerMaster, JSON_HEX_TAG) !!};
-            }
-            
-            let applicantName = '{{ Auth::user()->branchind === 4 ? Auth::user()->name : '' }}';
-            let applicantTelCode = '{{ Auth::user()->branchind === 4 ? Auth::user()->telcode : ''}}';
-            let applicantContactOne = '{{ Auth::user()->branchind === 4 ? Auth::user()->telephone : '' }}';
-            let applicantEmail = '{{ Auth::user()->branchind === 4 ? Auth::user()->email : ''}}';
-
-            // default
-            radioIndividualApplicant.checked = true;
-
             this.getCountryOptions('once');
             this.getCountryTelCode('not-sms');
-            this.getItems();
-            this.fillApplicantData();
-            this.changeApplicantType(radioIndividualApplicant.value);
+            this.getItems('once');
 
-            if (localStorage.getItem('referrerCode')) {
-                this.getUsers();
-            } else {
-                this.checkUser();
-            }
+            this.fillResubmitContract(contractDetails, attachment);
+            this.changeApplicantType(attachment.type);
+            this.checkUser('once');
 
         @endif
 
         @if (Session::has('displaySMSTag'))
             let networkRequest = {};
-            // START : verification information
             
             this.getCountryTelCode('sms');
             contactOneOfApplicant.value = '{{ session()->get('contact_one_of_applicant') }}';
@@ -604,15 +665,10 @@
         @if (Session::has('errorFormValidation'))
             let applicantType = '{{ session()->get('applicant_type') }}';
 
-            this.getCountryOptions('once-error');
+            this.getCountryOptions('error');
             this.getCountryTelCode('not-sms-error');
-            this.getItems();
-
-            if (localStorage.getItem('referrerCode')) {
-                this.getUsers();
-            } else {
-                this.checkUser();
-            }
+            this.getItems('error');
+            this.checkUser('error');
 
             monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
             nameOfApplicant.value = '{{ session()->get('name_of_applicant') }}';      
@@ -661,13 +717,22 @@
             networkRequest.tandcitsu = '{{ Session::get('tandcitsu') }}';
             networkRequest.tandcctos = '{{ Session::get('tandcctos') }}';
             networkRequest.file_inclusion = 'exclude';
+            networkRequest.unit_price = '{{ Session::get('unit_price') }}';
+            networkRequest.previous_applicant_type = '{{ Session::get('previous_applicant_type') }}';
+            networkRequest.file_individual_icno = '{{ Session::get('file_individual_icno') }}';
+            networkRequest.file_individual_income = '{{ Session::get('file_individual_income') }}';
+            networkRequest.file_individual_bankstatement = '{{ Session::get('file_individual_bankstatement') }}';
+            networkRequest.file_company_form = '{{ Session::get('file_company_form') }}';
+            networkRequest.file_company_icno = '{{ Session::get('file_company_icno') }}';
+            networkRequest.file_company_bankstatement = '{{ Session::get('file_company_bankstatement') }}';
+
             console.log(networkRequest);
         }
 
-        function submitFinalForm() {
+        function reSubmitFinalForm(id) {
             smsTagSubmitButton.classList.add('disabled');
             smsTagSubmitButton.disabled = true;
-            fetch('{{ url('') }}' + `/customer/api/apply`, {
+            fetch('{{ url('') }}' + `/customer/api/resubmit/` + id, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -707,6 +772,28 @@
             }
         }
 
+        function fillResubmitContract(data, attachment) {
+            
+            rejectReason.value = data.CNH_RejectDesc;
+            rejectDate.value = data.CNH_RejectDate;
+            nameOfApplicant.value = data.Cust_NAME;
+            icNumber.value = data.Cust_NRIC;
+            contactOneOfApplicant.value = data.Cust_Phone1;
+            contactTwoOfApplicant.value = data.Cust_Phone2;
+            emailOfApplicant.value = data.Cust_Email;
+            addressOne.value = data.CNH_Address1;
+            addressTwo.value = data.CNH_Address2;
+            postcode.value = data.CNH_Postcode;
+            nameOfReference.value = data.CNH_NameRef;
+            contactOfReference.value = data.CNH_ContactRef;
+
+            if (attachment.type === 'individual_applicant') {
+                radioIndividualApplicant.checked = true;
+            } else if (attachment.type === 'self_employed') {
+                radioSelfEmployed.checked = true;
+            }
+        }
+        
         function removeOptions(option) {
             while (option.hasChildNodes()) {
                 option.removeChild(option.firstChild);
@@ -714,20 +801,7 @@
         }
 
         function removeUnitPrice() {
-            unitPrice.value = '';
-        }
-
-        function fillApplicantData() {
-            nameOfApplicant.value = applicantName;
-            contactOneOfApplicant.value = applicantContactOne;
-            emailOfApplicant.value = applicantEmail;
-            if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null) {
-                icNumber.value = datacustomer.Cust_NRIC;
-                addressOne.value = datacustomer.Cust_MainAddress1;
-                addressTwo.value = datacustomer.Cust_MainAddress2;
-                postcode.value = datacustomer.Cust_MainPostcode;
-                contactTwoOfApplicant.value = datacustomer.Cust_Phone2;
-            }
+            unitPrice.value = null;
         }
 
         function sendSmsTag() {
@@ -813,80 +887,7 @@
                 });
         }
 
-        function getUsers() {
-            fetch('{{ url('') }}' + `/customer/api/users?ref=` + localStorage.getItem('referrerCode'), {
-                method: 'GET', // or 'PUT'
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-                })
-                .then((response) => {
-                    return response.json();
-                })
-                .then((res) => {
-                    this.clearItems(sellerOne);
-                    this.clearItems(sellerTwo);
-                    let optionOne = document.createElement('option');
-                    optionOne.setAttribute('value', "");
-                    optionOne.appendChild(document.createTextNode(''));
-
-                    sellerOne.appendChild(optionOne);
-
-                    let optionTwo = document.createElement('option');
-                    optionTwo.setAttribute('value', "");
-                    optionTwo.appendChild(document.createTextNode(''));
-
-                    sellerTwo.appendChild(optionTwo);
-
-                    for (let each of res.data) {
-                        let optionOne = document.createElement('option');
-                        optionOne.setAttribute('value', each.id);
-                        optionOne.appendChild(document.createTextNode(each.name));
-
-                        sellerOne.appendChild(optionOne);
-
-                        let optionTwo = document.createElement('option');
-                        optionTwo.setAttribute('value', each.id);
-                        optionTwo.appendChild(document.createTextNode(each.name));
-
-                        sellerTwo.appendChild(optionTwo);
-                    }
-                    
-                    if (res.decoded_referrer_id) {
-                        sellerOne.value = res.decoded_referrer_id;
-
-                        if (!res.staff) {
-                            sellerOne.disabled = true;
-                            sellerTwo.disabled = true;
-                        }
-
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", res.decoded_referrer_id);
-                        
-                        let input2 = document.createElement("input");
-                        input2.setAttribute("type", "hidden");
-                        input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", "");
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
-                        form.appendChild(input2);
-                    }
-
-                    @if (Session::has('errorFormValidation'))
-                        sellerOne.value = '{{ session()->get('seller_one') }}';
-                        sellerTwo.value = '{{ session()->get('seller_two') }}';
-                    @endif
-                })
-                .catch((error) => {
-                    console.log(['err', error]);
-                });
-        }
-
-        function checkUser() {
+        function checkUser(type) {
             fetch('{{ url('') }}' + `/customer/api/check/user`, {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -926,25 +927,28 @@
                         sellerTwo.appendChild(optionTwo);
                     }
                     
-                    if (res.staff) {
-                        sellerOne.value = res.staff;
+                    if (!res.staff) {
+                        sellerOne.disabled = true;
+                        sellerTwo.disabled = true;
+                    }
+
+                    if (type == 'once') {
+                        sellerOne.value = contractDetails.CNH_SalesAgent1;
+                        sellerTwo.value = contractDetails.CNH_SalesAgent2;
 
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", res.staff);
+                        input.setAttribute("value", contractDetails.CNH_SalesAgent1);
                         
                         let input2 = document.createElement("input");
                         input2.setAttribute("type", "hidden");
                         input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", "");
+                        input2.setAttribute("value", (contractDetails.CNH_SalesAgent2) ? contractDetails.CNH_SalesAgent2 : '');
                         
                         //append to form element that you want .
                         form.appendChild(input);
                         form.appendChild(input2);
-                    } else { 
-                        sellerOne.disabled = true;
-                        sellerTwo.disabled = true;
                     }
 
                     @if (Session::has('errorFormValidation'))
@@ -957,7 +961,7 @@
                 });
         }
 
-        function getItems() {
+        function getItems(type) {
             fetch('{{ url('') }}' + `/customer/api/items`, {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -983,10 +987,15 @@
                         itemOptions.appendChild(option);
                     }
 
+                    if (type == 'once') {
+                        itemOptions.value = contractDetails.CND_ItemID;
+                        this.populateMonthOptions(itemOptions);
+                    }
+
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         itemOptions.value = '{{ session()->get('product') }}';
-                        this.populateMonthOptions(itemOptions)
+                        this.populateMonthOptions(itemOptions);
                     @endif
                 })
                 .catch((error) => {
@@ -994,7 +1003,7 @@
                 });
         }
 
-        function populateMonthOptions(option) {
+        function populateMonthOptions(option, change) {
             fetch('{{ url('') }}' + `/customer/api/items/rental?item_id=` + option.value, {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -1006,7 +1015,6 @@
                     return response.json();
                 })
                 .then((res) => {
-                    // monthOptions
                     this.removeOptions(monthOptions);
                     this.removeUnitPrice();
 
@@ -1022,11 +1030,16 @@
 
                         monthOptions.appendChild(option);
                     }
-                    
+
+                    if (change != 'change') {
+                        monthOptions.value = contractDetails.CNH_TotInstPeriod;
+                        unitPrice.value = contractDetails.CND_UnitPrice;
+                    }
+
                     // if got error validation
                     @if (Session::has('errorFormValidation'))
                         monthOptions.value = '{{ session()->get('no_of_installment_month') }}';
-                        this.populateUnitPrice(itemOptions, monthOptions);
+                        unitPrice.value = '{{ session()->get('unit_price') }}';
                     @endif
 
                 })
@@ -1050,6 +1063,50 @@
                     // unitPrice
                     this.removeUnitPrice();
                     unitPrice.value = res.data.IR_UnitPrice;
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+
+        function populateCities(option, change) {
+            fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    // cityOptions
+                    this.removeOptions(cityOptions);
+
+                    let option = document.createElement('option');
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Select City --'));
+
+                    cityOptions.appendChild(option);
+
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.CI_ID);
+                        option.appendChild(document.createTextNode(each.CI_Description));
+
+                        cityOptions.appendChild(option);
+                    }
+                    
+                    if (change != 'change') {
+                        cityOptions.value = contractDetails.CNH_City;
+                    }
+
+                    // if got error validation
+                    @if (Session::has('errorFormValidation'))
+                        cityOptions.value = '{{ session()->get('city') }}';
+                    @endif
+
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1088,8 +1145,8 @@
                         stateOptions.appendChild(option);
                     }
 
-                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null && change != 'change') {
-                        stateOptions.value = datacustomer.Cust_MainState;
+                    if (change != 'change') {
+                        stateOptions.value = contractDetails.CNH_State;
                         this.populateCities(stateOptions);
                     }
                     
@@ -1097,49 +1154,6 @@
                     @if (Session::has('errorFormValidation'))
                         stateOptions.value = '{{ session()->get('state') }}';
                         this.populateCities(stateOptions, 'change');
-                    @endif
-                })
-                .catch((error) => {
-                    console.log(['err', err]);
-                });
-        }
-
-        function populateCities(option, change) {
-            fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
-                method: 'GET', // or 'PUT'
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-                })
-                .then((response) => {
-                    return response.json();
-                })
-                .then((res) => {
-                    // cityOptions
-                    this.removeOptions(cityOptions);
-
-                    let option = document.createElement('option');
-                    option.setAttribute('value', '');
-                    option.appendChild(document.createTextNode('-- Select City --'));
-
-                    cityOptions.appendChild(option);
-
-                    for (let each of res.data) {
-                        let option = document.createElement('option');
-                        option.setAttribute('value', each.CI_ID);
-                        option.appendChild(document.createTextNode(each.CI_Description));
-
-                        cityOptions.appendChild(option);
-                    }
-
-                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null && change != 'change') {
-                        cityOptions.value = datacustomer.Cust_MainCity;
-                    }
-
-                    // if got error validation
-                    @if (Session::has('errorFormValidation'))
-                        cityOptions.value = '{{ session()->get('city') }}';
                     @endif
                 })
                 .catch((error) => {
@@ -1175,8 +1189,8 @@
                         countryOptions.appendChild(option);
                     }
 
-                    if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null && type == 'once') {
-                        countryOptions.value = datacustomer.Cust_MainCountry;
+                    if (type == 'once') {
+                        countryOptions.value = contractDetails.CNH_Country;
                         this.populateStates(countryOptions);
                     }
 
@@ -1185,7 +1199,6 @@
                         countryOptions.value = '{{ session()->get('country') }}';
                         this.populateStates(countryOptions, 'change');
                     @endif
-                    
                 })
                 .catch((error) => {
                     console.log(['err', err]);
@@ -1244,15 +1257,12 @@
                             telCodeOptions1.appendChild(option);
                             telCodeOptions2.appendChild(option2);
                         }
-                        
-                        @if (!Session::has('displaySMSTag') && !Session::has('errorFormValidation'))
-                            telCodeOptions1.value = applicantTelCode;
-                        @endif
 
-                        if ('{{ Auth::user()->branchind === 4 }}' && {!! json_encode($customerMaster) !!} != null && type == 'not-sms') {
-                            telCodeOptions2.value = datacustomer.telcode2;
+                        if (type == 'not-sms') {
+                            telCodeOptions1.value = contractDetails.telcode1;
+                            telCodeOptions2.value = contractDetails.telcode2;
                         }
-                        
+
                         // if got error validation
                         @if (Session::has('errorFormValidation'))
                             telCodeOptions1.value = '{{ session()->get('tel_code_options_1') }}';
@@ -1266,8 +1276,7 @@
                 });
         }
         
-        function clearItems(item)
-        {
+        function clearItems(item){
             for (i = item.options.length-1; i >= 0; i--) {
                 item.options[i] = null;
             }
@@ -1280,22 +1289,36 @@
                 individualApplicantRequirement.classList.remove('hide');
                 individualApplicantNotes.classList.remove('hide');
 
-                individualApplicantIC.required = true;
-                individualApplicantIncome.required = true;
-                individualApplicantBankStatement.required = true;
-                selfEmployedForm.required = false;
-                selfEmployedIC.required = false;
-                selfEmployedBankStatement.required = false;
+                if (attachment.type === 'self_employed') {
+                    individualApplicantIC.required = true;
+                    individualApplicantIncome.required = true;
+                    individualApplicantBankStatement.required = true;
+                    selfEmployedForm.required = false;
+                    selfEmployedIC.required = false;
+                    selfEmployedBankStatement.required = false;
+                } else {
+                    selfEmployedForm.required = false;
+                    selfEmployedIC.required = false;
+                    selfEmployedBankStatement.required = false;
+                    previousIndividualApplicant.classList.remove('hide');
+                }
             } else if (type === 'self_employed') {
                 selfEmployedRequirement.classList.remove('hide');
                 selfEmployedNotes.classList.remove('hide');
 
-                selfEmployedForm.required = true;
-                selfEmployedIC.required = true;
-                selfEmployedBankStatement.required = true;
-                individualApplicantIC.required = false;
-                individualApplicantIncome.required = false;
-                individualApplicantBankStatement.required = false;
+                if (attachment.type === 'individual_applicant') {
+                    selfEmployedForm.required = true;
+                    selfEmployedIC.required = true;
+                    selfEmployedBankStatement.required = true;
+                    individualApplicantIC.required = false;
+                    individualApplicantIncome.required = false;
+                    individualApplicantBankStatement.required = false;
+                } else {
+                    individualApplicantIC.required = false;
+                    individualApplicantIncome.required = false;
+                    individualApplicantBankStatement.required = false;
+                    previousSelfEmployed.classList.remove('hide');
+                }
             }
         }
 
@@ -1304,6 +1327,11 @@
             selfEmployedRequirement.classList.add('hide');
             individualApplicantNotes.classList.add('hide');
             selfEmployedNotes.classList.add('hide');
+            if (attachment.type === 'individual_applicant') {
+                previousIndividualApplicant.classList.add('hide');
+            } else {
+                previousSelfEmployed.classList.add('hide');
+            }
         }
         
         function unhideRequirement() {
@@ -1312,7 +1340,8 @@
             let elements2 = document.getElementsByClassName('referral-information');
             let elements3 = document.getElementsByClassName('self-employed-requirement');
             let elements4 = document.getElementsByClassName('employed-requirement');
-            
+            let elements5 = document.getElementsByClassName('reject-information');
+
             for (el of elements0) { el.classList.remove('hide') };
             for (el of elements1) { el.classList.remove('hide') };
             for (el of elements2) { el.classList.remove('hide') };
@@ -1325,6 +1354,8 @@
                 for (el of elements3) { el.classList.remove('hide') };
                 for (el of elements4) { el.classList.remove('hide') };
             }
+
+            for (el of elements5) { el.classList.remove('hide') };
         }
     </script>
 @endsection

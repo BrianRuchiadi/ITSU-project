@@ -60,6 +60,8 @@
             <th class="center">Contract Number</th>
             <th class="center">Status</th>
             <th class="center">View Details</th>
+            <th class="center">Resubmit</th>
+           
           </tr>
         </thead>
         <tbody>
@@ -71,6 +73,11 @@
               <td class="center">{{ $contract->CNH_DocNo }}</td>
               <td class="center">{{ $contract->CNH_Status }}</td>            
               <td class="center"><a href="{{ route('customer.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
+              @if($contract->CNH_Status == 'Reject')
+                <td class="center"><a href="{{ route('customer.contract.resubmit',$contract->id) }}" class="btn btn-sm btn-danger">Resubmit</a></td>
+              @else
+                <td></td>
+              @endif
           </tr>
         @endforeach      
         </tbody>
