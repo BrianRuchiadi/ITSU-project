@@ -154,7 +154,12 @@
             function showAlert(message, alertType = 'alert-success') {
                 elementAlert.classList.add(alertType);
                 elementAlert.classList.add('show');
-                elementAlert.innerText = message;
+
+                if (Array.isArray(message)) {
+                    // process with array
+                } else {
+                    elementAlert.innerHTML = message;
+                }
 
                 setTimeout(function () {
                     elementAlert.classList.remove(alertType);

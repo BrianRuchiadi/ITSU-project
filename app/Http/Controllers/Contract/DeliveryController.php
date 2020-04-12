@@ -100,7 +100,6 @@ class DeliveryController extends Controller
 
         $printDate = Carbon::now()->toDateString();
         return view('page.contract.delivery-order-detail', compact('companyAddress', 'deliveryOrder', 'printDate'));
-
     }
 
     public function showCreateDeliveryOrder(Request $request) {

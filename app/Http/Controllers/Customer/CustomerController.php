@@ -22,6 +22,9 @@ use App\Models\CustomerMaster;
 use App\Models\CustomerUserMap;
 use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
+use App\Models\ContractDeliveryOrder;
+use App\Models\ContractInvoice;
+use App\Models\ContractInvoiceDtl;
 use App\Models\SystemParamDetail;
 use App\Models\ContractMasterAttachment;
 use App\Models\ContractMasterLog;
@@ -725,19 +728,31 @@ class CustomerController extends Controller
                            ->whereIn('CNH_CustomerID', $userMapCustomer)->select([
                             'contractmaster.id',
                             'contractmaster.CNH_PostingDate',
+                            'contractmaster.CNH_TotInstPeriod',
                             'contractmaster.CNH_DocNo',
                             'customermaster.Cust_NAME',
                             'contractmaster.CNH_Status'
                         ])->paginate(30);
+            $contractsIds = collect($contracts->items())->pluck('id')->toArray();
+
+            $invoices = (count($contractsIds)) ?
+                ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+                [];
+            // delivery orders no need to display for customer
+            $deliveryOrders = [];
         } else {
             $contracts = [];
+            $invoices = [];
+            $deliveryOrders = [];
         }
 
         $user = Auth::user();
         return view('page.customer.contract-list', [
+            'invoices' => $invoices,
             'contracts' => $contracts,
             'user' => $user,
-            'error_message' => ''
+            'error_message' => '',
+            'delivery_orders' => $deliveryOrders
         ]);
     }
 
@@ -751,7 +766,9 @@ class CustomerController extends Controller
 
         if ($validator->fails()) {
             return view('page.customer.contract-list', [
+                'invoices' => [],
                 'contracts' => [],
+                'delivery_orders' => [],
                 'user' => Auth::user(),
                 'error_message' => $validator->errors()->first()
             ]);
@@ -759,6 +776,7 @@ class CustomerController extends Controller
 
         $params = $request->all();
 
+        // another validation
         if ($request->contract_no) {
             // validation and data shaping
             if (is_numeric($request->contract_no)) {
@@ -777,7 +795,9 @@ class CustomerController extends Controller
 
             if ($validator->fails()) {
                 return view('page.customer.contract-list', [
+                    'invoices' => [],
                     'contracts' => [],
+                    'delivery_orders' => [],
                     'user' => Auth::user(),
                     'error_message' => $errMessage
                 ]);
@@ -800,17 +820,29 @@ class CustomerController extends Controller
         $contracts = $contracts->select([
             'contractmaster.id',
             'contractmaster.CNH_PostingDate',
+            'contractmaster.CNH_TotInstPeriod',
             'contractmaster.CNH_DocNo',
             'customermaster.Cust_NAME',
             'contractmaster.CNH_Status'
         ])->paginate(30);
+
+        $contractsIds = collect($contracts->items())->pluck('id')->toArray();
+
+        $invoices = (count($contractsIds)) ?
+            ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+            [];
+        $deliveryOrders = (count($contractsIds)) ? 
+            ContractDeliveryOrder::whereIn('contractmast_id',$contractsIds)->get() :
+            [];
 
         $user = Auth::user();
 
         return view('page.customer.contract-list', [
             'contracts' => $contracts,
             'user' => $user,
-            'error_message' => ''
+            'delivery_orders' => $deliveryOrders,
+            'error_message' => '',
+            'invoices' => $invoices
         ]);
     }
 

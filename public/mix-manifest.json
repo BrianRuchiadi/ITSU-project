@@ -11,6 +11,8 @@
     "/css/page/customer/referral-link.css": "/css/page/customer/referral-link.css",
     "/css/page/customer/contract-list.css": "/css/page/customer/contract-list.css",
     "/css/page/customer/contract-details.css": "/css/page/customer/contract-details.css",
+    "/css/page/customer/invoice.css": "/css/page/customer/invoice.css",
+    "/css/page/customer/delivery-order.css": "/css/page/customer/delivery-order.css",
     "/css/page/contract/pending-contract-list.css": "/css/page/contract/pending-contract-list.css",
     "/css/page/contract/pending-contract-details.css": "/css/page/contract/pending-contract-details.css",
     "/css/page/contract/delivery-order.css": "/css/page/contract/delivery-order.css",
