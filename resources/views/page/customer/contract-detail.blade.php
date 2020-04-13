@@ -9,7 +9,7 @@
     <div class="contract-details-panel">
         <span>
           <a href="{{ url('/customer/contract') }}" class="btn btn-secondary">
-            <i class="fas fa-chevron-left"></i> Back
+            <i class="fas fa-chevron-left"></i> Back To Contract
           </a>
         </span>
         <h2 class="center">
