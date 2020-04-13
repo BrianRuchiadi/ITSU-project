@@ -284,7 +284,9 @@
 
         .side-nav .toggler:checked ~ ul {
             width: 180px; 
+            pointer-events: all;
             opacity: 1;
+            display: block;
         }
 
         .side-nav .toggler:checked ~ h1 {
@@ -295,7 +297,9 @@
 
         .side-nav .toggler:not(:checked) ~ ul {
             width: 0px; 
+            pointer-events: none;
             opacity: 0;
+            display: none;
         }
 
         .side-nav .toggler:not(:checked) ~ h1 {

@@ -306,7 +306,9 @@
 
 .container header .side-nav .toggler:checked ~ ul {
   width: 180px;
+  pointer-events: all;
   opacity: 1;
+  display: block;
 }
 
 .container header .side-nav .toggler:checked ~ h1 {
@@ -317,7 +319,9 @@
 
 .container header .side-nav .toggler:not(:checked) ~ ul {
   width: 0px;
+  pointer-events: none;
   opacity: 0;
+  display: none;
 }
 
 .container header .side-nav .toggler:not(:checked) ~ h1 {
