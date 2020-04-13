@@ -9,7 +9,7 @@
 <div class="col-md-12">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h1 class="panel-title">Contract List</h1>
+      <h1 class="panel-title">Pending Contract List</h1>
     </div>
     
     <form class="form-horizontal" action="{{ route('pending.contract.search') }}" method="GET">
