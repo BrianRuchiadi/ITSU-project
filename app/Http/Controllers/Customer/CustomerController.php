@@ -829,7 +829,7 @@ class CustomerController extends Controller
         $contractsIds = collect($contracts->items())->pluck('id')->toArray();
 
         $invoices = (count($contractsIds)) ?
-            ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+            ContractInvoice::whereIn('contractmast_id', $contractsIds)->orderBy('id', 'desc')->get() :
             [];
         $deliveryOrders = (count($contractsIds)) ? 
             ContractDeliveryOrder::whereIn('contractmast_id',$contractsIds)->get() :

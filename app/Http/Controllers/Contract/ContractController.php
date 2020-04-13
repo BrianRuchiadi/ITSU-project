@@ -473,7 +473,7 @@ class ContractController extends Controller
         $contractsIds = collect($contracts->items())->pluck('id')->toArray();
 
         $invoices = (count($contractsIds)) ?
-            ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+            ContractInvoice::whereIn('contractmast_id', $contractsIds)->orderBy('id', 'desc')->get() :
             [];
         $deliveryOrders = (count($contractsIds)) ? 
             ContractDeliveryOrder::whereIn('contractmast_id',$contractsIds)->get() :
@@ -488,5 +488,50 @@ class ContractController extends Controller
             'error_message' => '',
             'invoices' => $invoices
         ]);
+    }
+
+    public function getFinalContractDetail(Request $request, ContractMaster $contract) {
+        $contractDetails = DB::table('customermaster')
+                            ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                            ->join('contractmasterdtl', 'contractmaster.id', '=', 'contractmasterdtl.contractmast_id')
+                            ->where('contractmaster.id', '=', $contract->id)
+                            ->first();
+
+        $contractDetails->Apply_Date = Carbon::parse($contractDetails->CNH_DocDate)->format('d/m/Y H:i:s');
+        $contractDetails->Approve_Date = Carbon::parse($contractDetails->CNH_ApproveDate)->format('d/m/Y H:i:s');
+        $contractDetails->Reject_Date = Carbon::parse($contractDetails->CNH_RejectDate)->format('d/m/Y H:i:s');
+
+        $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
+                        ->where('IM_TYPE', '=', '1')
+                        ->where('IM_NonSaleItem_YN', '=', 0)
+                        ->where('IM_Discontinue_YN', '=', 0)
+                        ->where('deleted_at', '=', null)
+                        ->first();
+
+        $city = IrsCity::where('CI_ID', $contractDetails->Cust_MainCity)
+                  ->where('deleted_at', '=', null)
+                  ->first();
+
+        $state = IrsState::where('ST_ID', $contractDetails->Cust_MainState)
+                  ->where('deleted_at', '=', null)
+                  ->first();
+
+        $country = IrsCountry::where('CO_ID', $contractDetails->Cust_MainCountry)
+                  ->where('deleted_at', '=', null)
+                  ->first();
+
+        $agent1 = User::where('id', $contractDetails->CNH_SalesAgent1)
+                  ->where('branchind', '=', '0')
+                  ->where('deleted_at', '=', null)
+                  ->first();
+
+        $agent2 = User::where('id', $contractDetails->CNH_SalesAgent2)
+                  ->where('branchind', '=', '0')
+                  ->where('deleted_at', '=', null)
+                  ->first();
+
+        $attachment = ContractMasterAttachment::where('contractmast_id', $contract->id)->first();
+
+        return view('page.contract.final-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
     }
 }
