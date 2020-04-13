@@ -101,6 +101,7 @@ Route::group([
         Route::post('pending-contract/detail/{contract_id}', 'Contract\ContractController@customerContractDecision')->name('pending.contract.decision');
 
         Route::get('final-contract', 'Contract\ContractController@getFinalContractList');
+        Route::get('final-contract/detail/{contract}', 'Contract\ContractController@getFinalContractDetail');
         Route::get('final-contract/search', 'Contract\ContractController@searchFinalContractList');
     
         Route::get('approved-contract/search/cnh-doc', 'Contract\ContractController@getContractDetailByCnhDocNo');
