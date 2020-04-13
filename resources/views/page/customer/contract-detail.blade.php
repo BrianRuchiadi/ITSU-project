@@ -207,7 +207,6 @@
                       <p>Your web browser doesn't have a PDF plugin.<br/>
                         <a onclick="openPdfOnNewTab('{{ $attachment->icno_file}}')" style="text-decoration: underline">Click to display on new tab</a>
                       </p>
-                      </p>
                     </object>
                   @else
                     <img src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="100%">
@@ -222,7 +221,7 @@
                   @if($attachment->income_mime == "application/pdf")
                     <object data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="100%" height="500">
                       <p>Your web browser doesn't have a PDF plugin.<br/>
-                        <a onclick="openPdfOnNewTab('{{ $attachment->income_file}}')" style="text-decoration: underline">Click to display on new tab</a></p>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->income_file}}')" style="text-decoration: underline">Click to display on new tab</a>
                       </p>
                     </object>
                   @else
@@ -238,7 +237,8 @@
                   @if($attachment->bankstatement_mime == "application/pdf")
                     <object data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%" height="500">
                       <p>Your web browser doesn't have a PDF plugin. <br/>
-                        <a onclick="openPdfOnNewTab('{{ $attachment->bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a></p>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                      </p>
                     </object>
                   @else
                     <img src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%">
@@ -255,7 +255,7 @@
                   @if($attachment->comp_form_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="100%" height="500">
                       <p>Your web browser doesn't have a PDF plugin.<br/>
-                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_form_file}}')" style="text-decoration: underline">Click to display on new tab</a></p>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_form_file}}')" style="text-decoration: underline">Click to display on new tab</a>
                       </p>
                     </object>
                   @else
@@ -271,7 +271,7 @@
                   @if($attachment->comp_icno_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="100%" height="500">
                       <p>Your web browser doesn't have a PDF plugin.<br/>
-                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_icno_file}}')" style="text-decoration: underline">Click to display on new tab</a></p>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_icno_file}}')" style="text-decoration: underline">Click to display on new tab</a>
                       </p>
                     </object>
                   @else
@@ -287,7 +287,7 @@
                   @if($attachment->comp_bankstatement_mime == "application/pdf")
                     <object data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="100%" height="500">
                       <p>Your web browser doesn't have a PDF plugin.<br/>
-                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a></p>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->comp_bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a>
                       </p>
                     </object>
                   @else

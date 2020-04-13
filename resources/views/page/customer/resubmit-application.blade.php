@@ -390,7 +390,11 @@
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">One Photocopy Of I/C</span>
                   @if($attachment->icno_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin.<br/>
+                        <a onclick="openPdfOnNewTab('{{ $attachment->icno_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                      </p>
+                    </object>
                   @else
                     <img class="m-auto" src="data:{{ $attachment->icno_mime }};base64,{{ $attachment->icno_file }}" type="{{ $attachment->icno_mime }}" width="100%">
                   @endif
@@ -398,7 +402,11 @@
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">Photocopy Of 3 Months Proof Of Income</span>
                   @if($attachment->income_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin.<br/>
+                            <a onclick="openPdfOnNewTab('{{ $attachment->income_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                        </p>
+                    </object>
                   @else
                     <img class="m-auto" src="data:{{ $attachment->income_mime }};base64,{{ $attachment->income_file }}" type="{{ $attachment->income_mime }}" width="100%">
                   @endif
@@ -406,7 +414,11 @@
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">Updated Bank Statement Or Savings Passbook</span>
                   @if($attachment->bankstatement_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin. <br/>
+                            <a onclick="openPdfOnNewTab('{{ $attachment->bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                        </p>
+                    </object>
                   @else
                     <img class="m-auto" src="data:{{ $attachment->bankstatement_mime }};base64,{{ $attachment->bankstatement_file }}" type="{{ $attachment->bankstatement_mime }}" width="100%">
                   @endif
@@ -419,12 +431,16 @@
                 Previous Self Employed Uploaded File
                 <i class="fas fa-caret-down"></i>
             </h3>
-            <div class="form-group row  previous-self-employed" id="previous-self-employed">
+            <div class="form-group row previous-self-employed" id="previous-self-employed">
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">Form J and Business Registration Form<br/>
                  (Borang A and D)</span>
                   @if($attachment->comp_form_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin.<br/>
+                            <a onclick="openPdfOnNewTab('{{ $attachment->comp_form_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                        </p>
+                    </object>
                   @else
                     <img class="m-auto" src="data:{{ $attachment->comp_form_mime }};base64,{{ $attachment->comp_form_file }}" type="{{ $attachment->comp_form_mime }}" width="100%">
                   @endif
@@ -432,7 +448,11 @@
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">Photocopied I/C Of Proprietor / Partners / Directors</span>
                   @if($attachment->comp_icno_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin.<br/>
+                            <a onclick="openPdfOnNewTab('{{ $attachment->comp_icno_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                        </p>
+                    </object>
                   @else
                     <img class="m-auto" src="data:{{ $attachment->comp_icno_mime }};base64,{{ $attachment->comp_icno_file }}" type="{{ $attachment->comp_icno_mime }}" width="100%">
                   @endif
@@ -440,7 +460,11 @@
               <div class="input-group col-sm-4" style="text-align:center">
                 <span class="col-sm-12 m-2">Updated 3 Month Bank Statement</span>
                 @if($attachment->comp_bankstatement_mime == "application/pdf")
-                    <object class="m-auto" data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="300" height="300"></object>
+                    <object class="m-auto" data="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="300" height="300">
+                        <p>Your web browser doesn't have a PDF plugin.<br/>
+                            <a onclick="openPdfOnNewTab('{{ $attachment->comp_bankstatement_file}}')" style="text-decoration: underline">Click to display on new tab</a>
+                        </p>
+                    </object>
                 @else
                     <img class="m-auto" src="data:{{ $attachment->comp_bankstatement_mime }};base64,{{ $attachment->comp_bankstatement_file }}" type="{{ $attachment->comp_bankstatement_mime }}" width="100%">
                 @endif
