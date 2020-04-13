@@ -203,6 +203,11 @@
                     <option value="{{ $i }}">{{ $i }}</option>
                   @endfor     
                 </select>
+                @error('commission_no_of_month')
+                  <div class="form-alert alert-danger">
+                      <strong>{{ $message }}</strong>
+                  </div>
+                @enderror
                 </div>
               </div>
             </div>
