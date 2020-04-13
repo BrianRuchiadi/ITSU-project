@@ -2,7 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
-    <link rel="stylesheet" type="text/css" href="/css/page/customer/contract-list.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/contract/final-contract-list.css">
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
       </div>
       
       @if ($user->branchind != 4)
-      <form class="form-horizontal" action="{{ url('/customer/contract/search') }}" method="GET">
+      <form class="form-horizontal" action="{{ url('/contract/final-contract/search') }}" method="GET">
         {{ csrf_field() }}
         <h3 class="table-header">
           <i class="fas fa-search"></i>
@@ -64,7 +64,6 @@
               <th class="center">Contract Number</th>
               <th class="center">Status</th>
               <th class="center">View Details</th>
-              <th class="center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -75,12 +74,7 @@
                 <td class="center">{{ $contract->Cust_NAME }}</td>
                 <td class="center">{{ $contract->CNH_DocNo }}</td>
                 <td class="center">{{ $contract->CNH_Status }}</td>            
-                <td class="center"><a href="{{ route('customer.contract.detail', $contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
-                <td class="center">
-                  @if ($contract->CNH_Status == 'Reject')
-                  <a href="{{ route('customer.contract.resubmit', $contract->id)}}" class="btn btn-sm btn-warning">Resubmit</a>
-                  @endif
-                </td>
+                <td class="center"><a href="{{ route('customer.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
             </tr>
           @endforeach      
           </tbody>

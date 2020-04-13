@@ -15,6 +15,9 @@ use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
 use App\Models\ContractMasterAttachment;
 use App\Models\ContractMasterLog;
+use App\Models\ContractInvoice;
+
+use App\Models\ContractDeliveryOrder;
 
 use App\Models\IrsCity;
 use App\Models\IrsState;
@@ -248,7 +251,6 @@ class ContractController extends Controller
     }
 
     public function contractVerifyCTOS(Request $request) {
-
         ContractMaster::where('id', $request->id)->update(['CTOS_verify' => 1]);
         $contract = ContractMaster::where('id', $request->id)->first();
         Session::flash('showSuccessMessage', "Successfully Verify CTOS ( {$contract->CNH_DocNo} )");
@@ -378,5 +380,113 @@ class ContractController extends Controller
         Session::flash('showSuccessMessage', "Successfully {$request->Option} Contract ( {$contract->CNH_DocNo} )");
 
         return redirect('/contract/pending-contract');
+    }
+
+    public function getFinalContractList(Request $request) {
+        $contracts = [];
+        $invoices = [];
+        $deliveryOrders = [];
+
+        $user = Auth::user();
+
+        return view('page.contract.final-contract', [
+            'invoices' => $invoices,
+            'contracts' => $contracts,
+            'user' => $user,
+            'error_message' => '',
+            'delivery_orders' => $deliveryOrders
+        ]);
+    }
+
+    public function searchFinalContractList(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'customer' => 'string|nullable|min:4|required_without_all:ic_no,tel_no,contract_no',
+            'ic_no' => 'string|nullable|min:6',
+            'tel_no' => 'string|nullable|min:4',
+            'contract_no' => 'string|nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return view('page.contract.final-contract', [
+                'invoices' => [],
+                'contracts' => [],
+                'delivery_orders' => [],
+                'user' => Auth::user(),
+                'error_message' => $validator->errors()->first()
+            ]);
+        }
+
+        $params = $request->all();
+
+        // another validation
+        if ($request->contract_no) {
+            // validation and data shaping
+            if (is_numeric($request->contract_no)) {
+                $validator = Validator::make($request->all(), ['contract_no' => 'string|min:2']);
+                $errMessage = "Contract No must have at least 2 value";
+
+                $params['contract_no'] = str_pad($request->contract_no, 8, '0', STR_PAD_LEFT);
+                $params['contract_no_type'] = 'not-strict';
+            } else {
+                $validator = Validator::make($request->all(), ['contract_no' => 'string|min:4']);
+                $errMessage = "Contract No must have at least 4 characters";
+
+                $params['contract_no'] = $params['contract_no'];
+                $params['contract_no_type'] = 'strict';
+            }
+
+            if ($validator->fails()) {
+                return view('page.contract.final-contract', [
+                    'invoices' => [],
+                    'contracts' => [],
+                    'delivery_orders' => [],
+                    'user' => Auth::user(),
+                    'error_message' => $errMessage
+                ]);
+            }
+        }
+
+        $contracts = DB::table('customermaster')
+                       ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
+                       ->where('contractmaster.CNH_Status', '=', 'Approve')
+                       ->orWhere('contractmaster.CNH_Status', '=', 'Reject');
+
+        $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%') : $contracts; 
+        $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%') : $contracts; 
+        $contracts = (!empty($request->tel_no)) ? $contracts->where('customermaster.Cust_Phone1', 'like', '%' . $request->tel_no . '%') : $contracts; 
+
+        if ($request->contract_no) {
+            $contracts = ($params['contract_no_type'] == 'not-strict') ? 
+                $contracts->where('contractmaster.CNH_DocNo', 'like', '%' . $params['contract_no'] . '%') : 
+                $contracts->where('contractmaster.CNH_DocNo', '=', $params['contract_no']); 
+        }
+
+        $contracts = $contracts->select([
+            'contractmaster.id',
+            'contractmaster.CNH_PostingDate',
+            'contractmaster.CNH_TotInstPeriod',
+            'contractmaster.CNH_DocNo',
+            'customermaster.Cust_NAME',
+            'contractmaster.CNH_Status'
+        ])->orderBy('contractmaster.CNH_PostingDate', 'desc')->paginate(30);
+
+        $contractsIds = collect($contracts->items())->pluck('id')->toArray();
+
+        $invoices = (count($contractsIds)) ?
+            ContractInvoice::whereIn('contractmast_id', $contractsIds)->get() :
+            [];
+        $deliveryOrders = (count($contractsIds)) ? 
+            ContractDeliveryOrder::whereIn('contractmast_id',$contractsIds)->get() :
+            [];
+
+        $user = Auth::user();
+
+        return view('page.contract.final-contract', [
+            'contracts' => $contracts,
+            'user' => $user,
+            'delivery_orders' => $deliveryOrders,
+            'error_message' => '',
+            'invoices' => $invoices
+        ]);
     }
 }

@@ -732,7 +732,7 @@ class CustomerController extends Controller
                             'contractmaster.CNH_DocNo',
                             'customermaster.Cust_NAME',
                             'contractmaster.CNH_Status'
-                        ])->paginate(30);
+                        ])->orderBy('contractmaster.CNH_PostingDate', 'desc')->paginate(30);
             $contractsIds = collect($contracts->items())->pluck('id')->toArray();
 
             $invoices = (count($contractsIds)) ?
@@ -824,7 +824,7 @@ class CustomerController extends Controller
             'contractmaster.CNH_DocNo',
             'customermaster.Cust_NAME',
             'contractmaster.CNH_Status'
-        ])->paginate(30);
+        ])->orderBy('contractmaster.CNH_PostingDate', 'desc')->paginate(30);
 
         $contractsIds = collect($contracts->items())->pluck('id')->toArray();
 

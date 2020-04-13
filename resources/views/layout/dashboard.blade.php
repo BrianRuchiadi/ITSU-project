@@ -90,6 +90,11 @@
                                         </a>
                                     </li>
                                     <li class="contract">
+                                        <a href="{{ url('/contract/final-contract') }}">
+                                            Final Contract
+                                        </a>
+                                    </li>
+                                    <li class="contract">
                                         <a href="{{ url('/contract/delivery-order') }}">
                                             Delivery Order
                                         </a>
@@ -132,7 +137,6 @@
         @yield('header')
         @yield('footer')
         <script type="text/javascript">
-
             @if (Auth::user()->branchind == 0)
                 localStorage.removeItem('referrerCode');
             @endif
