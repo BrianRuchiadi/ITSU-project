@@ -116,6 +116,14 @@
                     </div>
                 @enderror
             </div>
+
+            @if (Session::get('message'))
+            <div class="form-group">
+                <div class="alert alert-danger">
+                    <strong>{{ Session::get('message') }}</strong>
+                </div>
+            </div>
+            @endif
             
             <div class="container button">
                 <div class="row">
