@@ -74,7 +74,7 @@
                 <td class="center">{{ $contract->Cust_NAME }}</td>
                 <td class="center">{{ $contract->CNH_DocNo }}</td>
                 <td class="center">{{ $contract->CNH_Status }}</td>            
-                <td class="center"><a href="{{ route('customer.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary"> View Details</a></td>
+                <td class="center"><a href="{{ route('customer.contract.detail',$contract->id) }}" class="btn btn-sm btn-primary" onclick="event.stopPropagation()"> View Details</a></td>
             </tr>
           @endforeach      
           </tbody>
