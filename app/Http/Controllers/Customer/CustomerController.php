@@ -1298,10 +1298,12 @@ class CustomerController extends Controller
             } else {
                 Session::flash('showSuccessMessage', 'Successfully submitted application form');
             }
-
             DB::commit();
 
-            return redirect('/customer/contract');
+            return [
+                'status' => 'success',
+                'redirect' => config('app.url') . '/customer/contract'
+            ];
             
         } catch (Exception $e) {
             DB::rollback();

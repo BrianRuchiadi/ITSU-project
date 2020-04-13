@@ -744,7 +744,7 @@
                 .then((res) => { 
                     if (res.status === 'success') {
                         localStorage.removeItem('referrerCode');
-                        location.reload();
+                        window.location.href = res.redirect;
                     }
                 })
                 .catch((error) => {
@@ -1323,10 +1323,12 @@
         }
 
         function hideAllApplicantType() {
+
             individualApplicantRequirement.classList.add('hide');
             selfEmployedRequirement.classList.add('hide');
             individualApplicantNotes.classList.add('hide');
             selfEmployedNotes.classList.add('hide');
+
             if (attachment.type === 'individual_applicant') {
                 previousIndividualApplicant.classList.add('hide');
             } else {

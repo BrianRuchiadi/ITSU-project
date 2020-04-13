@@ -16,7 +16,10 @@
 </div>
 <div id="print-area-delivery">
     <h1>{{ $companyAddress->CO_Name }}</h1>
-    <h4>{{ $companyAddress->CO_MainAddress1 }}{{ ($companyAddress->CO_MainAddress2) ? ', ' . $companyAddress->CO_MainAddress2: '' }}{{ ($companyAddress->CO_MainAddress3) ? ', ' . $companyAddress->CO_MainAddress3: '' }}{{ ($companyAddress->CO_MainAddress4) ? ', ' . $companyAddress->CO_MainAddress4: '' }}
+    <h4>{{ $companyAddress->CO_MainAddress1 }} 
+        {{ ($companyAddress->CO_MainAddress2) ? ', ' . $companyAddress->CO_MainAddress2: '' }}
+        {{ ($companyAddress->CO_MainAddress3) ? ', ' . $companyAddress->CO_MainAddress3: '' }}
+        {{ ($companyAddress->CO_MainAddress4) ? ', ' . $companyAddress->CO_MainAddress4: '' }}
     </h4>
     <h4>{{ $companyAddress->CO_MainPostcode }}, {{ $companyAddress->CI_Description }}, {{ $companyAddress->ST_Description }}, {{ $companyAddress->CO_Description }}</h4>
     <h4>Tel No : {{ $companyAddress->CO_Phone1 }}</h4>

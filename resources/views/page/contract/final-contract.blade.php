@@ -214,7 +214,7 @@
             colRow_BillingPeriod.innerHTML = relevantInvoices[i].CSIH_BillingPeriod + ' / ' + selectedContract.CNH_TotInstPeriod; 
 
             let colRow_ActionButton = newRow.insertCell(4);
-            colRow_ActionButton.innerHTML = '<a href="/customer/invoice/' +  relevantInvoices[i].id +  '" class="btn btn-primary btn-sm">View Detail</a>';
+            colRow_ActionButton.innerHTML = '<a href="/contract/invoices/' +  relevantInvoices[i].id +  '" class="btn btn-primary btn-sm">View Detail</a>';
           }
 
           datatableInvoiceList = $('#table-invoice-list').DataTable({
@@ -251,7 +251,7 @@
             ; 
 
             let colRow_ActionButton = newRow.insertCell(4);
-            colRow_ActionButton.innerHTML = '<a href="/customer/delivery-order/' +  relevantDeliveryOrders[i].id +  '" class="btn btn-primary btn-sm">View Detail</a>';
+            colRow_ActionButton.innerHTML = '<a href="/contract/delivery-order/detail/' +  relevantDeliveryOrders[i].id +  '" class="btn btn-primary btn-sm">View Detail</a>';
           }
 
           datatableDeliveryList = $('#table-delivery-list').DataTable({

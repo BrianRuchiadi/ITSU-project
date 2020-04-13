@@ -5,10 +5,18 @@
 @endsection
 
 @section('content')
-<a class="btn btn-secondary" href="{{url('/contract/invoices/list?generated_date=' . $selectedDate)}}">
-    <i class="fas fa-chevron-left"></i>
-    Back To Invoices List
-</a>
+@if ($selectedDate)
+    <a class="btn btn-secondary" href="{{url('/contract/invoices/list?generated_date=' . $selectedDate)}}">
+        <i class="fas fa-chevron-left"></i>
+        Back To Invoices List
+    </a>
+@else 
+    <a class="btn btn-secondary" href="{{url('/contract/final-contract')}}">
+        <i class="fas fa-chevron-left"></i>
+        Back To Contract List
+    </a>
+@endif
+
 <div class="py-2">
     <button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-invoice')">
         <i class="fas fa-print"></i> Print
