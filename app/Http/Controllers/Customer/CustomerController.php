@@ -1207,7 +1207,7 @@ class CustomerController extends Controller
 
             $contractMasterLog = ContractMasterLog::create([
                 'rcd_grp' => $cnsoLogSeqNumberNew,
-                'action' => 'ADD',
+                'action' => 'UPD',
                 'trx_type' => 'CNSO',
                 'subtrx_type' => '',
                 'contractmast_id' => $contractMaster->id,

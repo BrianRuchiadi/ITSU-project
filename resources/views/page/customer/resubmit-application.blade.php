@@ -957,7 +957,7 @@
                         let input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", contractDetails.CNH_SalesAgent1);
+                        input.setAttribute("value", (contractDetails.CNH_SalesAgent1) ? contractDetails.CNH_SalesAgent1 : "");
 
                         let input2 = document.createElement("input");
                         input2.setAttribute("type", "hidden");
