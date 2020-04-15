@@ -78,7 +78,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery Country</label>
             <div class="col-sm-8">
-                <select class="form-control advanced-select" id="delivery-country" name="delivery_country" onchange="populateStates(this)" required>
+                <select class="form-control advanced-select" id="delivery-country" name="delivery_country" onchange="populateStates(this, 'change')" required>
                 </select>
             </div>
         </div>
@@ -86,7 +86,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery State</label>
             <div class="col-sm-8">
-                <select class="form-control advanced-select" id="delivery-state" name="delivery_state" onchange="populateCities(this)" required>
+                <select class="form-control advanced-select" id="delivery-state" name="delivery_state" onchange="populateCities(this, 'change')" required>
                 </select>
             </div>
         </div>
@@ -402,7 +402,8 @@
             elDeliveryAddressOne.value = (contract.CNH_InstallAddress1) ? contract.CNH_InstallAddress1 : '';
             elDeliveryAddressTwo.value = (contract.CNH_InstallAddress2) ? contract.CNH_InstallAddress2 : '';
             elDeliveryPostcode.value = (contract.CNH_InstallPostcode) ? contract.CNH_InstallPostcode : '';
-            elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
+
+            this.getCountryOptions('once');
 
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;
@@ -425,8 +426,6 @@
                     }
                 },
             });
-
-            populateStates(elDeliveryCountry);
         }
 
         function removeOptions(option) {
@@ -435,7 +434,7 @@
             }
         }
 
-        function populateStates(option) {
+        function populateStates(option, change) {
             // text : option.options[option.selectedIndex].innerHTML,
             // value : option.value
             fetch('{{ url('') }}' + `/customer/api/country/states?co_id=` + option.value, {
@@ -467,9 +466,9 @@
                         elDeliveryState.appendChild(option);
                     }
                     
-                    if (contract) {
+                    if (contract && change != 'change') {
                         elDeliveryState.value = (contract.CNH_InstallState) ? contract.CNH_InstallState : '';
-                        populateCities(elDeliveryState);
+                        populateCities(elDeliveryState, 'once');
                     }
 
                     // if got error validation
@@ -484,7 +483,7 @@
                 });
         }
 
-        function populateCities(option) {
+        function populateCities(option, change) {
             fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -513,7 +512,7 @@
                         elDeliveryCity.appendChild(option);
                     }
                     
-                    if (contract) {
+                    if (contract && change != 'change') {
                         elDeliveryCity.value = (contract.CNH_InstallCity) ? contract.CNH_InstallCity : '';
                     }
 
@@ -528,7 +527,7 @@
                 });
         }
 
-        function getCountryOptions() {
+        function getCountryOptions(type) {
             fetch("{{ url('/customer/api/countries') }}", {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -554,6 +553,11 @@
                         option.appendChild(document.createTextNode(each.CO_Description));
 
                         elDeliveryCountry.appendChild(option);
+                    }
+                    
+                    if (contract && type == 'once') {
+                        elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
+                        populateStates(elDeliveryCountry, 'once');
                     }
 
                     // if got error validation
