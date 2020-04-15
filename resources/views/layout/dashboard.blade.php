@@ -14,142 +14,156 @@
     </head>
     <body>
         <div class="container">
-            <nav class="side-bar show" id="user-sidemenu">
-                <div class="logo">
-                    <h2 class="center">ITSU</h2>
+            <header>
+                <div class="side-nav">
+                    <input type="checkbox" class="toggler" onchange="toggleContentPanel(this)">
+                    <h1 class="title">ITSU</h1>
+
+
+                    <div class="burger-wrapper">
+                        <div class="burger"></div>
+                    </div>
+
+                    <ul class="main">
+                        @if(Auth::user()->acc_customer_module)
+                            <li class="customer-master">
+                                <div class="li-header">
+                                    <i class="fas fa-users indicator"></i>
+                                    Customer
+                                    <i class="fas fa-caret-down expander"></i>
+                                </div>
+                                <input type="checkbox" class="customer-toggler">
+                                <ul class="inside">
+                                    @if(Auth::user()->branchind === 0)
+                                    <li class="customer">
+                                        <a href="{{ url('/customer/apply') }}">
+                                            Application Form
+                                        </a>
+                                    </li>
+                                    <li class="customer">
+                                        <a href="{{ url('/customer/contract') }}">
+                                            Contract List
+                                        </a>
+                                    </li>
+                                    <li class="customer">
+                                        <a href="{{ url('/customer/link/referral')}}">
+                                            Referral Link
+                                        </a>
+                                    </li>
+                                    @endif
+            
+                                    @if(Auth::user()->branchind === 4)
+                                        <li class="customer">
+                                            <a href="{{ url('/customer/apply') }}">
+                                                Application Form
+                                            </a>
+                                        </li>
+                                        <li class="customer">
+                                            <a href="{{ url('/customer/contract') }}">
+                                                Contract List
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                        @endif
+
+
+
+                        @if(Auth::user()->acc_contract_module)
+                            <li class="contract-master">
+                                <div class="li-header">
+                                    <i class="fas fa-handshake indicator"></i>
+                                    Contract
+                                    <i class="fas fa-caret-down expander"></i>
+                                </div>
+                                <input type="checkbox" class="contract-toggler">
+                                <ul class="inside">
+                                    <li class="contract">
+                                        <a href="{{ url('/contract/invoices') }}">
+                                            Invoice List
+                                        </a>
+                                    </li>
+                                    <li class="contract">
+                                        <a href="{{ url('/contract/pending-contract') }}">
+                                            Pending Contract
+                                        </a>
+                                    </li>
+                                    <li class="contract">
+                                        <a href="{{ url('/contract/final-contract') }}">
+                                            Final Contract
+                                        </a>
+                                    </li>
+                                    <li class="contract">
+                                        <a href="{{ url('/contract/delivery-order') }}">
+                                            Delivery Order
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        @endif
+                    </ul>
                 </div>
-                <ul>
-                    @if(Auth::user()->acc_customer_module)
-                    <li onclick="toggleNavSubMenu('customer')">
-                        <i class="fas fa-users indicator"></i>
-                        Customer
-                        <i class="fas fa-caret-down expander"></i>
-                    </li>
-                    @endif
+                <div class="account-submenu">
+                    <div>
+                        <i class="fas fa-user-alt"></i>
+                        {{ Auth::user()->userid }}
+                    </div>
+                    <input type="checkbox" class="submenu-toggler">
 
-                        @if(Auth::user()->branchind === 0)
-                            <li class="customer">
-                                <a href="{{ url('/customer/apply') }}">
-                                    Application Form
-                                </a>
-                            </li>
-                            <li class="customer">
-                                <a href="{{ url('/customer/contract') }}">
-                                    Contract List
-                                </a>
-                            </li>
-                            <li class="customer">
-                                <a href="{{ url('/customer/link/referral')}}">
-                                    Referral Link
-                                </a>
-                            </li>
-                        @endif
-
-                        @if(Auth::user()->branchind === 4)
-                            <li class="customer">
-                                <a href="{{ url('/customer/apply') }}">
-                                    Application Form
-                                </a>
-                            </li>
-                            <li class="customer">
-                                <a href="{{ url('/customer/contract') }}">
-                                    Contract List
-                                </a>
-                            </li>
-                        @endif
-
-
-                    @if(Auth::user()->acc_contract_module)
-                    <li onclick="toggleNavSubMenu('contract')">
-                        <i class="fas fa-handshake indicator"></i>
-                        Contract
-                        <i class="fas fa-caret-down expander"></i>
-                    </li>
-                    @endif
-
-                    @if(Auth::user()->branchind === 0)
-                        <li class="contract">
-                            <a href="{{ url('/contract/invoices') }}">
-                                Invoice List
-                            </a>
-                        </li>
-                        <li class="contract">
-                            <a href="{{ url('/contract/pending-contract') }}">
-                                Pending Contract
-                            </a>
-                        </li>
-                        <li class="contract">
-                            <a href="{{ url('/contract/delivery-order') }}">
-                                Delivery Order
-                            </a>
-                        </li>
-                    @endif
-                </ul>
-            </nav>
-
-            <div class="main-content" id="main-content">
-                <header>
-                    <i class="fas fa-bars burger" onclick="displayUserSideMenu()"></i>
-                    <span class="user-management" onclick="displayUserSubMenu()">
-                        <h4>
-                            <i class="fas fa-user"></i>
-                            {{ Auth::user()->userid }}
-                            <i class="fas fa-caret-down"></i>
-                        </h4>
-                    </span>
-                    <ul class="user-submenu" id="user-submenu">
+                    <ul class="submenu-option">
                         <li>
-                            <a href="{{ url('/change-password')}}">
-                                <i class="fas fa-key"></i> Change Password
+                            <a href="{{ url('change-password') }}">
+                                <i class="fas fa-key"></i>Change Password
                             </a>
                         </li>
                         <li>
-                            <a onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                            <a onclick="performLogout()">
+                                <i class="fas fa-sign-out-alt"></i>Logout
                             </a>
                         </li>
                     </ul>
-                </header>
-            
-                <div class="content">
-                    @yield('content')
                 </div>
+            </header>
+            <div class="content-container" id="content-container">
+                @yield('content')
             </div>
 
             <div class="alert" id="alert">
-                Successfully copied the text
             </div>
         </div>
+        
         @yield('header')
         @yield('footer')
         <script type="text/javascript">
-            const subMenus = ['customer', 'contract'];
+            @if (Auth::user()->branchind == 0)
+                localStorage.removeItem('referrerCode');
+            @endif
 
-            let elementUserSubmenu = document.getElementById('user-submenu');
-            let elementUserSidemenu = document.getElementById('user-sidemenu');
-            let elementMainContent = document.getElementById('main-content');
+            let contentContainer = document.getElementById('content-container');
             let elementAlert = document.getElementById('alert');
-            let showSubmenu = false;
-            let showSidemenu = true;
 
             @if (Session::has('showSuccessMessage'))
                 this.showAlert('{{ Session::get('showSuccessMessage') }}');
             @endif
-
-            @if (Auth::user()->branchind == 0)
-                localStorage.removeItem('referrerCode');
-            @endif
-        
-            function displayUserSubMenu() {
-                elementUserSubmenu.classList.toggle("show");
-
-                showSubmenu = !showSubmenu;
+            function toggleContentPanel(obj) {
+                if (obj.checked) {
+                    contentContainer.classList.add('compressed');
+                } else {
+                    contentContainer.classList.remove('compressed');
+                }
             }
 
             function showAlert(message, alertType = 'alert-success') {
                 elementAlert.classList.add(alertType);
                 elementAlert.classList.add('show');
-                elementAlert.innerText = message;
+
+                if (Array.isArray(message)) {
+                    // process with array
+                } else {
+                    elementAlert.innerHTML = message;
+                }
 
                 setTimeout(function () {
                     elementAlert.classList.remove(alertType);
@@ -157,39 +171,12 @@
                 }, 3000);
             }
 
-            function displayUserSideMenu() {
-                elementUserSidemenu.classList.toggle("show");
-                elementMainContent.classList.toggle("expand");
-
-                showSidemenu = !showSidemenu;
-            }
-
-            function toggleNavSubMenu(option) {
-                let lists = document.getElementsByClassName(option);
-
-                this.closeNavSubMenu();
-
-                for (let i = 0; i < lists.length; i++) {
-                    lists[i].classList.add("show");
-                }
-            }
-
-            function closeNavSubMenu() {
-                for (let menu of subMenus) {
-                    const lists = document.getElementsByClassName(menu);
-
-                    for (let i = 0; i < lists.length; i++) {
-                        lists[i].classList.remove("show");
-                    }
-                }
-            }
-
-            function logout() {
+            function performLogout() {
                 fetch("{{ url('/logout') }}", {
                     method: 'POST', // or 'PUT'
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        // 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     }
                     })
                     .then((response) => {
@@ -200,13 +187,6 @@
                         console.error('Error:', error);
                 });
             }
-
-            // const input = document.getElementById("input-copy");
-            // const button = document.getElementById("button-copy");
-            // button.onclick = function () {
-            //     input.select();
-            //     document.execCommand('Copy');
-            // }
         </script>
         @yield('scripts')
     </body>

@@ -28,6 +28,7 @@ class ConfirmationController extends Controller
 
     public function sendSms(Request $request) {      
         $validator = Validator::make($request->all(), [ 
+            'tel_code_1' => 'required|string',
             'contact_one_of_applicant' => 'required|string|min:8|max:20'
         ]);
 
@@ -37,7 +38,7 @@ class ConfirmationController extends Controller
         
         $sendSMS = $this->twilio->verify->v2->services($this->twilioVerifySid)
             ->verifications
-            ->create($request->contact_one_of_applicant, "sms");
+            ->create($request->tel_code_1 . $request->contact_one_of_applicant, "sms");
 
         return [
             'status' => $sendSMS->status
@@ -47,6 +48,7 @@ class ConfirmationController extends Controller
     public function verifySms(Request $request) {
         $validator = Validator::make($request->all(), [ 
             'contact_one_sms_tag' => 'required|string|min:6|max:6',
+            'tel_code_1' => 'required|string',
             'contact_one_of_applicant' => 'required|string|min:8|max:20'
         ]);
 
@@ -58,7 +60,7 @@ class ConfirmationController extends Controller
         
         $verification = $this->twilio->verify->v2->services($this->twilioVerifySid)
             ->verificationChecks
-            ->create($request->contact_one_sms_tag, array('to' => $request->contact_one_of_applicant));
+            ->create($request->contact_one_sms_tag, array('to' => $request->tel_code_1 . $request->contact_one_of_applicant));
 
         return [
             'status' => $verification->status

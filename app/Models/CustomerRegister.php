@@ -17,6 +17,7 @@ class CustomerRegister extends Model
         'password',
         'icno',
         'telephoneno',
+        'telcode',
         'status'        
     ];
 

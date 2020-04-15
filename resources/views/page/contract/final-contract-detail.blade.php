@@ -1,14 +1,14 @@
 @extends('layout.dashboard')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/page/customer/contract-details.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/contract/contract-details.css">
 @endsection
 
 @section('content')
 <div class="content">
     <div class="contract-details-panel">
         <span>
-          <a href="{{ url('/customer/contract') }}" class="btn btn-secondary">
+          <a href="{{ url('/contract/final-contract') }}" class="btn btn-secondary">
             <i class="fas fa-chevron-left"></i> Back To Contract
           </a>
         </span>

@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/page/auth/register.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -22,8 +23,9 @@
                         <i class="fas fa-phone"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="+60123456789" name="telephoneno" value="{{ old('telephoneno') }}" required autofocus>
-                </div>
+                    <select class="js-example-basic-single form-control d-inline col-sm-5" id="tel-code-options" name="tel_code" required></select>
+                    <input type="text" class="form-control d-inline" name="telephoneno" placeholder="123456789" required>
+                    </div>
                 @error('telephoneno')
                     <div class="alert alert-danger">
                         <strong>{{ $message }}</strong>
@@ -114,6 +116,14 @@
                     </div>
                 @enderror
             </div>
+
+            @if (Session::get('message'))
+            <div class="form-group">
+                <div class="alert alert-danger">
+                    <strong>{{ Session::get('message') }}</strong>
+                </div>
+            </div>
+            @endif
             
             <div class="container button">
                 <div class="row">
@@ -136,53 +146,55 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/js/vendor/vendor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script type="text/javascript">
-    const queryStrings = this.getAllQueryString(window.location.search);
-    const referrerCode = this.getReferrerCode();
 
-    this.injectReferrerCode();
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+
+    this.getCountryTelCode();
 
     function backToLogin() {
         window.location = "{{ url('login') }}";
     }
 
-    function getAllQueryString(url) {
-        let queryParams = {};
-        //create an anchor tag to use the property called search
-        let anchor = document.createElement('a');
-        //assigning url to href of anchor tag
-        anchor.href = url;
-        //search property returns the query string of url
-        let queryStrings = anchor.search.substring(1);
-        let params = queryStrings.split('&');
-
-        for (var i = 0; i < params.length; i++) {
-            var pair = params[i].split('=');
-            queryParams[pair[0]] = decodeURIComponent(pair[1]);
-        }
-        return queryParams;
-    };
-
-    function getReferrerCode() {
-        const referrerCode = (queryStrings['ref']) ? queryStrings['ref'] : localStorage.getItem("referrerCode");
-        return referrerCode;
-    }
-
-    function injectReferrerCode() {
-        if (!referrerCode) { return; }
-        localStorage.setItem("referrerCode", referrerCode);
-
-        let input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "referrer_code");
-        input.setAttribute("value", referrerCode);
-
-        //append to form element that you want .
-        document.getElementById("register-form").appendChild(input);
-    }
-
     function formReset() {
         document.getElementById('register-form').reset();
     }
+    
+    function getCountryTelCode() {
+            fetch("{{ url('/api/country/tel-code') }}", {
+                method: 'GET', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((res) => {
+                    
+                    let telCodeOptions1 = document.getElementById('tel-code-options');
+                    let option = document.createElement('option');
+                    option.setAttribute('value', '');
+                    option.appendChild(document.createTextNode('-- Tel Code --'));
+
+                    telCodeOptions1.appendChild(option);
+                    for (let each of res.data) {
+                        let option = document.createElement('option');
+                        option.setAttribute('value', each.dial_code);
+                        option.appendChild(document.createTextNode(`${each.name} (${each.dial_code})`));
+
+                        telCodeOptions1.appendChild(option);
+                    }
+                })
+                .catch((error) => {
+                    console.log(['err', err]);
+                });
+        }
+        
 </script>
 @endsection

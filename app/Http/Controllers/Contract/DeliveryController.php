@@ -21,6 +21,10 @@ use App\Models\ContractMaster;
 use App\Models\ContractMasterDtl;
 use App\Models\ContractMasterLog;
 use App\Models\CustomerMaster;
+use App\Models\IrsCompany;
+use App\Models\IrsCity;
+use App\Models\IrsState;
+use App\Models\IrsCountry;
 use Session;
 
 class DeliveryController extends Controller
@@ -32,6 +36,70 @@ class DeliveryController extends Controller
         return view('page.contract.delivery-order-list', [
             'contract_delivery_orders' => $contractDeliveryOrders
         ]);
+    }
+
+    public function showDeliveryOrderDetail(Request $request, $contractDeliveryOrderId) {
+        $companyAddress = DB::table('irs_company')
+                            ->join('irs_city', 'irs_company.CO_MainCity', '=', 'irs_city.CI_ID')
+                            ->join('irs_state', 'irs_company.CO_MainState', '=', 'irs_state.ST_ID')
+                            ->join('irs_country', 'irs_company.CO_MainCountry', '=', 'irs_country.CO_ID')
+                            ->where('irs_company.CO_Code', '=', env('BRANCH_ID'))
+                            ->select([
+                                'irs_company.id',
+                                'irs_company.CO_Name',
+                                'irs_company.CO_MainAddress1',
+                                'irs_company.CO_MainAddress2',
+                                'irs_company.CO_MainAddress3',
+                                'irs_company.CO_MainAddress4',
+                                'irs_company.CO_MainPostcode',
+                                'irs_company.CO_MainCity',
+                                'irs_company.CO_MainState',
+                                'irs_company.CO_MainCountry',
+                                'irs_company.CO_Phone1',
+                                'irs_company.CO_Email',
+                                'irs_company.CO_Website',
+                                'irs_city.CI_Description',
+                                'irs_state.ST_Description',
+                                'irs_country.CO_Description'
+                            ])->first();
+
+        $deliveryOrder = DB::table('contractdeliveryorder')
+                            ->join('contractdeliveryorderdtl', 'contractdeliveryorder.id', '=' , 'contractdeliveryorderdtl.contractdeliveryorder_id')
+                            ->join('customermaster', 'contractdeliveryorder.CDOH_CustomerID', '=', 'customermaster.id')
+                            ->where('contractdeliveryorder.id', $contractDeliveryOrderId)
+                            ->select([
+                                'contractdeliveryorder.id',
+                                'contractdeliveryorder.CDOH_DocNo',
+                                'contractdeliveryorder.CDOH_ContractDocNo',
+                                'contractdeliveryorder.CDOH_DocDate',
+                                'contractdeliveryorder.CDOH_Address1', 
+                                'contractdeliveryorder.CDOH_Address2',
+                                'contractdeliveryorder.CDOH_Postcode',
+                                'contractdeliveryorder.CDOH_City',
+                                'contractdeliveryorder.CDOH_State',
+                                'contractdeliveryorder.CDOH_Country',
+                                'contractdeliveryorder.CDOH_InstallAddress1',
+                                'contractdeliveryorder.CDOH_InstallAddress2',
+                                'contractdeliveryorder.CDOH_InstallPostcode',
+                                'contractdeliveryorder.CDOH_InstallCity',
+                                'contractdeliveryorder.CDOH_InstallState',
+                                'contractdeliveryorder.CDOH_InstallCountry',
+                                'contractdeliveryorderdtl.CDOD_Description',
+                                'contractdeliveryorderdtl.CDOD_Qty',
+                                'contractdeliveryorderdtl.CDOD_SerialNo',
+                                'customermaster.Cust_NAME'
+                            ])->first();
+
+        $deliveryOrder->City_Description = IrsCity::where('CI_ID', $deliveryOrder->CDOH_City)->pluck('CI_Description')->first();
+        $deliveryOrder->State_Description = IrsState::where('ST_ID', $deliveryOrder->CDOH_State)->pluck('ST_Description')->first();
+        $deliveryOrder->Country_Description = IrsCountry::where('CO_ID', $deliveryOrder->CDOH_Country)->pluck('CO_Description')->first();
+
+        $deliveryOrder->InstallCity_Description = IrsCity::where('CI_ID', $deliveryOrder->CDOH_InstallCity)->pluck('CI_Description')->first();
+        $deliveryOrder->InstallState_Description = IrsState::where('ST_ID', $deliveryOrder->CDOH_InstallState)->pluck('ST_Description')->first();
+        $deliveryOrder->InstallCountry_Description = IrsCountry::where('CO_ID', $deliveryOrder->CDOH_InstallCountry)->pluck('CO_Description')->first();
+
+        $printDate = Carbon::now()->toDateString();
+        return view('page.contract.delivery-order-detail', compact('companyAddress', 'deliveryOrder', 'printDate'));
     }
 
     public function showCreateDeliveryOrder(Request $request) {
@@ -190,6 +258,14 @@ class DeliveryController extends Controller
                     'CNH_Tax' => $contractMaster->CNH_Tax,
                     'CNH_TaxableAmt' => $contractMaster->CNH_TaxableAmt,
                     'CNH_NetTotal' => $contractMaster->CNH_NetTotal,
+                    'CNH_Address1' => $contractMaster->CNH_Address1,
+                    'CNH_Address2' => $contractMaster->CNH_Address2,
+                    'CNH_Address3' => $contractMaster->CNH_Address3,
+                    'CNH_Address4' => $contractMaster->CNH_Address4,
+                    'CNH_Postcode' => $contractMaster->CNH_Postcode,
+                    'CNH_City' => $contractMaster->CNH_City,
+                    'CNH_State' => $contractMaster->CNH_State,
+                    'CNH_Country' => $contractMaster->CNH_Country,
                     'CNH_InstallAddress1' => $contractMaster->CNH_InstallAddress1,
                     'CNH_InstallAddress2' => $contractMaster->CNH_InstallAddress2,
                     'CNH_InstallAddress3' => $contractMaster->CNH_InstallAddress3,
