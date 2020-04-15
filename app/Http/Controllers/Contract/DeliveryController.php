@@ -99,6 +99,8 @@ class DeliveryController extends Controller
         $deliveryOrder->InstallCountry_Description = IrsCountry::where('CO_ID', $deliveryOrder->CDOH_InstallCountry)->pluck('CO_Description')->first();
 
         $printDate = Carbon::now()->toDateString();
+        $deliveryOrder->CDOH_DocDate =  Carbon::parse($deliveryOrder->CDOH_DocDate)->format('d/m/Y');
+        
         return view('page.contract.delivery-order-detail', compact('companyAddress', 'deliveryOrder', 'printDate'));
     }
 
