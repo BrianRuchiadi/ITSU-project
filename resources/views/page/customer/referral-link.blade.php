@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="input-group mb-3">
-    <input type="text" class="form-control" value="{{ env('APP_URL') }}/register" placeholder="referral link" id="referralLink">
+    <input type="text" class="form-control" value="{{ env('APP_URL') }}/login" placeholder="referral link" id="referralLink">
     <div class="input-group-append" onclick="copyTextToClipboard('referralLink')">
       <span class="input-group-text">
         <i class="fas fa-clipboard"></i>
@@ -25,15 +25,7 @@
             elid.select();
             document.execCommand('Copy');
             
-            elementAlert.classList.add("show");
-            elementAlert.classList.add("alert-success");
-            elementAlert.value = "Successfully copied the text to clipboard";
-
-            setTimeout(() => {
-                elementAlert.classList.remove("show");
-                elementAlert.classList.remove("alert-success");
-                elementAlert.value = "";
-            }, 3000)
+            showAlert("Successfully copied the text to clipboard");
         }
 
         function getReferralLink() {

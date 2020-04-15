@@ -20,11 +20,13 @@ class UserController extends Controller
             // if user is staff, then always use their own id
             if (Auth::user()->branchind == 0) {
                 $decoded = Auth::user()->id;
+                $staff = Auth::user();
             }
         }
 
         return [
             'decoded_referrer_id' => $decoded,
+            'staff' => $staff ?? null,
             'data' => User::whereNull('deleted_at')->
                         where('branchind', 0)->
                         get()

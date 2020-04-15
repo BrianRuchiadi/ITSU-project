@@ -1,22 +1,14 @@
 @extends('layout.dashboard')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/page/contract/invoice.css">
+<link rel="stylesheet" type="text/css" href="/css/page/customer/invoice.css">
 @endsection
 
 @section('content')
-@if ($selectedDate)
-    <a class="btn btn-secondary" href="{{url('/contract/invoices/list?generated_date=' . $selectedDate)}}">
-        <i class="fas fa-chevron-left"></i>
-        Back To Invoices List
-    </a>
-@else 
-    <a class="btn btn-secondary" href="{{url('/contract/final-contract')}}">
-        <i class="fas fa-chevron-left"></i>
-        Back To Contract List
-    </a>
-@endif
-
+<a class="btn btn-secondary" href="{{url('/customer/contract')}}">
+    <i class="fas fa-chevron-left"></i>
+    Back To Contract List
+</a>
 <div class="py-2">
     <button type="button" class="btn btn-primary d-print-none" onclick="printPage('print-area-invoice')">
         <i class="fas fa-print"></i> Print

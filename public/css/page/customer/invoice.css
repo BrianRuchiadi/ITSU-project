@@ -1,0 +1,69 @@
+.content-wrapper {
+  max-width: 800px;
+}
+
+.content-wrapper.max {
+  max-width: 1200px;
+}
+
+.header {
+  border-bottom: 2px solid grey;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.table.limited {
+  max-width: 600px;
+}
+
+a.btn {
+  color: white;
+}
+
+.danger-section {
+  background-color: #DC1515;
+  color: white;
+  padding: 10px;
+}
+
+.form-alert {
+  padding: 10px;
+  margin-top: 10px;
+  word-wrap: break-all;
+  white-space: pre-wrap;
+}
+
+.item-section {
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.item-section h2 {
+  padding-left: 10px;
+}
+
+table {
+  width: 100% !important;
+}
+
+table.table td {
+  padding: 0.25rem 0.75rem;
+}
+
+#print-area-invoice h4 {
+  margin-bottom: 0;
+}
+
+@media print {
+@page {
+    size: landscape a4;
+    margin: 10mm auto;
+}
+}
+
+@media (max-width: 767px) {
+  .header {
+    font-size: 80%;
+  }
+}
+

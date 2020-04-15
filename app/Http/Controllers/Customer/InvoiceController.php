@@ -1,56 +1,27 @@
 <?php
-namespace App\Http\Controllers\Contract;
+namespace App\Http\Controllers\Customer;
 
+use App\Data;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rule;
+use Hashids\Hashids;
 use Carbon\Carbon;
+use Session;
 use DB;
 
 use App\Models\ContractInvoice;
+use App\Models\ContractInvoiceDtl;
+
+use App\Models\User;
 
 class InvoiceController extends Controller
 {
-    public function showInvoicesByGeneratedDate(Request $request) {
-        $todayDate = Carbon::now()->toDateString();
-
-        $contractInvoicesDate = DB::table('contractinvoice')
-                                ->select(DB::raw('count(*) as total_contract, CSIH_PostingDate'))
-                                ->groupBy('CSIH_PostingDate')
-                                ->paginate(30);
-
-        return view('page.contract.invoice-main', [
-            'todayDate' => $todayDate,
-            'contractInvoicesDate' => $contractInvoicesDate
-        ]);
-    }
-
-    public function showInvoicesListByDate(Request $request) {
-        if (!$request->generated_date) {
-            return redirect('/contract/invoices');
-        }
-        
-        $contractInvoices = DB::table('contractinvoice')
-                            ->join('contractmaster', 'contractinvoice.CSIH_ContractDocNo', '=', 'contractmaster.CNH_DocNo')
-                            ->join('customermaster', 'contractmaster.CNH_CustomerID', '=', 'customermaster.id')
-                            ->where('contractinvoice.CSIH_PostingDate', '=', $request->generated_date)
-                            ->select([
-                                'contractinvoice.id',
-                                'contractinvoice.CSIH_BillingPeriod',
-                                'contractinvoice.CSIH_ContractDocNo',
-                                'contractmaster.CNH_TotInstPeriod',
-                                'customermaster.Cust_NAME',
-                                'customermaster.Cust_Phone1',
-                                'customermaster.Cust_Email'
-                            ])->paginate(30);
-
-        return view('page.contract.invoice-list', [
-            'selectedDate' => $request->generated_date,
-            'contractInvoices' => $contractInvoices
-        ]);
-    } 
-
-    public function showInvoiceDetail(Request $request, ContractInvoice $invoice) {
+   public function getInvoice(Request $request, ContractInvoice $invoice) {
         $sql = "
             SELECT
                 cont_inv.`id`,
@@ -124,11 +95,10 @@ class InvoiceController extends Controller
             'irs_country.CO_Description'
         ])->first();
 
-        // dd($invoiceDetail);
-        return view('page.contract.invoice-detail', [
+        return view('page.customer.invoice-detail', [
             'selectedDate' => $request->generated_date,
             'invoiceDetail' => $invoiceDetail,
             'companyAddress' => $companyAddress
         ]);
-    }
+   }
 }
