@@ -197,6 +197,56 @@
                 </div>
               </div>
             </div>
+          @if ($contractDetails->CNH_Status == "Approve")   
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">CTOS Status</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ ($contractDetails->CTOS_verify == 1) ? 'Verified' : 'Not Verified' }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">CTOS Score</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->CTOS_Score }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Effective Date</span>
+                <div class="col-sm-2">
+                  <label class="form-control">{{ $contractDetails->CNH_EffectiveDay }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Start Date</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->Start_Date }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">End Date</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->End_Date }}</label>  
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group">
+                <span class="input-group-text col-sm-4">Commission Month</span>
+                <div class="col-sm-8 input-group">
+                  <label class="form-control">{{ $contractDetails->CNH_CommissionMonth }}</label>  
+                </div>
+              </div>
+            </div>
+          @endif
             @if ($attachment->icno_file != null) 
             <div class="form-group row">
               <div class="input-group">

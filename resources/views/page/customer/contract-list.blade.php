@@ -85,12 +85,10 @@
           @endforeach      
           </tbody>
           <tfoot>
-            @if (count($contracts))
-              @if(count($contracts->items()) == 0)
+            @if (!count($contracts))
               <tr>
-                <td colspan="6" class="center">No Contract Found</td>
+                <td colspan="7" class="center">No Contract Found</td>
               </tr>
-              @endif
             @endif
           </tfoot>
         </table>

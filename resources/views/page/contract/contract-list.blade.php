@@ -2,7 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
-    <link rel="stylesheet" type="text/css" href="/css/page/contract/final-contract-list.css">
+    <link rel="stylesheet" type="text/css" href="/css/page/contract/contract-list.css">
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
       </div>
       
       @if ($user->branchind != 4)
-      <form class="form-horizontal" action="{{ url('/contract/final-contract/search') }}" method="GET">
+      <form class="form-horizontal" action="{{ url('/contract/contract-list/search') }}" method="GET">
         {{ csrf_field() }}
         <h3 class="table-header">
           <i class="fas fa-search"></i>
@@ -74,17 +74,15 @@
                 <td class="center">{{ $contract->Cust_NAME }}</td>
                 <td class="center">{{ $contract->CNH_DocNo }}</td>
                 <td class="center">{{ $contract->CNH_Status }}</td>            
-                <td class="center"><a href="{{ url('/contract/final-contract/detail/' .  $contract->id) }}" class="btn btn-sm btn-primary" onclick="event.stopPropagation()"> View Details</a></td>
+                <td class="center"><a href="{{ url('/contract/contract-list/detail/' .  $contract->id) }}" class="btn btn-sm btn-primary" onclick="event.stopPropagation()"> View Details</a></td>
             </tr>
           @endforeach      
           </tbody>
           <tfoot>
-            @if (count($contracts))
-              @if(count($contracts->items()) == 0)
+            @if (!count($contracts))
               <tr>
                 <td colspan="6" class="center">No Contract Found</td>
               </tr>
-              @endif
             @endif
           </tfoot>
         </table>

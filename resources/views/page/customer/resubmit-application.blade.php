@@ -954,25 +954,24 @@
                     if (!res.staff) {
                         sellerOne.disabled = true;
                         sellerTwo.disabled = true;
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "seller_one");
+                        input.setAttribute("value", contractDetails.CNH_SalesAgent1);
+
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", (contractDetails.CNH_SalesAgent2) ? contractDetails.CNH_SalesAgent2 : "");
+
+                        //append to form element that you want .
+                        form.appendChild(input);
+                        form.appendChild(input2);
                     }
 
                     if (type == 'once') {
                         sellerOne.value = contractDetails.CNH_SalesAgent1;
                         sellerTwo.value = contractDetails.CNH_SalesAgent2;
-
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", contractDetails.CNH_SalesAgent1);
-                        
-                        let input2 = document.createElement("input");
-                        input2.setAttribute("type", "hidden");
-                        input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", (contractDetails.CNH_SalesAgent2) ? contractDetails.CNH_SalesAgent2 : '');
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
-                        form.appendChild(input2);
                     }
 
                     @if (Session::has('errorFormValidation'))

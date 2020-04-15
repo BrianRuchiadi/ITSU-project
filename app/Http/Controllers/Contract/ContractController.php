@@ -389,7 +389,7 @@ class ContractController extends Controller
 
         $user = Auth::user();
 
-        return view('page.contract.final-contract', [
+        return view('page.contract.contract-list', [
             'invoices' => $invoices,
             'contracts' => $contracts,
             'user' => $user,
@@ -407,7 +407,7 @@ class ContractController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return view('page.contract.final-contract', [
+            return view('page.contract.contract-list', [
                 'invoices' => [],
                 'contracts' => [],
                 'delivery_orders' => [],
@@ -436,7 +436,7 @@ class ContractController extends Controller
             }
 
             if ($validator->fails()) {
-                return view('page.contract.final-contract', [
+                return view('page.contract.contract-list', [
                     'invoices' => [],
                     'contracts' => [],
                     'delivery_orders' => [],
@@ -446,10 +446,10 @@ class ContractController extends Controller
             }
         }
 
+        $statusType = ['Approve', 'Reject'];
         $contracts = DB::table('customermaster')
                        ->join('contractmaster', 'customermaster.id', '=', 'contractmaster.CNH_CustomerID')
-                       ->where('contractmaster.CNH_Status', '=', 'Approve')
-                       ->orWhere('contractmaster.CNH_Status', '=', 'Reject');
+                       ->whereIn('contractmaster.CNH_Status', $statusType);
 
         $contracts = (!empty($request->customer)) ? $contracts->where('customermaster.Cust_NAME', 'like', '%' . $request->customer . '%') : $contracts; 
         $contracts = (!empty($request->ic_no)) ? $contracts->where('customermaster.Cust_NRIC', 'like', '%' . $request->ic_no . '%') : $contracts; 
@@ -481,7 +481,7 @@ class ContractController extends Controller
 
         $user = Auth::user();
 
-        return view('page.contract.final-contract', [
+        return view('page.contract.contract-list', [
             'contracts' => $contracts,
             'user' => $user,
             'delivery_orders' => $deliveryOrders,
@@ -500,6 +500,9 @@ class ContractController extends Controller
         $contractDetails->Apply_Date = Carbon::parse($contractDetails->CNH_DocDate)->format('d/m/Y H:i:s');
         $contractDetails->Approve_Date = Carbon::parse($contractDetails->CNH_ApproveDate)->format('d/m/Y H:i:s');
         $contractDetails->Reject_Date = Carbon::parse($contractDetails->CNH_RejectDate)->format('d/m/Y H:i:s');
+        $contractDetails->Start_Date = Carbon::parse($contractDetails->CNH_StartDate)->format('d/m/Y');
+        $contractDetails->End_Date = Carbon::parse($contractDetails->CNH_EndDate)->format('d/m/Y');
+        $contractDetails->Commission_Start_Date = Carbon::parse($contractDetails->CNH_CommissionStartDate)->format('d/m/Y');
 
         $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
                         ->where('IM_TYPE', '=', '1')
@@ -532,6 +535,6 @@ class ContractController extends Controller
 
         $attachment = ContractMasterAttachment::where('contractmast_id', $contract->id)->first();
 
-        return view('page.contract.final-contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
+        return view('page.contract.contract-detail', compact('contractDetails', 'itemMaster', 'city', 'state', 'country', 'agent1', 'agent2', 'attachment'));
     }
 }

@@ -859,21 +859,20 @@
                         if (!res.staff) {
                             sellerOne.disabled = true;
                             sellerTwo.disabled = true;
+                            let input = document.createElement("input");
+                            input.setAttribute("type", "hidden");
+                            input.setAttribute("name", "seller_one");
+                            input.setAttribute("value", res.decoded_referrer_id);
+                            
+                            let input2 = document.createElement("input");
+                            input2.setAttribute("type", "hidden");
+                            input2.setAttribute("name", "seller_two");
+                            input2.setAttribute("value", "");
+                            
+                            //append to form element that you want .
+                            form.appendChild(input);
+                            form.appendChild(input2);
                         }
-
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", res.decoded_referrer_id);
-                        
-                        let input2 = document.createElement("input");
-                        input2.setAttribute("type", "hidden");
-                        input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", "");
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
-                        form.appendChild(input2);
                     }
 
                     @if (Session::has('errorFormValidation'))
@@ -928,20 +927,6 @@
                     
                     if (res.staff) {
                         sellerOne.value = res.staff;
-
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", res.staff);
-                        
-                        let input2 = document.createElement("input");
-                        input2.setAttribute("type", "hidden");
-                        input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", "");
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
-                        form.appendChild(input2);
                     } else { 
                         sellerOne.disabled = true;
                         sellerTwo.disabled = true;
