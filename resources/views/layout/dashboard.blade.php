@@ -90,8 +90,8 @@
                                         </a>
                                     </li>
                                     <li class="contract">
-                                        <a href="{{ url('/contract/final-contract') }}">
-                                            Final Contract
+                                        <a href="{{ url('/contract/contract-list') }}">
+                                            Contract List
                                         </a>
                                     </li>
                                     <li class="contract">

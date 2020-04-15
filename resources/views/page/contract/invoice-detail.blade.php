@@ -11,7 +11,7 @@
         Back To Invoices List
     </a>
 @else 
-    <a class="btn btn-secondary" href="{{url('/contract/final-contract')}}">
+    <a class="btn btn-secondary" href="{{url('/contract/contract-list')}}">
         <i class="fas fa-chevron-left"></i>
         Back To Contract List
     </a>

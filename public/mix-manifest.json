@@ -17,7 +17,7 @@
     "/css/page/contract/pending-contract-details.css": "/css/page/contract/pending-contract-details.css",
     "/css/page/contract/delivery-order.css": "/css/page/contract/delivery-order.css",
     "/css/page/contract/invoice.css": "/css/page/contract/invoice.css",
-    "/css/page/contract/final-contract-list.css": "/css/page/contract/final-contract-list.css",
+    "/css/page/contract/contract-list.css": "/css/page/contract/contract-list.css",
     "/css/page/contract/contract-details.css": "/css/page/contract/contract-details.css",
     "/css/page/utilities/email-verify.css": "/css/page/utilities/email-verify.css",
     "/css/page/print/print-contract.css": "/css/page/print/print-contract.css",
