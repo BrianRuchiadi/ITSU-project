@@ -1,7 +1,6 @@
 @extends('layout.dashboard')
 
 @section('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
     <link rel="stylesheet" type="text/css" href="/css/page/contract/delivery-order.css">
 @endsection
@@ -196,7 +195,6 @@
 
 @section('scripts')
     <script type="text/javascript" src="/js/vendor/vendor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
             $(".advanced-select").select2({

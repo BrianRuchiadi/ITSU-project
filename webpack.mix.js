@@ -15,9 +15,11 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.styles([
-    'node_modules/datatables.net-bs4/css/datatables.net-bs4',
+    'node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
     'node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css',
-    'node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'
+    'node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css',
+    'node_modules/select2/dist/css/select2.min.css',
+
 ], 'public/css/vendor/vendor.css');
 
 mix.scripts([
@@ -31,7 +33,8 @@ mix.scripts([
     'node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
 
     'node_modules/datatables.net-responsive/js/dataTables.responsive.min.js',
-    'node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'
+    'node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js',
+    'node_modules/select2/dist/js/select2.min.js',
 
 ], 'public/js/vendor/vendor.js');
 
