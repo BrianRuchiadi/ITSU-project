@@ -217,7 +217,7 @@
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Effective Date</span>
-                <div class="col-sm-2">
+                <div class="col-sm-8 input-group">
                   <label class="form-control">{{ $contractDetails->CNH_EffectiveDay }}</label>  
                 </div>
               </div>
@@ -255,7 +255,7 @@
               </div>
             </div>
           @endif
-            @if ($attachment->icno_file != null) 
+          @if ($attachment->icno_file != null) 
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">IC No</span>
@@ -304,8 +304,8 @@
                 </div>
               </div>
             </div>
-            @endif
-            @if ($attachment->comp_form_file != null) 
+          @endif
+          @if ($attachment->comp_form_file != null) 
             <div class="form-group row">
               <div class="input-group">
                 <span class="input-group-text col-sm-4">Company Form</span>
@@ -354,7 +354,7 @@
                 </div>
               </div>
             </div>
-            @endif
+          @endif
         </form>
     </div>
     
