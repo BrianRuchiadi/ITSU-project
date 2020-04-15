@@ -54,6 +54,12 @@ table.table td {
   margin-bottom: 0;
 }
 
+.fa-pull-left,
+.fa-pull-right,
+.item-section {
+  margin-top: 15px;
+}
+
 @media print {
 @page {
     size: landscape a4;

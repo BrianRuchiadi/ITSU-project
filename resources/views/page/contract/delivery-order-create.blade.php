@@ -78,7 +78,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery Country</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-country" name="delivery_country" onchange="populateStates(this)" required>
+                <select class="form-control advanced-select" id="delivery-country" name="delivery_country" onchange="populateStates(this, 'change')" required>
                 </select>
             </div>
         </div>
@@ -86,7 +86,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery State</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-state" name="delivery_state" onchange="populateCities(this)" required>
+                <select class="form-control advanced-select" id="delivery-state" name="delivery_state" onchange="populateCities(this, 'change')" required>
                 </select>
             </div>
         </div>
@@ -94,7 +94,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery City</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-city" name="delivery_city" required>
+                <select class="form-control advanced-select" id="delivery-city" name="delivery_city" required>
                 </select>
             </div>
         </div>
@@ -182,7 +182,7 @@
                     <th></th>
                     <th>Contract No</th>
                     <th>Customer Name</th>
-                    <th>Phone No</th>
+                    <th>Contract Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -197,6 +197,10 @@
     <script type="text/javascript" src="/js/vendor/vendor.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
+            $(".advanced-select").select2({
+                width: '100%'
+            });
+           
             let datatableItem = $('#table-item-detail').DataTable({
                 paging : false,
                 searching : false,
@@ -281,7 +285,7 @@
                 })
                 .then((res) => {
                     contracts = res.contracts.data;
-                    clearSearchContract();
+                    clearSearchContract(false);
 
                     if (contracts.length) {
                         for (let i = 0; i < contracts.length; i++) {
@@ -296,8 +300,8 @@
                             let colRow_CustName = newRow.insertCell(2);
                             colRow_CustName.innerHTML = contracts[i].Cust_NAME;
 
-                            let colRow_CustPhone = newRow.insertCell(3);
-                            colRow_CustPhone.innerHTML = contracts[i].Cust_Phone1; 
+                            let colRow_DocDate = newRow.insertCell(3);
+                            colRow_DocDate.innerHTML = contracts[i].CNH_DocDate; 
                         }
 
                         datatableSearchResult = $('#table-search-result').DataTable({
@@ -314,7 +318,7 @@
             });
         }
 
-        function clearSearchContract() {
+        function clearSearchContract(clearSearch = true) {
             let length = elTableSearchResult.rows.length;
 
             if (length < 2) { return; }
@@ -324,6 +328,13 @@
 
             if ($.fn.DataTable.isDataTable('#table-search-result')) {
                 $('#table-search-result').DataTable().clear().destroy();
+            }
+
+            if (clearSearch) {
+                elCustomer.value = '';
+                elIcNo.value = '';
+                elTelNo.value = '';
+                elContractNumber.value = '';
             }
         }
 
@@ -391,7 +402,8 @@
             elDeliveryAddressOne.value = (contract.CNH_InstallAddress1) ? contract.CNH_InstallAddress1 : '';
             elDeliveryAddressTwo.value = (contract.CNH_InstallAddress2) ? contract.CNH_InstallAddress2 : '';
             elDeliveryPostcode.value = (contract.CNH_InstallPostcode) ? contract.CNH_InstallPostcode : '';
-            elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
+
+            this.getCountryOptions('once');
 
             elItemName.innerText = contract.IM_Description;
             elItemQty.innerText = contract.CND_Qty;
@@ -414,8 +426,6 @@
                     }
                 },
             });
-
-            populateStates(elDeliveryCountry);
         }
 
         function removeOptions(option) {
@@ -424,7 +434,7 @@
             }
         }
 
-        function populateStates(option) {
+        function populateStates(option, change) {
             // text : option.options[option.selectedIndex].innerHTML,
             // value : option.value
             fetch('{{ url('') }}' + `/customer/api/country/states?co_id=` + option.value, {
@@ -456,9 +466,9 @@
                         elDeliveryState.appendChild(option);
                     }
                     
-                    if (contract) {
+                    if (contract && change != 'change') {
                         elDeliveryState.value = (contract.CNH_InstallState) ? contract.CNH_InstallState : '';
-                        populateCities(elDeliveryState);
+                        populateCities(elDeliveryState, 'once');
                     }
 
                     // if got error validation
@@ -473,7 +483,7 @@
                 });
         }
 
-        function populateCities(option) {
+        function populateCities(option, change) {
             fetch('{{ url('') }}' + `/customer/api/state/cities?st_id=` + option.value , {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -502,7 +512,7 @@
                         elDeliveryCity.appendChild(option);
                     }
                     
-                    if (contract) {
+                    if (contract && change != 'change') {
                         elDeliveryCity.value = (contract.CNH_InstallCity) ? contract.CNH_InstallCity : '';
                     }
 
@@ -517,7 +527,7 @@
                 });
         }
 
-        function getCountryOptions() {
+        function getCountryOptions(type) {
             fetch("{{ url('/customer/api/countries') }}", {
                 method: 'GET', // or 'PUT'
                 headers: {
@@ -543,6 +553,11 @@
                         option.appendChild(document.createTextNode(each.CO_Description));
 
                         elDeliveryCountry.appendChild(option);
+                    }
+                    
+                    if (contract && type == 'once') {
+                        elDeliveryCountry.value = (contract.CNH_InstallCountry) ? contract.CNH_InstallCountry : '';
+                        populateStates(elDeliveryCountry, 'once');
                     }
 
                     // if got error validation

@@ -53,7 +53,7 @@ input#item-serial-number {
 }
 
 table.table-striped {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 i.fas.fa-plus {
@@ -97,21 +97,18 @@ i.fas.fa-plus {
 }
 
 .modal-master .modal-wrapper {
-  min-width: 300px;
-  max-width: 90vw;
+  min-width: 250px;
+  max-width: 600px;
   min-height: 300px;
-  max-height: 80vh;
+  max-height: 500px;
+  height: 80vh;
+  width: 90vw;
   overflow: scroll;
+  overflow-x: hidden;
   margin: 0 auto;
   border-radius: 4px;
   box-shadow: 1px 1px 16px 0px black;
   margin-top: 50px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
   background-color: #F7F7F7;
   position: relative;
 }

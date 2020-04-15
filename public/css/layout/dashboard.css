@@ -360,6 +360,22 @@
   display: block;
 }
 
+.container .alert.alert-dark {
+  color: #333;
+  background-color: #E9BC1A;
+  border-color: none;
+}
+
+.container .alert.alert-danger {
+  background-color: #F94F13;
+  color: white;
+  border-color: none;
+}
+
+.container .alert.alert-success {
+  background-color: #1DA383;
+}
+
 @media (max-width: 767px) {
   .container header .side-nav ul.main {
     position: fixed;

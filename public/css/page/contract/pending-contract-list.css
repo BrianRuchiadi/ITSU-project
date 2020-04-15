@@ -85,6 +85,7 @@ table.table-borderless tbody a {
 }
 
 table.table-striped {
+  width: 100% !important;
   margin-top: 20px;
 }
 
