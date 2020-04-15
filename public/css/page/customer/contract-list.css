@@ -78,7 +78,7 @@ table.table-borderless tbody a {
 }
 
 table.table-striped {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 .table-wrapper {
