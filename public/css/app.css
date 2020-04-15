@@ -13782,3 +13782,15 @@ a:hover {
   z-index: 10000;
 }
 
+.dtr-title {
+  background: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  min-width: 120px !important;
+}
+
+.dtr-data {
+  display: inline-block;
+}
+
