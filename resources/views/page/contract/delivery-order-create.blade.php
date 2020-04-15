@@ -1,6 +1,7 @@
 @extends('layout.dashboard')
 
 @section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
     <link rel="stylesheet" type="text/css" href="/css/page/contract/delivery-order.css">
 @endsection
@@ -78,7 +79,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery Country</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-country" name="delivery_country" onchange="populateStates(this)" required>
+                <select class="form-control advanced-select" id="delivery-country" name="delivery_country" onchange="populateStates(this)" required>
                 </select>
             </div>
         </div>
@@ -86,7 +87,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery State</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-state" name="delivery_state" onchange="populateCities(this)" required>
+                <select class="form-control advanced-select" id="delivery-state" name="delivery_state" onchange="populateCities(this)" required>
                 </select>
             </div>
         </div>
@@ -94,7 +95,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label required">Delivery City</label>
             <div class="col-sm-8">
-                <select class="form-control" id="delivery-city" name="delivery_city" required>
+                <select class="form-control advanced-select" id="delivery-city" name="delivery_city" required>
                 </select>
             </div>
         </div>
@@ -182,7 +183,7 @@
                     <th></th>
                     <th>Contract No</th>
                     <th>Customer Name</th>
-                    <th>Phone No</th>
+                    <th>Contract Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -195,8 +196,13 @@
 
 @section('scripts')
     <script type="text/javascript" src="/js/vendor/vendor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
+            $(".advanced-select").select2({
+                width: '100%'
+            });
+           
             let datatableItem = $('#table-item-detail').DataTable({
                 paging : false,
                 searching : false,
@@ -281,7 +287,7 @@
                 })
                 .then((res) => {
                     contracts = res.contracts.data;
-                    clearSearchContract();
+                    clearSearchContract(false);
 
                     if (contracts.length) {
                         for (let i = 0; i < contracts.length; i++) {
@@ -296,8 +302,8 @@
                             let colRow_CustName = newRow.insertCell(2);
                             colRow_CustName.innerHTML = contracts[i].Cust_NAME;
 
-                            let colRow_CustPhone = newRow.insertCell(3);
-                            colRow_CustPhone.innerHTML = contracts[i].Cust_Phone1; 
+                            let colRow_DocDate = newRow.insertCell(3);
+                            colRow_DocDate.innerHTML = contracts[i].CNH_DocDate; 
                         }
 
                         datatableSearchResult = $('#table-search-result').DataTable({
@@ -314,7 +320,7 @@
             });
         }
 
-        function clearSearchContract() {
+        function clearSearchContract(clearSearch = true) {
             let length = elTableSearchResult.rows.length;
 
             if (length < 2) { return; }
@@ -324,6 +330,13 @@
 
             if ($.fn.DataTable.isDataTable('#table-search-result')) {
                 $('#table-search-result').DataTable().clear().destroy();
+            }
+
+            if (clearSearch) {
+                elCustomer.value = '';
+                elIcNo.value = '';
+                elTelNo.value = '';
+                elContractNumber.value = '';
             }
         }
 
