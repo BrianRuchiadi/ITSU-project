@@ -24,7 +24,7 @@
     <h4>Website : {{ $companyAddress->CO_Website }}</h4>
 
     <div class="header">
-        <span class="fa-pull-right d-none d-print-block">Print Date : {{ $printDate }}</span>
+        <span class="fa-pull-right d-print-block">Print Date : {{ $printDate }}</span>
         <h1>Delivery Order : {{ $deliveryOrder->CDOH_DocNo }}</h1>
     </div>
     
@@ -72,7 +72,7 @@
             <tbody>
                 <tr>
                     <td>{{ $deliveryOrder->CDOD_Description }}</td>
-                    <td>{{ $deliveryOrder->CDOD_Qty }}</td>
+                    <td>{{ number_format($deliveryOrder->CDOD_Qty) }}</td>
                     <td>{{ $deliveryOrder->CDOD_SerialNo }}</td>
                 </tr>
             </tbody>

@@ -27,22 +27,22 @@
         <table class="table table-borderless">
             <tr>
                 <td>Bill To</td>
-                <td>:{{ $invoiceDetail->Cust_NAME }}</td>
+                <td>: {{ $invoiceDetail->Cust_NAME }}</td>
             </tr>
             <tr>
                 <td rowspan="2">Address</td>
-                <td>:{{ $invoiceDetail->CSIH_InstallAddress1 }}{{ ($invoiceDetail->CSIH_InstallAddress2) ? ', ' . $invoiceDetail->CSIH_InstallAddress2: '' }}</td>
+                <td>: {{ $invoiceDetail->CSIH_Address1 }}{{ ($invoiceDetail->CSIH_Address2) ? ', ' . $invoiceDetail->CSIH_Address2: '' }}</td>
             </tr>
             <tr>
-                <td>{{ $invoiceDetail->CSIH_InstallPostcode }}, {{ $invoiceDetail->City_Description }}, {{ $invoiceDetail->State_Description }}, {{ $invoiceDetail->Country_Description }}</td>
+                <td> {{ $invoiceDetail->CSIH_Postcode }}, {{ $invoiceDetail->City_Description }}, {{ $invoiceDetail->State_Description }}, {{ $invoiceDetail->Country_Description }}</td>
             </tr>
             <tr>
                 <td>Tel No</td>
-                <td>:{{ $invoiceDetail->Cust_Phone1 }}</td>
+                <td>: {{ $invoiceDetail->telcode1 }}{{ $invoiceDetail->Cust_Phone1 }}</td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td>:{{ $invoiceDetail->Cust_Email }}</td>
+                <td>: {{ $invoiceDetail->Cust_Email }}</td>
             </tr>
         </table>
     </div>
@@ -55,21 +55,21 @@
             </tr>
             <tr>
                 <td>Invoice No</td>
-                <td>:{{ $invoiceDetail->CSIH_DocNo }}</td>
+                <td>: {{ $invoiceDetail->CSIH_DocNo }}</td>
             </tr>
             <tr>
                 <td>Billing Period</td>
-                <td>:{{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
+                <td>: {{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
             </tr>
             <tr>
                 <td>Contract No</td>
-                <td>:{{ $invoiceDetail->CSIH_ContractDocNo }}</td>
+                <td>: {{ $invoiceDetail->CSIH_ContractDocNo }}</td>
             </tr>
         </table>
     </div>
     
     <div class="item-section">
-        <table class="table">
+        <table class="table ">
             <thead>
                 <tr>
                     <th>No</th>
@@ -86,6 +86,13 @@
                     <td>{{ $invoiceDetail->CSID_Total }}</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>Total</td>
+                    <td>{{ $invoiceDetail->CSID_Total }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
