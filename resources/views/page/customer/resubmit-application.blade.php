@@ -2,7 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/page/customer/application-form.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/css/vendor/vendor.css">
 @endsection
 
 @section('content')
@@ -577,7 +577,6 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/vendor/vendor.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">     
         $(document).ready(function() {
@@ -954,25 +953,24 @@
                     if (!res.staff) {
                         sellerOne.disabled = true;
                         sellerTwo.disabled = true;
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "seller_one");
+                        input.setAttribute("value", (contractDetails.CNH_SalesAgent1) ? contractDetails.CNH_SalesAgent1 : "");
+
+                        let input2 = document.createElement("input");
+                        input2.setAttribute("type", "hidden");
+                        input2.setAttribute("name", "seller_two");
+                        input2.setAttribute("value", (contractDetails.CNH_SalesAgent2) ? contractDetails.CNH_SalesAgent2 : "");
+
+                        //append to form element that you want .
+                        form.appendChild(input);
+                        form.appendChild(input2);
                     }
 
                     if (type == 'once') {
                         sellerOne.value = contractDetails.CNH_SalesAgent1;
                         sellerTwo.value = contractDetails.CNH_SalesAgent2;
-
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "seller_one");
-                        input.setAttribute("value", contractDetails.CNH_SalesAgent1);
-                        
-                        let input2 = document.createElement("input");
-                        input2.setAttribute("type", "hidden");
-                        input2.setAttribute("name", "seller_two");
-                        input2.setAttribute("value", (contractDetails.CNH_SalesAgent2) ? contractDetails.CNH_SalesAgent2 : '');
-                        
-                        //append to form element that you want .
-                        form.appendChild(input);
-                        form.appendChild(input2);
                     }
 
                     @if (Session::has('errorFormValidation'))

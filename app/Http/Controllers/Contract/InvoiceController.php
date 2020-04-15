@@ -58,12 +58,12 @@ class InvoiceController extends Controller
                 cont_inv.`CSIH_DocNo`,
                 cont_inv.`CSIH_ContractDocNo`,
                 cont_inv.`CSIH_BillingPeriod`,
-                cont_inv.`CSIH_InstallAddress1`,
-                cont_inv.`CSIH_InstallAddress2`,
-                cont_inv.`CSIH_InstallPostcode`,
-                cont_inv.`CSIH_InstallCity`,
-                cont_inv.`CSIH_InstallState`,
-                cont_inv.`CSIH_InstallCountry`,
+                cont_inv.`CSIH_Address1`,
+                cont_inv.`CSIH_Address2`,
+                cont_inv.`CSIH_Postcode`,
+                cont_inv.`CSIH_City`,
+                cont_inv.`CSIH_State`,
+                cont_inv.`CSIH_Country`,
                 cont_inv.`CSIH_NetTotal`,
                 cont_inv.`CSIH_BalTotal`,
                 cont_inv.`CSIH_PrevBalTotal`,
@@ -77,6 +77,7 @@ class InvoiceController extends Controller
                 cust_mas.`Cust_Phone1`,
                 cust_mas.`Cust_Email`,
                 cust_mas.`Cust_NRIC`,
+                cust_mas.`telcode1`,
                 irs_city.`CI_Description` AS 'City_Description',
                 irs_state.`ST_Description` AS 'State_Description',
                 irs_country.`CO_Description` AS 'Country_Description'
@@ -93,9 +94,9 @@ class InvoiceController extends Controller
                 AND cont_inv.`id` = cont_inv_dtl.`contractinvoice_id`
                 AND cont_mas.`CNH_CustomerID` = cust_mas.`id`
                 AND cont_inv.`CSIH_ContractDocNo` = cont_mas.`CNH_DocNo`
-                AND cont_inv.`CSIH_InstallCity` = irs_city.`CI_ID`
-                AND cont_inv.`CSIH_InstallState` = irs_state.`ST_ID`
-                AND cont_inv.`CSIH_InstallCountry` = irs_country.`CO_ID`
+                AND cont_inv.`CSIH_City` = irs_city.`CI_ID`
+                AND cont_inv.`CSIH_State` = irs_state.`ST_ID`
+                AND cont_inv.`CSIH_Country` = irs_country.`CO_ID`
         ";
 
         $invoiceDetail = DB::select($sql)[0];
@@ -124,7 +125,8 @@ class InvoiceController extends Controller
             'irs_country.CO_Description'
         ])->first();
 
-        // dd($invoiceDetail);
+        $invoiceDetail->CSIH_DocDate = Carbon::parse($invoiceDetail->CSIH_DocDate)->format('d/m/Y');
+        
         return view('page.contract.invoice-detail', [
             'selectedDate' => $request->generated_date,
             'invoiceDetail' => $invoiceDetail,

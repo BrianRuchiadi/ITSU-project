@@ -289,7 +289,6 @@ class CustomerController extends Controller
                 'CNH_NameRef' => $request->name_of_reference,
                 'CNH_ContactRef' => $request->contact_of_reference,
                 'CNH_SalesAgent1' => $request->seller_one,
-                'CNH_SalesAgent1' => $request->seller_one,
                 'CNH_SalesAgent2' => $request->seller_two,
                 'CNH_TotInstPeriod' => $request->no_of_installment_month,
                 'CNH_Total' => 1 * $irsItemRental->IR_UnitPrice,
@@ -856,6 +855,9 @@ class CustomerController extends Controller
         $contractDetails->Apply_Date = Carbon::parse($contractDetails->CNH_DocDate)->format('d/m/Y H:i:s');
         $contractDetails->Approve_Date = Carbon::parse($contractDetails->CNH_ApproveDate)->format('d/m/Y H:i:s');
         $contractDetails->Reject_Date = Carbon::parse($contractDetails->CNH_RejectDate)->format('d/m/Y H:i:s');
+        $contractDetails->Start_Date = Carbon::parse($contractDetails->CNH_StartDate)->format('d/m/Y');
+        $contractDetails->End_Date = Carbon::parse($contractDetails->CNH_EndDate)->format('d/m/Y');
+        $contractDetails->Commission_Start_Date = Carbon::parse($contractDetails->CNH_CommissionStartDate)->format('d/m/Y');
 
         $itemMaster = IrsItemMaster::where('IM_ID', $contractDetails->CND_ItemID)
                         ->where('IM_TYPE', '=', '1')
@@ -1205,7 +1207,7 @@ class CustomerController extends Controller
 
             $contractMasterLog = ContractMasterLog::create([
                 'rcd_grp' => $cnsoLogSeqNumberNew,
-                'action' => 'ADD',
+                'action' => 'UPD',
                 'trx_type' => 'CNSO',
                 'subtrx_type' => '',
                 'contractmast_id' => $contractMaster->id,

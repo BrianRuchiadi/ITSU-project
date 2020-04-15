@@ -49,7 +49,7 @@
       </table>
     </form>
 
-    <table class="table table-striped" id="table-pending-contract">
+    <table class="table table-striped responsive nowrap" id="table-pending-contract">
       <thead>
         <tr>
           <th class="center">No</th>
