@@ -23,30 +23,26 @@
     <h4>Email : {{ $companyAddress->CO_Email }}</h4>
     <h4>Website : {{ $companyAddress->CO_Website }}</h4>
 
-    <div class="header d-print-none">
-        <h1>Invoices : {{ $invoiceDetail->CSIH_DocNo }}</h1>
-    </div>
     <div class="col-sm-6 fa-pull-left">
-        <h2>Delivery Location</h2>
         <table class="table table-borderless">
             <tr>
                 <td>Bill To</td>
-                <td>{{ $invoiceDetail->Cust_NAME }}</td>
+                <td>:{{ $invoiceDetail->Cust_NAME }}</td>
             </tr>
             <tr>
                 <td rowspan="2">Address</td>
-                <td>{{ $invoiceDetail->CSIH_InstallAddress1 }}{{ ($invoiceDetail->CSIH_InstallAddress2) ? ', ' . $invoiceDetail->CSIH_InstallAddress2: '' }}</td>
+                <td>:{{ $invoiceDetail->CSIH_InstallAddress1 }}{{ ($invoiceDetail->CSIH_InstallAddress2) ? ', ' . $invoiceDetail->CSIH_InstallAddress2: '' }}</td>
             </tr>
             <tr>
                 <td>{{ $invoiceDetail->CSIH_InstallPostcode }}, {{ $invoiceDetail->City_Description }}, {{ $invoiceDetail->State_Description }}, {{ $invoiceDetail->Country_Description }}</td>
             </tr>
             <tr>
                 <td>Tel No</td>
-                <td>{{ $invoiceDetail->Cust_Phone1 }}</td>
+                <td>:{{ $invoiceDetail->Cust_Phone1 }}</td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td>{{ $invoiceDetail->Cust_Email }}</td>
+                <td>:{{ $invoiceDetail->Cust_Email }}</td>
             </tr>
         </table>
     </div>
@@ -55,19 +51,19 @@
         <table class="table table-borderless">
             <tr>
                 <td>Invoice Date</td>
-                <td>{{ $invoiceDetail->CSIH_DocDate }}</td>
+                <td>:{{ $invoiceDetail->CSIH_DocDate }}</td>
             </tr>
             <tr>
                 <td>Invoice No</td>
-                <td>{{ $invoiceDetail->CSIH_DocNo }}</td>
+                <td>:{{ $invoiceDetail->CSIH_DocNo }}</td>
             </tr>
             <tr>
                 <td>Billing Period</td>
-                <td>{{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
+                <td>:{{ $invoiceDetail->CSIH_BillingPeriod }} / {{ $invoiceDetail->CNH_TotInstPeriod }}</td>
             </tr>
             <tr>
                 <td>Contract No</td>
-                <td>{{ $invoiceDetail->CSIH_ContractDocNo }}</td>
+                <td>:{{ $invoiceDetail->CSIH_ContractDocNo }}</td>
             </tr>
         </table>
     </div>

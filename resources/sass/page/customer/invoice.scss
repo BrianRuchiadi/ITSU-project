@@ -50,6 +50,9 @@ table.table td {
 }
 
 #print-area-invoice h4 { margin-bottom: 0; }
+.fa-pull-left, .fa-pull-right, .item-section {
+    margin-top: 15px;
+}
 
 @media print {
     @page {
