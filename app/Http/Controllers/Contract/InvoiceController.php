@@ -124,7 +124,8 @@ class InvoiceController extends Controller
             'irs_country.CO_Description'
         ])->first();
 
-        // dd($invoiceDetail);
+        $invoiceDetail->CSIH_DocDate = Carbon::parse($invoiceDetail->CSIH_DocDate)->format('d/m/Y');
+        
         return view('page.contract.invoice-detail', [
             'selectedDate' => $request->generated_date,
             'invoiceDetail' => $invoiceDetail,
