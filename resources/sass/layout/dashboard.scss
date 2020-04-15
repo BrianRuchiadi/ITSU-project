@@ -336,6 +336,21 @@
         z-index: 10000;
 
         &.show { display: block; }
+        &.alert-dark {
+            color: #333;
+            background-color: #E9BC1A;
+            border-color: none;
+        }
+
+        &.alert-danger {
+            background-color: #F94F13;
+            color: white;
+            border-color: none;
+        }
+
+        &.alert-success {
+            background-color: #1DA383;
+        }
     }
 }
 
