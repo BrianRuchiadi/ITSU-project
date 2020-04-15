@@ -1,3 +1,7 @@
+.content-wrapper {
+  max-width: 800px;
+}
+
 h1.title {
   position: relative;
 }
@@ -9,22 +13,13 @@ h1.title button {
 }
 
 .header {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid grey;
   margin-bottom: 10px;
 }
 
 form {
-  border-top: 2px solid black;
+  border-top: 2px solid grey;
   padding-top: 10px;
-}
-
-form .item-section {
-  border: 1px solid grey;
-  border-radius: 4px;
-}
-
-form .item-section h2 {
-  padding-left: 10px;
 }
 
 form i:hover {
@@ -35,11 +30,135 @@ form .submit {
   margin-top: 20px;
 }
 
+form label.required::before {
+  content: "* ";
+  color: red;
+}
+
+form input:required,
+form select:required,
+form textarea:required {
+  border: 1px solid red;
+}
+
+form input:required:valid,
+form textarea:required:valid,
+form select:required:valid {
+  border-color: #ced4da;
+}
+
+input#item-serial-number {
+  max-width: 200px;
+  width: 75%;
+}
+
 table.table-striped {
   margin-top: 20px;
 }
 
 i.fas.fa-plus {
   margin-right: 5px;
+}
+
+.item-section {
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.item-section h2 {
+  padding-left: 10px;
+}
+
+.modal-master {
+  z-index: 100000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  pointer-events: none;
+  background-color: rgba(157, 155, 155, 0.5);
+  display: block;
+  transition: all 1s;
+}
+
+.modal-master.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-master i.fa-times {
+  color: red;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;
+}
+
+.modal-master .modal-wrapper {
+  min-width: 300px;
+  max-width: 90vw;
+  min-height: 300px;
+  max-height: 80vh;
+  overflow: scroll;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 1px 1px 16px 0px black;
+  margin-top: 50px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #F7F7F7;
+  position: relative;
+}
+
+.modal-master .modal-wrapper h1 {
+  position: relative;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-right: 20px;
+  background-color: #E9BC1A;
+  text-align: center;
+}
+
+.modal-master .modal-wrapper table tr td {
+  padding: 5px 0.75rem;
+}
+
+.modal-master .modal-wrapper table.table-borderless button {
+  width: 50%;
+}
+
+.modal-master .modal-wrapper table.search-result tr:first-of-type th {
+  background-color: #333;
+  color: white;
+  text-align: center;
+}
+
+.detail h4 {
+  margin-left: 15px;
+}
+
+table {
+  width: 100% !important;
+  max-width: 800px;
+}
+
+table.table td {
+  padding: 0.25rem 0.75rem;
+}
+
+#print-area-delivery h4 {
+  margin-bottom: 0px;
+}
+
+@media print {
+@page {
+    size: portrait a4;
+}
 }
 

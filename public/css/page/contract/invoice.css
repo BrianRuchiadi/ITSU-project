@@ -1,6 +1,15 @@
+.content-wrapper {
+  max-width: 800px;
+}
+
+.content-wrapper.max {
+  max-width: 1200px;
+}
+
 .header {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid grey;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .table.limited {
@@ -24,10 +33,37 @@ a.btn {
   white-space: pre-wrap;
 }
 
+.item-section {
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.item-section h2 {
+  padding-left: 10px;
+}
+
+table {
+  width: 100% !important;
+}
+
+table.table td {
+  padding: 0.25rem 0.75rem;
+}
+
+#print-area-invoice h4 {
+  margin-bottom: 0;
+}
+
 @media print {
 @page {
-    size: A4 portrait;
+    size: landscape a4;
     margin: 10mm auto;
 }
+}
+
+@media (max-width: 767px) {
+  .header {
+    font-size: 80%;
+  }
 }
 

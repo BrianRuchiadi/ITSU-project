@@ -49720,6 +49720,28 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/page/contract/contract-details.scss":
+/*!************************************************************!*\
+  !*** ./resources/sass/page/contract/contract-details.scss ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/page/contract/contract-list.scss":
+/*!*********************************************************!*\
+  !*** ./resources/sass/page/contract/contract-list.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open '/Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/contract-list.scss'\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/webpack/lib/NormalModule.js:316:20\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/loader-runner/lib/LoaderRunner.js:203:19\n    at /Applications/XAMPP/xamppfiles/htdocs/itsu-project/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:85:15\n    at processTicksAndRejections (internal/process/task_queues.js:79:11)");
+
+/***/ }),
+
 /***/ "./resources/sass/page/contract/delivery-order.scss":
 /*!**********************************************************!*\
   !*** ./resources/sass/page/contract/delivery-order.scss ***!
@@ -49797,6 +49819,28 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/page/customer/delivery-order.scss":
+/*!**********************************************************!*\
+  !*** ./resources/sass/page/customer/delivery-order.scss ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/page/customer/invoice.scss":
+/*!***************************************************!*\
+  !*** ./resources/sass/page/customer/invoice.scss ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/page/customer/referral-link.scss":
 /*!*********************************************************!*\
   !*** ./resources/sass/page/customer/referral-link.scss ***!
@@ -49831,9 +49875,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ./resources/sass/page/auth/verified.scss ./resources/sass/page/auth/change-password.scss ./resources/sass/page/auth/reset-password.scss ./resources/sass/page/customer/application-form.scss ./resources/sass/page/customer/referral-link.scss ./resources/sass/page/customer/contract-list.scss ./resources/sass/page/customer/contract-details.scss ./resources/sass/page/contract/pending-contract-list.scss ./resources/sass/page/contract/pending-contract-details.scss ./resources/sass/page/contract/delivery-order.scss ./resources/sass/page/contract/invoice.scss ./resources/sass/page/utilities/email-verify.scss ./resources/sass/page/print/print-contract.scss ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/layout/dashboard.scss ./resources/sass/page/auth/login.scss ./resources/sass/page/auth/register.scss ./resources/sass/page/auth/verified.scss ./resources/sass/page/auth/change-password.scss ./resources/sass/page/auth/reset-password.scss ./resources/sass/page/customer/application-form.scss ./resources/sass/page/customer/referral-link.scss ./resources/sass/page/customer/contract-list.scss ./resources/sass/page/customer/contract-details.scss ./resources/sass/page/customer/invoice.scss ./resources/sass/page/customer/delivery-order.scss ./resources/sass/page/contract/pending-contract-list.scss ./resources/sass/page/contract/pending-contract-details.scss ./resources/sass/page/contract/delivery-order.scss ./resources/sass/page/contract/invoice.scss ./resources/sass/page/contract/contract-list.scss ./resources/sass/page/contract/contract-details.scss ./resources/sass/page/utilities/email-verify.scss ./resources/sass/page/print/print-contract.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49849,10 +49893,14 @@ __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resou
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/referral-link.scss */"./resources/sass/page/customer/referral-link.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-list.scss */"./resources/sass/page/customer/contract-list.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/contract-details.scss */"./resources/sass/page/customer/contract-details.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/invoice.scss */"./resources/sass/page/customer/invoice.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/customer/delivery-order.scss */"./resources/sass/page/customer/delivery-order.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/pending-contract-list.scss */"./resources/sass/page/contract/pending-contract-list.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/pending-contract-details.scss */"./resources/sass/page/contract/pending-contract-details.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/delivery-order.scss */"./resources/sass/page/contract/delivery-order.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/invoice.scss */"./resources/sass/page/contract/invoice.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/contract-list.scss */"./resources/sass/page/contract/contract-list.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/contract/contract-details.scss */"./resources/sass/page/contract/contract-details.scss");
 __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/utilities/email-verify.scss */"./resources/sass/page/utilities/email-verify.scss");
 module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/itsu-project/resources/sass/page/print/print-contract.scss */"./resources/sass/page/print/print-contract.scss");
 
