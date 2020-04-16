@@ -969,8 +969,8 @@
                     }
 
                     if (type == 'once') {
-                        sellerOne.value = contractDetails.CNH_SalesAgent1;
-                        sellerTwo.value = contractDetails.CNH_SalesAgent2;
+                        sellerOne.value = (contractDetails.CNH_SalesAgent1) ? (contractDetails.CNH_SalesAgent1) : "";
+                        sellerTwo.value = (contractDetails.CNH_SalesAgent2) ? (contractDetails.CNH_SalesAgent2) : "";
                     }
 
                     @if (Session::has('errorFormValidation'))
