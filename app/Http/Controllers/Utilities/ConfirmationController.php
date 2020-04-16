@@ -35,11 +35,11 @@ class ConfirmationController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        
+
         $sendSMS = $this->twilio->verify->v2->services($this->twilioVerifySid)
             ->verifications
             ->create($request->tel_code_1 . $request->contact_one_of_applicant, "sms");
-
+        
         return [
             'status' => $sendSMS->status
         ];
